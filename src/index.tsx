@@ -5,7 +5,8 @@ import App from './App';
 import { configureStore } from './store/configureStore';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-import "react-datepicker/dist/react-datepicker.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const { store, persistor }: any = configureStore();
@@ -18,6 +19,17 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
         <App />
       </PersistGate>
     </Provider>

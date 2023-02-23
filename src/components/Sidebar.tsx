@@ -4,120 +4,136 @@ import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
 
-    const utenteLoggato = useSelector((state: any) => state.utenteLoggato.utente);
-    const ruoloUtente = utenteLoggato.tRuoloCodice;
-    /*
-        RUOLI:
-            A: AMMINISTRATORE
-            U: UTENTE
-    */
+    const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
 
-    const handleClickSidebar = () => {
-        if (document.getElementsByTagName("body")[0].classList.contains("sidebar-toggled")) {
-            document.getElementById("accordionSidebar")?.classList.remove("toggled");
-            document.getElementsByTagName("body")[0].classList.remove("sidebar-toggled");
-            document.getElementById("logo")?.classList.add("pl-md-3");
+
+    // Toggle Sidenav
+    const iconNavbarSidenav: any = document.getElementById('iconNavbarSidenav');
+    const iconSidenav: any = document.getElementById('iconSidenav');
+    let sidenav: any = document.getElementById('sidenav-main');
+    let body = document.getElementsByTagName('body')[0];
+    let className = 'g-sidenav-pinned';
+
+
+
+
+    function toggleSidenav() {
+
+        if (body.classList.contains(className)) {
+            body.classList.remove(className);
+            setTimeout(function () {
+                sidenav.classList.remove('bg-white');
+            }, 100);
+            sidenav.classList.remove('bg-transparent');
+
         } else {
-            document.getElementById("accordionSidebar")?.classList.add("toggled");
-            document.getElementsByTagName("body")[0].classList.add("sidebar-toggled");
-            document.getElementById("logo")?.classList.remove("pl-md-3");
+            body.classList.add(className);
+            sidenav.classList.add('bg-white');
+            sidenav.classList.remove('bg-transparent');
+            iconSidenav.classList.remove('d-none');
         }
-    };
+    }
+
+    window.addEventListener("resize", navbarColorOnResize);
+
+    let referenceButtons: any = document.querySelector('[data-class]');
 
 
+    function navbarColorOnResize() {
+
+        if (sidenav == null) {
+            sidenav = document.getElementById('sidenav-main');
+        }
+
+        if (referenceButtons == null) {
+            referenceButtons = document.querySelector('[data-class]');
+        }
+
+        if (window.innerWidth > 1200 && referenceButtons != null) {
+            if (referenceButtons.classList.contains('active') && referenceButtons.getAttribute('data-class') === 'bg-transparent') {
+                sidenav.classList.remove('bg-white');
+            } else {
+                if (!body.classList.contains('dark-version')) {
+                    sidenav.classList.add('bg-white');
+                }
+            }
+        } else {
+            sidenav.classList.add('bg-white');
+            sidenav.classList.remove('bg-transparent');
+        }
+    }
 
     return (
+
         <>
-            <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-                <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
-                    <div id="logo" className="sidebar-brand-icon pl-md-3">
-                        <i className="fas fa-clipboard-list"></i>
-                    </div>
-                    <div className="sidebar-brand-text mx-3">Checklist Digitale</div>
-                </Link>
-
-                <hr className="sidebar-divider my-0" />
-
-
-
-
-
-
-                {ruoloUtente=="A" && <li className="nav-item">
-                    <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtenti"
-                        aria-expanded="true" aria-controls="collapseUtenti">
-                        <i className="fas fa-fw fa-users"></i>
-                        <span>Utenti</span>
+            <aside
+                className="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 shadow-lg"
+                id="sidenav-main">
+                <div className="sidenav-header text-center">
+                    <i className="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-xl-none"
+                        aria-hidden="true" id="iconSidenav" onClick={toggleSidenav}></i>
+                    <a className="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
+                        target="_blank">
+                        <h1>LOGO</h1>
                     </a>
-                    <div id="collapseUtenti" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div className="bg-white py-2 collapse-inner rounded">
-                            <h6 className="collapse-header">Opzioni disponibili:</h6>
-                            <Link className="collapse-item" to="/scheda-utente">Aggiungi utente</Link>
-                            <Link className="collapse-item" to="/utenti">Lista utenti</Link>
-                        </div>
-                    </div>
-                </li>}
+                </div>
+                <div className="collapse navbar-collapse  w-auto mt-5" id="sidenav-collapse-main">
+                    <ul className="navbar-nav">
 
-                {ruoloUtente=="A" && <li className="nav-item">
-                    <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVeicoli"
-                        aria-expanded="true" aria-controls="collapseVeicoli">
-                        <i className="fas fa-fw fa-ambulance"></i>
-                        <span>Veicoli</span>
-                    </a>
-                    <div id="collapseVeicoli" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div className="bg-white py-2 collapse-inner rounded">
-                            <h6 className="collapse-header">Opzioni disponibili:</h6>
-                            <Link className="collapse-item" to="/scheda-veicolo">Aggiungi veicolo</Link>
-                            <Link className="collapse-item" to="/veicoli">Lista veicoli</Link>
-                        </div>
-                    </div>
-                </li>}
-
-                {ruoloUtente=="A" && <li className="nav-item">
-                    <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTemplate"
-                        aria-expanded="true" aria-controls="collapseTemplate">
-                        <i className="fas fa-fw fa-clipboard-list"></i>
-                        <span>Template checklist</span>
-                    </a>
-                    <div id="collapseTemplate" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div className="bg-white py-2 collapse-inner rounded">
-                            <h6 className="collapse-header">Opzioni disponibili:</h6>
-                            <Link className="collapse-item" to="/scheda-template">Aggiungi template</Link>
-                            <Link className="collapse-item" to="/templates">Lista template</Link>
-                        </div>
-                    </div>
-                </li> }
-
-          
-
-                <li className="nav-item">
-                    <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseChecklist"
-                        aria-expanded="true" aria-controls="collapseChecklist">
-                        <i className="fas fa-fw fa-clipboard-list"></i>
-                        <span>Checklist</span>
-                    </a>
-                    <div id="collapseChecklist" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                        <div className="bg-white py-2 collapse-inner rounded">
-                            <h6 className="collapse-header">Opzioni disponibili:</h6>
-                            <Link className="collapse-item" to="/checklists">Checklist</Link>
-                        </div>
-                    </div>
-                </li>
+                        {/*anagraficaOperatore.codProfilo != undefined && anagraficaOperatore.codEntita != undefined && anagraficaOperatore.menu ?
+                                anagraficaOperatore.menu.map((elemento: any, index: any) => {
+                                    if (elemento.listaTransazioniFiglie == undefined) {
+                                        return <li title={elemento.descrizione} className="nav-item">
+                                            <Link className="nav-link py-1" to={"/" + elemento.urllinkesterno}>
+                                                <div
+                                                    className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                                    <i className="fas fa-home text-primary text-sm opacity-10"></i>
+                                                </div>
+                                                <span className="nav-link-text ms-1">{elemento.descrizione}</span>
+                                            </Link>
+                                        </li>
 
 
+                                    } else {
+                                        return <li className="nav-item">
+                                            <span className="nav-link cursor-pointer py-1 collapsed" data-bs-toggle="collapse" data-bs-target={"#" + elemento.codtransazione + "-collapse"} aria-expanded="false">
+                                                <div
+                                                    className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                                    <i className="fas fa-home text-primary text-sm opacity-10"></i>
+                                                </div>
+                                                <span className="nav-link-text ms-1">{elemento.descrizione}</span>
+                                            </span>
+                                            <div className="collapse " id={elemento.codtransazione + "-collapse"}>
+                                                <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                                    {
 
+                                                        elemento.listaTransazioniFiglie.map((figlio: any) => (
 
+                                                            <li title={figlio.descrizione} className="nav-item mx-3">
+                                                                <Link className="nav-link py-1 " to={"/" + elemento.urllinkesterno}>
+                                                                    <div
+                                                                        className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                                                        <i className="fas fa-home text-primary text-sm opacity-10"></i>
+                                                                    </div>
+                                                                    <span className="nav-link-text ms-1">{figlio.descrizione}</span>
+                                                                </Link>
+                                                            </li>
 
-                <hr className="sidebar-divider d-none d-md-block" />
+                                                        ))
 
-                <div className="text-center d-none d-md-inline">
-                    <button onClick={handleClickSidebar} className="rounded-circle border-0" id="sidebarToggle"></button>
+                                                    }</ul>
+                                            </div>
+                                        </li>
+
+                                    }
+
+                                }) : <></>*/}
+                        
+
+                    </ul>
                 </div>
 
-
-
-            </ul>
+            </aside>
         </>
     );
 

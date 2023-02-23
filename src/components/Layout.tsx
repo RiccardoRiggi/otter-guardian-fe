@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchMantieniMessaggiAction, fetchTestoDangerAction, fetchTestoSuccessAction, fetchTestoWarnAction } from '../modules/feedback/actions';
-import { fetchUtenteAction } from '../modules/utenteLoggato/actions';
+import { fetchSessioneAction } from '../modules/utenteLoggato/actions';
 import utenteService from '../services/AutenticazioneService';
 import Footer from './Footer';
 import Header from './Header';
@@ -10,7 +10,7 @@ import Sidebar from './Sidebar';
 
 export default function Layout({ children }: any) {
     const dispatch = useDispatch();
-    const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
+    const utente = useSelector((state: any) => state.utenteLoggato);
     const feedback = useSelector((state: any) => state.feedback);
 
     const [eseguitoControlloAutenticazione, setEseguitoControlloAutenticazione] = React.useState(false);
@@ -28,6 +28,14 @@ export default function Layout({ children }: any) {
     }
 
     const verificaAutenticazione = async () => {
+
+        console.warn("VERIFICA AUTENTICAZIONE");
+        console.warn(utente);
+
+        if (utente.sessione == undefined) {
+            logout();
+        }
+
         /*await utenteService.isAutenticato(sessionStorage.getItem("token")).then(response => {
             dispatch(fetchUtenteAction(response.data));
         }).catch(e => {
@@ -42,13 +50,6 @@ export default function Layout({ children }: any) {
 
     useEffect(() => {
         if (!eseguitoControlloAutenticazione) {
-            if (feedback.mantieniMessaggi) {
-                dispatch(fetchMantieniMessaggiAction(false));
-            } else {
-                dispatch(fetchTestoDangerAction());
-                dispatch(fetchTestoWarnAction());
-                dispatch(fetchTestoSuccessAction());
-            }
             verificaAutenticazione();
             setEseguitoControlloAutenticazione(true);
 
@@ -56,66 +57,41 @@ export default function Layout({ children }: any) {
     });
 
 
-    //setInterval(() => { if(sessionStorage.getItem("token") != undefined) verificaAutenticazione() }, 10000);
 
 
 
     return (
         <>
-            <div id="wrapper">
+            <div className="min-height-300 bg-primary position-absolute w-100"></div>
+
+
+
+            <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+                data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
 
                 <Sidebar />
+                <main className="main-content position-relative border-radius-lg pt-3">
+                    <Header></Header>
 
-                <div id="content-wrapper" className="d-flex flex-column">
+                    <div className="container-fluid py-4">
 
-                    <div id="content">
 
-                        <Header />
+                        {feedback.isLoading && <div className="text-center">
+                            <i className="text-primary fas fa-solid fa-spinner fa-spin fa-3x"></i>
+                        </div>}
 
-                        <div className="container-fluid">
-                            {feedback.testoDanger && <div className="alert alert-danger" role="alert">{feedback.testoDanger}<button onClick={() => dispatch(fetchTestoDangerAction(""))} type="button" className="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button></div>}
-                            {feedback.testoWarn && <div className="alert alert-warn" role="alert">{feedback.testoWarn}<button onClick={() => dispatch(fetchTestoWarnAction(""))} type="button" className="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button></div>}
-                            {feedback.testoSuccess && <div className="alert alert-success" role="alert">{feedback.testoSuccess}<button onClick={() => dispatch(fetchTestoSuccessAction(""))} type="button" className="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button></div>}
-                            {!feedback.isLoading && children}
-                            {feedback.isLoading && <div className='text-center'><i className="fas fa-spinner fa-spin fa-3x text-danger"></i></div>}
-                        </div>
+
+                        {!feedback.isLoading && children}
+                        <Footer />
 
                     </div>
+                </main>
 
-                    <Footer />
 
-                </div>
+
 
             </div>
 
-            <a className="scroll-to-top rounded" href="#page-top">
-                <i className="fas fa-angle-up"></i>
-            </a>
-
-            <div className="modal fade" id="logoutModal" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Sei sicuro?</h5>
-                            <button className="close" type="button" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">Sei sicuro di voler effettuare il logout? </div>
-                        <div className="modal-footer">
-                            <button className="btn btn-secondary" type="button" data-dismiss="modal">Annulla</button>
-                            <button className="btn btn-primary" onClick={logout} >Logout</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </>
     );
 

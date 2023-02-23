@@ -11,6 +11,7 @@ import PrivateRoute from './components/PrivateRoute';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import LogoutPage from './pages/LogoutPage';
 
 
 
@@ -21,6 +22,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="login" element={<LoginPage />} />
+          <Route path="logout" element={<LogoutPage />} />
+
+
+        
 
           <Route
             path="/"

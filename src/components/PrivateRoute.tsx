@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { fetchMantieniMessaggiAction, fetchTestoDangerAction } from '../modules/feedback/actions';
 
 export default function PrivateRoute({ children }: any) {
-    const utenteLoggato = useSelector((state: any) => state.utenteLoggato.utente);
+    const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
     const dispatch = useDispatch();
     let path = window.location.pathname;
 

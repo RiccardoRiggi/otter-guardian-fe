@@ -1,5 +1,5 @@
 "use strict";
-(function() {
+(function () {
   var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 
   if (isWindows) {
@@ -33,7 +33,7 @@ if (document.getElementById('navbarBlur')) {
 
 // initialization of Tooltips
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
@@ -54,7 +54,7 @@ function defocused(el) {
 
 // helper for adding on all elements multiple attributes
 function setAttributes(el, options) {
-  Object.keys(options).forEach(function(attr) {
+  Object.keys(options).forEach(function (attr) {
     el.setAttribute(attr, options[attr]);
   })
 }
@@ -79,7 +79,7 @@ if (document.querySelector('.fixed-plugin')) {
   var buttonNavbarFixed = document.getElementById('navbarFixed');
 
   if (fixedPluginButton) {
-    fixedPluginButton.onclick = function() {
+    fixedPluginButton.onclick = function () {
       if (!fixedPlugin.classList.contains('show')) {
         fixedPlugin.classList.add('show');
       } else {
@@ -89,7 +89,7 @@ if (document.querySelector('.fixed-plugin')) {
   }
 
   if (fixedPluginButtonNav) {
-    fixedPluginButtonNav.onclick = function() {
+    fixedPluginButtonNav.onclick = function () {
       if (!fixedPlugin.classList.contains('show')) {
         fixedPlugin.classList.add('show');
       } else {
@@ -98,13 +98,13 @@ if (document.querySelector('.fixed-plugin')) {
     }
   }
 
-  fixedPluginCloseButton.forEach(function(el) {
-    el.onclick = function() {
+  fixedPluginCloseButton.forEach(function (el) {
+    el.onclick = function () {
       fixedPlugin.classList.remove('show');
     }
   })
 
-  document.querySelector('body').onclick = function(e) {
+  document.querySelector('body').onclick = function (e) {
     if (e.target != fixedPluginButton && e.target != fixedPluginButtonNav && e.target.closest('.fixed-plugin .card') != fixedPluginCard) {
       fixedPlugin.classList.remove('show');
     }
@@ -297,7 +297,7 @@ function navbarBlurOnScroll(id) {
   let toggleClasses = ['shadow-none'];
 
   if (navbarScrollActive == 'true') {
-    window.onscroll = debounce(function() {
+    window.onscroll = debounce(function () {
       if (window.scrollY > scrollDistance) {
         blurNavbar();
       } else {
@@ -305,7 +305,7 @@ function navbarBlurOnScroll(id) {
       }
     }, 10);
   } else {
-    window.onscroll = debounce(function() {
+    window.onscroll = debounce(function () {
       transparentNavbar();
     }, 10);
   }
@@ -315,7 +315,7 @@ function navbarBlurOnScroll(id) {
   if (isWindows) {
     var content = document.querySelector('.main-content');
     if (navbarScrollActive == 'true') {
-      content.addEventListener('ps-scroll-y', debounce(function() {
+      content.addEventListener('ps-scroll-y', debounce(function () {
         if (content.scrollTop > scrollDistance) {
           blurNavbar();
         } else {
@@ -323,7 +323,7 @@ function navbarBlurOnScroll(id) {
         }
       }, 10));
     } else {
-      content.addEventListener('ps-scroll-y', debounce(function() {
+      content.addEventListener('ps-scroll-y', debounce(function () {
         transparentNavbar();
       }, 10));
     }
@@ -352,10 +352,10 @@ function navbarBlurOnScroll(id) {
 // leading edge, instead of the trailing.
 function debounce(func, wait, immediate) {
   var timeout;
-  return function() {
+  return function () {
     var context = this,
       args = arguments;
-    var later = function() {
+    var later = function () {
       timeout = null;
       if (!immediate) func.apply(context, args);
     };
@@ -366,65 +366,13 @@ function debounce(func, wait, immediate) {
   };
 };
 
-// Toggle Sidenav
-const iconNavbarSidenav = document.getElementById('iconNavbarSidenav');
-const iconSidenav = document.getElementById('iconSidenav');
-const sidenav = document.getElementById('sidenav-main');
-let body = document.getElementsByTagName('body')[0];
-let className = 'g-sidenav-pinned';
 
-if (iconNavbarSidenav) {
-  iconNavbarSidenav.addEventListener("click", toggleSidenav);
-}
 
-if (iconSidenav) {
-  iconSidenav.addEventListener("click", toggleSidenav);
-}
 
-function toggleSidenav() {
-  if (body.classList.contains(className)) {
-    body.classList.remove(className);
-    setTimeout(function() {
-      sidenav.classList.remove('bg-white');
-    }, 100);
-    sidenav.classList.remove('bg-transparent');
 
-  } else {
-    body.classList.add(className);
-    sidenav.classList.add('bg-white');
-    sidenav.classList.remove('bg-transparent');
-    iconSidenav.classList.remove('d-none');
-  }
-}
 
-let html = document.getElementsByTagName('html')[0];
 
-html.addEventListener("click", function(e) {
-  if (body.classList.contains('g-sidenav-pinned') && !e.target.classList.contains('sidenav-toggler-line')) {
-    body.classList.remove(className);
-  }
-});
 
-// Resize navbar color depends on configurator active type of sidenav
-
-let referenceButtons = document.querySelector('[data-class]');
-
-window.addEventListener("resize", navbarColorOnResize);
-
-function navbarColorOnResize() {
-  if (window.innerWidth > 1200) {
-    if (referenceButtons.classList.contains('active') && referenceButtons.getAttribute('data-class') === 'bg-transparent') {
-      sidenav.classList.remove('bg-white');
-    } else {
-      if (!body.classList.contains('dark-version')) {
-        sidenav.classList.add('bg-white');
-      }
-    }
-  } else {
-    sidenav.classList.add('bg-white');
-    sidenav.classList.remove('bg-transparent');
-  }
-}
 
 // Deactivate sidenav type buttons on resize and small screens
 window.addEventListener("resize", sidenavTypeOnResize);
@@ -433,11 +381,11 @@ window.addEventListener("load", sidenavTypeOnResize);
 function sidenavTypeOnResize() {
   let elements = document.querySelectorAll('[onclick="sidebarType(this)"]');
   if (window.innerWidth < 1200) {
-    elements.forEach(function(el) {
+    elements.forEach(function (el) {
       el.classList.add('disabled');
     });
   } else {
-    elements.forEach(function(el) {
+    elements.forEach(function (el) {
       el.classList.remove('disabled');
     });
   }
@@ -448,7 +396,7 @@ function sidenavTypeOnResize() {
 
 var total = document.querySelectorAll('.nav-pills');
 
-total.forEach(function(item, i) {
+total.forEach(function (item, i) {
   var moving_div = document.createElement('div');
   var first_li = item.querySelector('li:first-child .nav-link');
   var tab = first_li.cloneNode();
@@ -465,13 +413,13 @@ total.forEach(function(item, i) {
   moving_div.style.transform = 'translate3d(0px, 0px, 0px)';
   moving_div.style.transition = '.5s ease';
 
-  item.onmouseover = function(event) {
+  item.onmouseover = function (event) {
     let target = getEventTarget(event);
     let li = target.closest('li'); // get reference
     if (li) {
       let nodes = Array.from(li.closest('ul').children); // get array
       let index = nodes.indexOf(li) + 1;
-      item.querySelector('li:nth-child(' + index + ') .nav-link').onclick = function() {
+      item.querySelector('li:nth-child(' + index + ') .nav-link').onclick = function () {
         moving_div = item.querySelector('.moving-tab');
         let sum = 0;
         if (item.classList.contains('flex-column')) {
@@ -495,8 +443,8 @@ total.forEach(function(item, i) {
 
 // Tabs navigation resize
 
-window.addEventListener('resize', function(event) {
-  total.forEach(function(item, i) {
+window.addEventListener('resize', function (event) {
+  total.forEach(function (item, i) {
     item.querySelector('.moving-tab').remove();
     var moving_div = document.createElement('div');
     var tab = item.querySelector(".nav-link.active").cloneNode();
@@ -536,13 +484,13 @@ window.addEventListener('resize', function(event) {
   });
 
   if (window.innerWidth < 991) {
-    total.forEach(function(item, i) {
+    total.forEach(function (item, i) {
       if (!item.classList.contains('flex-column')) {
         item.classList.add('flex-column', 'on-resize');
       }
     });
   } else {
-    total.forEach(function(item, i) {
+    total.forEach(function (item, i) {
       if (item.classList.contains('on-resize')) {
         item.classList.remove('flex-column', 'on-resize');
       }
