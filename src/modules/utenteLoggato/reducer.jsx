@@ -10,9 +10,9 @@ export const utenteReducer = (state = initialState, action) => {
             return {
                 initialState
             }
-        case 'FETCH_SESSIONE':
+        case 'FETCH_TOKEN':
             return {
-                sessione: action.sessione
+                token: action.token
             }
         default:
             return state;

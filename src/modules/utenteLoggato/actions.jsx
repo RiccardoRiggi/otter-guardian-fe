@@ -5,9 +5,9 @@ export const resetUtenteAction  = (utente) => ({
     utente
 })
 
-export const fetchSessioneAction  = (sessione) => ({
-    type: 'FETCH_SESSIONE',
-    sessione
+export const fetchTokenAction  = (token) => ({
+    type: 'FETCH_TOKEN',
+    token
 })
 
 

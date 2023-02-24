@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { LoginInterface } from '../interfaces/LoginInterface';
 import { fetchTestoDangerAction, fetchIsLoadingAction } from '../modules/feedback/actions';
-import { fetchSessioneAction, resetUtenteAction } from '../modules/utenteLoggato/actions';
+import { fetchTokenAction, resetUtenteAction } from '../modules/utenteLoggato/actions';
 import QRCode from "react-qr-code";
 import autenticazioneService from '../services/AutenticazioneService';
 import { ToastContainer, toast } from 'react-toastify';
@@ -68,12 +68,12 @@ export default function LoginPage() {
 
             console.error(interval);
 
-            await autenticazioneService.recuperaSessioneDaQrCode(qrCode).then(response => {
+            await autenticazioneService.recuperaTokenDaQrCode(qrCode).then(response => {
                 dispatch(fetchIsLoadingAction(true));
 
                 console.info(response.headers);
                 clearInterval(interval);
-                dispatch(fetchSessioneAction(response.headers.sessione));
+                dispatch(fetchTokenAction(response.headers.token));
                 setTimeout(() => {
                     dispatch(fetchIsLoadingAction(false));
                     navigate("/")
@@ -197,7 +197,7 @@ export default function LoginPage() {
            
             console.info(response.headers);
             clearInterval(timerAttesaSecondoFattore);
-            dispatch(fetchSessioneAction(response.headers.sessione));
+            dispatch(fetchTokenAction(response.headers.token));
             setTimeout(() => {
                 dispatch(fetchIsLoadingAction(false));
                 navigate("/");
@@ -221,12 +221,12 @@ export default function LoginPage() {
 
             console.error(timerAttesaSecondoFattore);
 
-            await autenticazioneService.recuperaSessioneDaLogin(idLogin).then(response => {
+            await autenticazioneService.recuperaTokenDaLogin(idLogin).then(response => {
                 dispatch(fetchIsLoadingAction(true));
 
                 console.info(response.headers);
                 clearInterval(timerAttesaSecondoFattore);
-                dispatch(fetchSessioneAction(response.headers.sessione));
+                dispatch(fetchTokenAction(response.headers.token));
                 setTimeout(() => {
                     dispatch(fetchIsLoadingAction(false));
                     navigate("/");

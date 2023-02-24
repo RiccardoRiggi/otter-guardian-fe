@@ -24,13 +24,13 @@ const generaQrCode = () => {
     return http.get(root, { params });
 }
 
-const recuperaSessioneDaQrCode = (idQrCode: any) => {
-    const params = new URLSearchParams([["nomeMetodo", "recuperaSessioneDaQrCode"],["idQrCode",idQrCode]]);
+const recuperaTokenDaQrCode = (idQrCode: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "recuperaTokenDaQrCode"],["idQrCode",idQrCode]]);
     return http.get(root, { params });
 }
 
-const recuperaSessioneDaLogin = (idLogin: any) => {
-    const params = new URLSearchParams([["nomeMetodo", "recuperaSessioneDaLogin"],["idLogin",idLogin]]);
+const recuperaTokenDaLogin = (idLogin: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "recuperaTokenDaLogin"],["idLogin",idLogin]]);
     return http.get(root, { params });
 }
 
@@ -38,9 +38,9 @@ const recuperaSessioneDaLogin = (idLogin: any) => {
 const autenticazioneService = {
     getMetodiAutenticazioneSupportati,
     generaQrCode,
-    recuperaSessioneDaQrCode,
+    recuperaTokenDaQrCode,
     effettuaAutenticazione,
-    recuperaSessioneDaLogin,
+    recuperaTokenDaLogin,
     confermaAutenticazione
 
 };

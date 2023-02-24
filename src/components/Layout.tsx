@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchMantieniMessaggiAction, fetchTestoDangerAction, fetchTestoSuccessAction, fetchTestoWarnAction } from '../modules/feedback/actions';
-import { fetchSessioneAction } from '../modules/utenteLoggato/actions';
+import { fetchTokenAction } from '../modules/utenteLoggato/actions';
 import utenteService from '../services/AutenticazioneService';
 import Footer from './Footer';
 import Header from './Header';
@@ -32,19 +32,11 @@ export default function Layout({ children }: any) {
         console.warn("VERIFICA AUTENTICAZIONE");
         console.warn(utente);
 
-        if (utente.sessione == undefined) {
+        if (utente.token == undefined) {
             logout();
         }
 
-        /*await utenteService.isAutenticato(sessionStorage.getItem("token")).then(response => {
-            dispatch(fetchUtenteAction(response.data));
-        }).catch(e => {
-            console.error(e);
-            sessionStorage.clear();
-            localStorage.clear();
-            dispatch(fetchTestoDangerAction("Sessione scaduta!"));
-            navigate("/login");
-        });*/
+        
     }
 
 
