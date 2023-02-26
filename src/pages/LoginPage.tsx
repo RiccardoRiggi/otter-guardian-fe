@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LoginInterface } from '../interfaces/LoginInterface';
 import { fetchTestoDangerAction, fetchIsLoadingAction } from '../modules/feedback/actions';
 import { fetchTokenAction, resetUtenteAction } from '../modules/utenteLoggato/actions';
@@ -168,16 +168,20 @@ export default function LoginPage() {
             setAttesaSecondoFattore(true);
             setDescrizioneSecondoFattore(response.data.descrizione);
             setIdLogin(response.data.idLogin);
-            if(tipoAutenticazione.includes("SI_NO")){
+            if (tipoAutenticazione.includes("SI_NO")) {
                 dispatch(fetchIsLoadingAction(false));
                 avviaAttesaSecondoFattore(response.data.idLogin);
-            }else{
+            } else {
                 dispatch(fetchIsLoadingAction(false));
                 setAttesaSecondoFattore(true);
             }
-            
+
         }).catch(e => {
             console.error(e);
+            toast.error(e.response.data.descrizione, {
+                position: "top-center",
+                autoClose: 5000,
+            });
             dispatch(fetchIsLoadingAction(false));
         });
     }
@@ -194,7 +198,7 @@ export default function LoginPage() {
 
         await autenticazioneService.confermaAutenticazione(jsonBody).then(response => {
             console.info(response.data);
-           
+
             console.info(response.headers);
             clearInterval(timerAttesaSecondoFattore);
             dispatch(fetchTokenAction(response.headers.token));
@@ -202,17 +206,21 @@ export default function LoginPage() {
                 dispatch(fetchIsLoadingAction(false));
                 navigate("/");
             }, 1500);
-            
+
         }).catch(e => {
             console.error(e);
             dispatch(fetchIsLoadingAction(false));
+            toast.error(e.response.data.descrizione, {
+                position: "top-center",
+                autoClose: 5000,
+            });
         });
     }
 
     const scegliMetodoAutenticazione = (tipoAutenticazione: any) => {
         setTipoAutenticazione(tipoAutenticazione);
         if (!tipoAutenticazione.includes("PSW")) {
-            effettuaAutenticazione(email,undefined,tipoAutenticazione);
+            effettuaAutenticazione(email, undefined, tipoAutenticazione);
         }
     }
 
@@ -246,8 +254,10 @@ export default function LoginPage() {
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-lg-5 text-center mx-auto">
-                        <h1 className=" mb-2 mt-5"><i className="fa-solid fa-otter text-primary"></i></h1>
-                        <p className="text-lead">Otter Guardian {tipoAutenticazione}</p>
+                        <Link to="/">
+                            <h1 className=" mb-2 mt-5"><i className="fa-solid fa-otter text-primary"></i></h1>
+                            <p className="text-lead">Otter Guardian</p>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -307,7 +317,7 @@ export default function LoginPage() {
                                             <div className="card-footer text-center pt-0 px-lg-2 px-1">
                                                 <p className="mb-4 text-sm mx-auto">
                                                     Hai dimenticato la password?
-                                                    <a href="javascript:;" className="ps-1 text-primary text-gradient font-weight-bold">Clicca qui</a>
+                                                    <Link to="/recupero-password" className="ps-1 text-primary text-gradient font-weight-bold">Clicca qui</Link>
                                                 </p>
                                             </div>
                                         </div>
@@ -353,7 +363,7 @@ export default function LoginPage() {
                                             <div className="card-footer text-center pt-0 px-lg-2 px-1">
                                                 <p className="mb-4 text-sm mx-auto">
                                                     Hai dimenticato la password?
-                                                    <a href="javascript:;" className="ps-1 text-primary text-gradient font-weight-bold">Clicca qui</a>
+                                                    <Link to="/recupero-password" className="ps-1 text-primary text-gradient font-weight-bold">Clicca qui</Link>
                                                 </p>
                                             </div>
                                         </div>
@@ -398,7 +408,7 @@ export default function LoginPage() {
                                                 <div className="card-footer text-center pt-0 px-lg-2 px-1">
                                                     <p className="mb-4 text-sm mx-auto">
                                                         Hai dimenticato la password?
-                                                        <a href="javascript:;" className="ps-1 text-primary text-gradient font-weight-bold">Clicca qui</a>
+                                                        <Link to="/recupero-password" className="ps-1 text-primary text-gradient font-weight-bold">Clicca qui</Link>
                                                     </p>
                                                 </div>
                                             </div>
@@ -448,7 +458,7 @@ export default function LoginPage() {
                                             <div className="card-footer text-center pt-0 px-lg-2 px-1">
                                                 <p className="mb-4 text-sm mx-auto">
                                                     Hai dimenticato la password?
-                                                    <a href="javascript:;" className="ps-1 text-primary text-gradient font-weight-bold">Clicca qui</a>
+                                                    <Link to="/recupero-password" className="ps-1 text-primary text-gradient font-weight-bold">Clicca qui</Link>
                                                 </p>
                                             </div>
                                         </div>
@@ -493,7 +503,7 @@ export default function LoginPage() {
                                                 </div>
 
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>

@@ -13,6 +13,7 @@ import HomePage from './pages/HomePage';
 import ImpostazioniPage from './pages/ImpostazioniPage';
 import LoginPage from './pages/LoginPage';
 import LogoutPage from './pages/LogoutPage';
+import RecuperoPasswordPage from './pages/RecuperoPasswordPage';
 
 
 
@@ -23,6 +24,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="login" element={<LoginPage />} />
+          <Route path="recupero-password" element={<RecuperoPasswordPage />} />
+
           <Route path="logout" element={<LogoutPage />} />
 
 
