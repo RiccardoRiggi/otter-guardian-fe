@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { resetUtenteAction } from '../modules/utenteLoggato/actions';
+import { Link, useNavigate } from 'react-router-dom';
+import { fetchIsLoadingAction } from '../modules/feedback/actions';
+import { fetchCognomeAction, fetchDataCreazioneAction, fetchEmailAction, fetchNomeAction, resetUtenteAction } from '../modules/utenteLoggato/actions';
+import utenteLoggatoService from '../services/UtenteLoggatoService';
+import BreadCrumb from './Breadcrumbs';
 
 export default function Header() {
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
@@ -32,36 +35,60 @@ export default function Header() {
         }
     }
 
-    const logout = () => {
-        dispatch(resetUtenteAction());
-        navigate("/login");
+    const logout = async () => {
+        dispatch(fetchIsLoadingAction(true));
+
+        await utenteLoggatoService.invalidaToken(utenteLoggato.token).then(response => {
+            console.info("TOKEN INVALIDATO CON SUCCESSO");
+
+            dispatch(resetUtenteAction());
+            navigate("/login");
+            dispatch(fetchIsLoadingAction(false));
+        }).catch(e => {
+            console.error(e);
+            dispatch(fetchIsLoadingAction(false));
+        });
+
     }
+
+    const getUtenteLoggato = async () => {
+
+        dispatch(fetchIsLoadingAction(true));
+
+
+        await utenteLoggatoService.getUtenteLoggato(utenteLoggato.token).then(response => {
+            console.info(response.data);
+            dispatch(fetchNomeAction(response.data.nome));
+            dispatch(fetchCognomeAction(response.data.cognome));
+            dispatch(fetchEmailAction(response.data.email));
+            dispatch(fetchDataCreazioneAction(response.data.dataCreazione));
+
+
+            dispatch(fetchIsLoadingAction(false));
+        }).catch(e => {
+            console.error(e);
+            dispatch(fetchIsLoadingAction(false));
+        });
+    }
+
+    useEffect(() => {
+        if (utenteLoggato.nome === undefined) {
+            getUtenteLoggato();
+        }
+
+    }, []);
 
     return (
         <>
             <nav className="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
                 <div className="container-fluid py-1 px-3">
-                    <nav aria-label="breadcrumb">
-                        <ol className="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                            <li className="breadcrumb-item text-sm"><a className="opacity-5 text-white" href="javascript:;">Pages</a></li>
-                            <li className="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
-                        </ol>
-                        <h6 className="font-weight-bolder text-white mb-0">Dashboard</h6>
-                    </nav>
+                    <BreadCrumb />
                     <div className="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                         <div className="ms-md-auto pe-md-3 d-flex align-items-center">
-                            <div className="input-group">
-                                <span className="input-group-text text-body"><i className="fas fa-search" aria-hidden="true"></i></span>
-                                <input type="text" className="form-control" placeholder="Type here..." />
-                            </div>
+
                         </div>
                         <ul className="navbar-nav  justify-content-end">
-                            <li className="nav-item d-flex align-items-center">
-                                <a href="javascript:;" className="nav-link text-white font-weight-bold px-0">
-                                    <i className="fa fa-user me-sm-1"></i>
-                                    <span className="d-sm-inline d-none">Sign In</span>
-                                </a>
-                            </li>
+
                             <li className="nav-item d-xl-none ps-3 d-flex align-items-center">
                                 <a href="javascript:;" className="nav-link text-dark p-0" id="iconNavbarSidenav" onClick={toggleSidenav}>
                                     <div className="sidenav-toggler-inner">
@@ -71,12 +98,8 @@ export default function Header() {
                                     </div>
                                 </a>
                             </li>
-                            <li className="nav-item px-3 d-flex align-items-center">
-                                <a href="javascript:;" className="nav-link text-white p-0">
-                                    <i className="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                                </a>
-                            </li>
-                            <li className="nav-item dropdown pe-2 d-flex align-items-center">
+
+                            <li className="nav-item dropdown pe-3 ps-3 d-flex align-items-center">
                                 <a href="javascript:;" className="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="fa fa-bell cursor-pointer"></i>
                                 </a>
@@ -105,11 +128,19 @@ export default function Header() {
                             <li className="nav-item dropdown pe-2 d-flex align-items-center">
                                 <a href="javascript:;" className="nav-link text-white p-0" id="dropdownUtente" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i className="fa fa-user cursor-pointer pe-1"></i>
-                                    <span className="d-sm-inline d-none font-weight-bold">NOME COGNOME</span>
+                                    <span className="d-sm-inline d-none font-weight-bold">{utenteLoggato.nome} {utenteLoggato.cognome}</span>
                                 </a>
                                 <ul className="dropdown-menu  dropdown-menu-end  px-2  me-sm-n4" aria-labelledby="dropdownUtente">
                                     <li className="mb-2">
-                                        <span className="dropdown-item" aria-current="page" onClick={logout} >Logout</span>
+                                        <Link to="/impostazioni" className="dropdown-item" aria-current="page">
+                                            <i className="fa fa-cogs fixed-plugin-button-nav cursor-pointer pe-2 text-primary"></i>
+                                            Impostazioni</Link>
+
+                                    </li>
+                                    <li className="mb-2">
+                                        <span className="dropdown-item" aria-current="page" onClick={logout} >
+                                            <i className="fa fa-right-from-bracket fixed-plugin-button-nav cursor-pointer pe-2 text-primary"></i>
+                                            Logout</span>
 
                                     </li>
 

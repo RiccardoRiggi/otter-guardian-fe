@@ -1,7 +1,7 @@
 import React from "react";
 
 export const initialState = {
-    
+
 }
 
 export const utenteReducer = (state = initialState, action) => {
@@ -12,7 +12,28 @@ export const utenteReducer = (state = initialState, action) => {
             }
         case 'FETCH_TOKEN':
             return {
+                ...state,
                 token: action.token
+            }
+        case 'FETCH_NOME':
+            return {
+                ...state,
+                nome: action.nome
+            }
+        case 'FETCH_COGNOME':
+            return {
+                ...state,
+                cognome: action.cognome
+            }
+        case 'FETCH_EMAIL':
+            return {
+                ...state,
+                email: action.email
+            }
+        case 'FETCH_DATA_CREAZIONE':
+            return {
+                ...state,
+                dataCreazione: action.dataCreazione
             }
         default:
             return state;

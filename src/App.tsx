@@ -10,6 +10,7 @@ import './App.css';
 import PrivateRoute from './components/PrivateRoute';
 
 import HomePage from './pages/HomePage';
+import ImpostazioniPage from './pages/ImpostazioniPage';
 import LoginPage from './pages/LoginPage';
 import LogoutPage from './pages/LogoutPage';
 
@@ -25,10 +26,10 @@ function App() {
           <Route path="logout" element={<LogoutPage />} />
 
 
-        
+
 
           <Route
-            path="/"
+            path=""
             element={
               <PrivateRoute>
                 <HomePage />
@@ -36,7 +37,16 @@ function App() {
             }
           />
 
-          
+          <Route
+            path="/impostazioni"
+            element={
+              <PrivateRoute>
+                <ImpostazioniPage />
+              </PrivateRoute>
+            }
+          />
+
+
         </Routes>
       </BrowserRouter>
     </>

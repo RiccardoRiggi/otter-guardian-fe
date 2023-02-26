@@ -1,16 +1,20 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchMantieniMessaggiAction, fetchTestoDangerAction, fetchTestoSuccessAction, fetchTestoWarnAction } from '../modules/feedback/actions';
-import { fetchTokenAction } from '../modules/utenteLoggato/actions';
+import { fetchTokenAction, resetUtenteAction } from '../modules/utenteLoggato/actions';
 import utenteService from '../services/AutenticazioneService';
+import utenteLoggatoService from '../services/UtenteLoggatoService';
 import Footer from './Footer';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import { toast } from 'react-toastify';
 
 export default function Layout({ children }: any) {
     const dispatch = useDispatch();
-    const utente = useSelector((state: any) => state.utenteLoggato);
+    const location = useLocation();
+
+    const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
     const feedback = useSelector((state: any) => state.feedback);
 
     const [eseguitoControlloAutenticazione, setEseguitoControlloAutenticazione] = React.useState(false);
@@ -19,24 +23,17 @@ export default function Layout({ children }: any) {
     document.getElementsByTagName("body")[0].classList.remove("bg-gradient-danger");
     let navigate = useNavigate();
 
-    const logout = () => {
-        sessionStorage.clear();
-        localStorage.clear();
-        document.getElementsByTagName("div")[document.getElementsByTagName("div").length - 1].remove();
-        document.getElementsByTagName("body")[0].classList.remove("modal-open");
-        navigate("/login");
-    }
+
 
     const verificaAutenticazione = async () => {
 
         console.warn("VERIFICA AUTENTICAZIONE");
-        console.warn(utente);
+        await utenteLoggatoService.verificaAutenticazione(utenteLoggato.token).catch(e => {
+            dispatch(resetUtenteAction());
+            navigate("/login");
+        });
 
-        if (utente.token == undefined) {
-            logout();
-        }
 
-        
     }
 
 
@@ -69,7 +66,7 @@ export default function Layout({ children }: any) {
 
 
                         {feedback.isLoading && <div className="text-center">
-                            <i className="text-primary fas fa-solid fa-spinner fa-spin fa-3x"></i>
+                            <i className="text-white fas fa-solid fa-spinner fa-spin fa-3x"></i>
                         </div>}
 
 

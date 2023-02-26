@@ -72,10 +72,10 @@ export default function Sidebar() {
                 <div className="sidenav-header text-center">
                     <i className="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-xl-none"
                         aria-hidden="true" id="iconSidenav" onClick={toggleSidenav}></i>
-                    <a className="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
-                        target="_blank">
-                        <h1>LOGO</h1>
-                    </a>
+                    <Link className="navbar-brand m-0" to="/">
+                        <h1 className=""><i className="fa-solid fa-otter text-primary"></i></h1>
+                        <h6>Otter Guardian</h6>
+                    </Link>
                 </div>
                 <div className="collapse navbar-collapse  w-auto mt-5" id="sidenav-collapse-main">
                     <ul className="navbar-nav">
@@ -128,7 +128,7 @@ export default function Sidebar() {
                                     }
 
                                 }) : <></>*/}
-                        
+
 
                     </ul>
                 </div>

@@ -10,4 +10,23 @@ export const fetchTokenAction  = (token) => ({
     token
 })
 
+export const fetchNomeAction  = (nome) => ({
+    type: 'FETCH_NOME',
+    nome
+})
+
+export const fetchCognomeAction  = (cognome) => ({
+    type: 'FETCH_COGNOME',
+    cognome
+})
+
+export const fetchEmailAction  = (email) => ({
+    type: 'FETCH_EMAIL',
+    email
+})
+
+export const fetchDataCreazioneAction  = (dataCreazione) => ({
+    type: 'FETCH_DATA_CREAZIONE',
+    dataCreazione
+})
 
