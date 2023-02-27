@@ -470,7 +470,7 @@ export default function LoginPage() {
                 </main>
             }
 
-            {!feedback.isLoading && listaMetodiAutenticazioneSupportati.length > 0 && tipoAutenticazione != "" && tipoAutenticazione.includes("SIX") && attesaSecondoFattore &&
+            {!feedback.isLoading && listaMetodiAutenticazioneSupportati.length > 0 && tipoAutenticazione != "" && ( tipoAutenticazione.includes("SIX") || tipoAutenticazione.includes("BACKUP_CODE") ) && attesaSecondoFattore &&
                 <main className="main-content  mt-0">
                     <section>
                         <div className="page-header min-vh-80">

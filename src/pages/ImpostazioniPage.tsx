@@ -1,43 +1,64 @@
 import React, { useEffect } from 'react';
 import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { getData, getOra } from '../DateUtil';
 import { fetchIsLoadingAction } from '../modules/feedback/actions';
 import dispositiviFisiciService from '../services/DispositiviFisiciService';
-
+import utenteLoggatoService from '../services/UtenteLoggatoService';
+import { toast } from 'react-toastify';
 
 export default function ImpostazioniPage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
 
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
+
+    const [paginaDispositivi, setPaginaDispositivi] = React.useState(1);
     const [dispositiviFisici, setDispositiviFisici] = React.useState([]);
 
     const [idNuovoDispositivoFisico, setIdNuovoDispositivoFisico] = React.useState("");
 
     const [idInterval, setIdInterval] = React.useState("");
 
+    const [accessi, setAccessi] = React.useState([]);
+    const [paginaAccessi, setPaginaAccessi] = React.useState(1);
+
+
+    const [codiciBackup, setCodiciBackup] = React.useState([]);
+
     let interval: any;
 
 
-    const getDispositiviFisici = async () => {
+    const getDispositiviFisici = async (pagina: any) => {
 
-        dispatch(fetchIsLoadingAction(true));
+        if (pagina !== 0) {
 
-
-        await dispositiviFisiciService.getDispositiviFisici(utenteLoggato.token).then(response => {
-            console.info(response.data);
-            setDispositiviFisici(response.data);
+            await dispositiviFisiciService.getDispositiviFisici(utenteLoggato.token, pagina).then(response => {
+                console.info(response.data);
 
 
-            dispatch(fetchIsLoadingAction(false));
-        }).catch(e => {
-            console.error(e);
-            dispatch(fetchIsLoadingAction(false));
-        });
+                if (response.data.length !== 0) {
+                    setDispositiviFisici(response.data);
+                    setPaginaDispositivi(pagina);
+                }
+
+
+            }).catch(e => {
+                console.error(e);
+                if (e.response.status === 401) {
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                    navigate("/login");
+                }
+            });
+        }
     }
 
     const generaIdentificativoDispositivoFisico = async () => {
@@ -62,8 +83,9 @@ export default function ImpostazioniPage() {
             await dispositiviFisiciService.isDispositivoAbilitato(utenteLoggato.token, idNuovoDispositivoFisico).then(response => {
                 console.info(response.data);
 
-                if (response.data){
+                if (response.data) {
                     clearInterval(interval);
+                    getDispositiviFisici(1);
                     annullaAggiuntaNuovoDispositivo();
                 }
 
@@ -79,16 +101,66 @@ export default function ImpostazioniPage() {
     const annullaAggiuntaNuovoDispositivo = () => {
         clearInterval(idInterval);
         setIdNuovoDispositivoFisico("");
-        getDispositiviFisici();
+        getDispositiviFisici(1);
+    }
+
+
+    const getStoricoAccessi = async (pagina: any) => {
+
+
+        if (pagina !== 0) {
+            await utenteLoggatoService.getStoricoAccessi(utenteLoggato.token, pagina).then(response => {
+
+                if (response.data.length !== 0) {
+                    setAccessi(response.data);
+                    setPaginaAccessi(pagina);
+                }
+
+
+            }).catch(e => {
+                console.error(e);
+                if (e.response.status === 401) {
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                    navigate("/login");
+                }
+            });
+        }
+
+    }
+
+    const generaCodiciBackup = async () => {
+        await utenteLoggatoService.generaCodiciBackup(utenteLoggato.token).then(response => {
+
+            console.info(response.data);
+            setCodiciBackup(response.data);
+
+        }).catch(e => {
+            console.error(e);
+            if (e.response.status === 401) {
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+                navigate("/login");
+            }
+        });
+    }
+
+    const nascondiCodiciBackup = () => {
+        setCodiciBackup([]);
     }
 
 
     useEffect(() => {
         if (!ricercaEseguita) {
             setRicercaEseguita(true);
-            getDispositiviFisici();
+            getDispositiviFisici(paginaDispositivi);
+            getStoricoAccessi(paginaAccessi);
         }
-    });
+    }, []);
 
 
     return (
@@ -121,8 +193,55 @@ export default function ImpostazioniPage() {
             <div className="card shadow-lg mx-4 mt-3">
                 <div className="card-header pb-0">
                     <div className="d-flex align-items-center">
+                        <h3 className="mb-3">
+                            <i className="fa-solid fa-key text-primary fa-1x pe-2 "></i>
+                            Codici di backup
+                        </h3>
+                        {codiciBackup.length === 0 &&
+                            <button onClick={generaCodiciBackup} className="btn btn-primary ms-auto b-3">Genera nuovi codici di backup</button>
+                        }
+                        {codiciBackup.length > 0 &&
+                            <button onClick={nascondiCodiciBackup} className="btn btn-primary ms-auto b-3">Nascondi codici backup</button>
+                        }
+
+                    </div>
+                </div>
+                {codiciBackup.length > 0 && <div className="card-body p-3">
+                    <div className="row gx-4">
+
+                        <div className='col-12 text-center'>
+                            <div className='table-responsive'>
+                                <table className="table table-striped table-hover table-bordered">
+                                    <thead >
+                                        <tr>
+                                            <th scope="col">Codice di backup</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {
+                                            Array.isArray(codiciBackup) && codiciBackup.map((codice: any, index: number) =>
+                                                <tr key={index}>
+                                                    <td>{codice}</td>
+                                                </tr>
+                                            )}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <small>Trascrivi i codici in un posto sicuro, cambiando pagina non sarà più possibile recuperarli. Ad ogni nuova generazione verranno eliminati i codici precedenti</small>
+                        </div>
+                        
+                    </div>
+                </div>}
+            </div>
+
+            <div className="card shadow-lg mx-4 mt-3">
+                <div className="card-header pb-0">
+                    <div className="d-flex align-items-center">
                         <h3 className="mb-1">
-                            <i className="fa-solid fa-mobile-screen text-primary fa-1x pe-1 "></i>
+                            <i className="fa-solid fa-mobile-screen text-primary fa-1x pe-2 "></i>
                             Dispositivi fisici
                         </h3>
                         {idNuovoDispositivoFisico === "" &&
@@ -136,38 +255,100 @@ export default function ImpostazioniPage() {
                         <div className="row gx-4">
 
                             {idNuovoDispositivoFisico === "" &&
-                                <div className='col-12 text-center'>
-                                    <table className="table table-striped table-hover">
-                                        <thead>
+                                <><div className='col-12 text-center'>
+                                    <div className='table-responsive'>
+                                        <table className="table table-striped table-hover table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Stato</th>
+                                                    <th scope="col">Nome</th>
+                                                    <th scope="col">Data abilitazione</th>
+                                                    <th scope="col">Data disabilitazione</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                {
+                                                    Array.isArray(dispositiviFisici) && dispositiviFisici.map((dispositivo: any, index: number) =>
+                                                        <tr key={index}>
+                                                            <th scope="row">{dispositivo.dataDisabilitazione === null ? <i className="fa-solid fa-circle-check text-success"></i> : <i className="fa-solid fa-circle-xmark text-danger"></i>}</th>
+                                                            <td>{dispositivo.nomeDispositivo}</td>
+                                                            <td>{getData(dispositivo.dataAbilitazione)} ore {getOra(dispositivo.dataAbilitazione)}</td>
+                                                            <td>{getData(dispositivo.dataDisabilitazione)} {dispositivo.dataDisabilitazione !== null && "ore"} {getOra(dispositivo.dataDisabilitazione)}</td>
+                                                        </tr>
+                                                    )}
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                    <div className='col-6 text-end pt-2'>
+                                        <span onClick={() => getDispositiviFisici(paginaDispositivi - 1)} className='btn btn-primary'>Precedente</span>
+                                    </div>
+                                    <div className='col-6 text-start pt-2'>
+                                        <span onClick={() => getDispositiviFisici(paginaDispositivi + 1)} className='btn btn-primary'>Successivo</span>
+                                    </div></>}
+                            {idNuovoDispositivoFisico !== "" && <div className='col-12 text-center'>
+                                <QRCode className='w-100 ' fgColor='#344767' value={idNuovoDispositivoFisico} />
+                                <small>L'aggiunta di un nuovo dispositivo fisico disabiliterà i dispositivi precedentemente configurati</small>
+                                {idNuovoDispositivoFisico}
+                            </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="card shadow-lg mx-4 mt-3">
+                <div className="card-header pb-0">
+                    <div className="d-flex align-items-center">
+                        <h3 className="mb-1">
+                            <i className="fa-solid fa-clock-rotate-left text-primary fa-1x pe-2 "></i>
+                            Storico accessi
+                        </h3>
+
+                    </div>
+                    <div className="card-body p-3">
+                        <div className="row gx-4">
+
+                            <div className='col-12 '>
+                                <div className='table-responsive'>
+                                    <table className="table table-striped table-hover table-bordered">
+                                        <thead >
                                             <tr>
                                                 <th scope="col">Stato</th>
-                                                <th scope="col">Nome</th>
-                                                <th scope="col">Data abilitazione</th>
-                                                <th scope="col">Data disabilitazione</th>
+                                                <th scope="col" >Data login</th>
+                                                <th scope="col">Data logout</th>
+                                                <th scope="col">Indirizzo Ip</th>
+                                                <th scope="col">User Agent</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             {
-                                                Array.isArray(dispositiviFisici) && dispositiviFisici.map((dispositivo: any, index: number) =>
+                                                Array.isArray(accessi) && accessi.map((accesso: any, index: number) =>
                                                     <tr key={index}>
-                                                        <th scope="row">{dispositivo.dataDisabilitazione === null ? <i className="fa-solid fa-circle-check text-success"></i> : <i className="fa-solid fa-circle-xmark text-danger"></i>}</th>
-                                                        <td>{dispositivo.nomeDispositivo}</td>
-                                                        <td>{getData(dispositivo.dataAbilitazione)} ore {getOra(dispositivo.dataAbilitazione)}</td>
-                                                        <td>{getData(dispositivo.dataDisabilitazione)} {dispositivo.dataDisabilitazione !== null && "ore"} {getOra(dispositivo.dataDisabilitazione)}</td>
+                                                        <th className='text-center' scope="row">{accesso.dataFineValidita === null ? <i className="fa-solid fa-circle-check text-success"></i> : <i className="fa-solid fa-circle-xmark text-danger"></i>}</th>
+                                                        <td>{getData(accesso.dataInizioValidita)} ore {getOra(accesso.dataInizioValidita)}</td>
+                                                        <td>{getData(accesso.dataFineValidita)} {accesso.dataFineValidita !== null && "ore"} {getOra(accesso.dataFineValidita)}</td>
+                                                        <td>{accesso.indirizzoIp}</td>
+                                                        <td>{accesso.userAgent}</td>
                                                     </tr>
                                                 )}
 
 
                                         </tbody>
                                     </table>
-                                </div>}
-                            {idNuovoDispositivoFisico !== "" && <div className='col-12 text-center'>
-                                <QRCode className='w-100 ' fgColor='#344767' value={idNuovoDispositivoFisico} />
-                                <small>L'aggiunta di un nuovo dispositivo fisico disabiliterà i dispositivi precedentemente configurati</small>
+                                </div>
                             </div>
-
-                            }
+                            <div className='col-6 text-end pt-2'>
+                                <span onClick={() => getStoricoAccessi(paginaAccessi - 1)} className='btn btn-primary'>Precedente</span>
+                            </div>
+                            <div className='col-6 text-start pt-2'>
+                                <span onClick={() => getStoricoAccessi(paginaAccessi + 1)} className='btn btn-primary'>Successivo</span>
+                            </div>
                         </div>
                     </div>
                 </div>

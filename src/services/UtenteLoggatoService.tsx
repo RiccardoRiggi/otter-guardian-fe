@@ -32,10 +32,30 @@ const verificaAutenticazione = (token: any) => {
     return http.get(root, { params, headers });
 }
 
+const getStoricoAccessi = (token: any, pagina: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "getStoricoAccessi"],["pagina",pagina]]);
+    const headers = {
+        token: token,
+    }
+
+    return http.get(root, { params, headers });
+}
+
+const generaCodiciBackup = (token: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "generaCodiciBackup"]]);
+    const headers = {
+        token: token,
+    }
+
+    return http.get(root, { params, headers });
+}
+
 
 const utenteLoggatoService = {
     getUtenteLoggato,
     invalidaToken,
-    verificaAutenticazione
+    verificaAutenticazione,
+    getStoricoAccessi,
+    generaCodiciBackup
 };
 export default utenteLoggatoService;

@@ -3,8 +3,8 @@ import http from "../http-common";
 
 let root = "/dispositivoFisico.php";
 
-const getDispositiviFisici = (token: any) => {
-    const params = new URLSearchParams([["nomeMetodo", "getDispositiviFisici"]]);
+const getDispositiviFisici = (token: any, pagina: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "getDispositiviFisici"],["pagina",pagina]]);
     const headers = {
         token: token,
     }
