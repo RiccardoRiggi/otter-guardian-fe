@@ -27,7 +27,6 @@ export default function Layout({ children }: any) {
 
     const verificaAutenticazione = async () => {
 
-        console.warn("VERIFICA AUTENTICAZIONE");
         await utenteLoggatoService.verificaAutenticazione(utenteLoggato.token).catch(e => {
             dispatch(resetUtenteAction());
             navigate("/login");
@@ -36,10 +35,36 @@ export default function Layout({ children }: any) {
 
     }
 
+    const verificaAutorizzazione = () => {
+        let autorizzato = isPathPresente(location.pathname, utenteLoggato.menu);
+        if (!autorizzato) {
+            //VALUTA REDIRECT SU PAGINA CON MESSAGGIO
+            navigate("/")
+        }
+
+    }
+
+    const isPathPresente: any = (pathDaCercare: any, listaMenu: any) => {
+        if(pathDaCercare==="/" || pathDaCercare==="/impostazioni"){
+            return true;
+        }
+        for (let c = 0; c < listaMenu.length; c++) {
+            if (listaMenu[c].figli.length > 0) {
+                if (isPathPresente(pathDaCercare, listaMenu[c].figli))
+                    return true;
+            } else {
+                if (pathDaCercare.includes(listaMenu[c].path))
+                    return true;
+            }
+        }
+        return false;
+    }
+
 
     useEffect(() => {
         if (!eseguitoControlloAutenticazione) {
             verificaAutenticazione();
+            verificaAutorizzazione();
             setEseguitoControlloAutenticazione(true);
 
         }
@@ -68,7 +93,6 @@ export default function Layout({ children }: any) {
                         {feedback.isLoading && <div className="text-center">
                             <i className="text-white fas fa-solid fa-spinner fa-spin fa-3x"></i>
                         </div>}
-
 
                         {!feedback.isLoading && children}
                         <Footer />

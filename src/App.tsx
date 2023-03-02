@@ -13,6 +13,8 @@ import HomePage from './pages/HomePage';
 import ImpostazioniPage from './pages/ImpostazioniPage';
 import LoginPage from './pages/LoginPage';
 import LogoutPage from './pages/LogoutPage';
+import LogsPage from './pages/LogsPage';
+import ListaVociMenuPage from './pages/menu/ListaVociMenuPage';
 import RecuperoPasswordPage from './pages/RecuperoPasswordPage';
 
 
@@ -48,6 +50,34 @@ function App() {
               </PrivateRoute>
             }
           />
+
+          <Route
+            path="/logs/:livelloLog"
+            element={
+              <PrivateRoute>
+                <LogsPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/logs"
+            element={
+              <PrivateRoute>
+                <LogsPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/lista-menu"
+            element={
+              <PrivateRoute>
+                <ListaVociMenuPage />
+              </PrivateRoute>
+            }
+          />
+
 
 
         </Routes>

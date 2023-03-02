@@ -35,6 +35,11 @@ export const utenteReducer = (state = initialState, action) => {
                 ...state,
                 dataCreazione: action.dataCreazione
             }
+        case 'FETCH_MENU':
+            return {
+                ...state,
+                menu: action.menu
+            }
         default:
             return state;
     }

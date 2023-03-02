@@ -30,3 +30,7 @@ export const fetchDataCreazioneAction  = (dataCreazione) => ({
     dataCreazione
 })
 
+export const fetchMenuAction  = (menu) => ({
+    type: 'FETCH_MENU',
+    menu
+})

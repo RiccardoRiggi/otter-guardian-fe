@@ -1,10 +1,31 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import vociMenuService from '../services/VociMenuService';
+import { toast } from 'react-toastify'
+import { fetchMenuAction } from '../modules/utenteLoggato/actions';
 
 export default function Sidebar() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
+    const dispatch = useDispatch();
+
+    const getVociMenu = async () => {
+
+
+        await vociMenuService.getVociMenuPerUtente(utenteLoggato.token).then(response => {
+            console.info(response.data);
+
+            dispatch(fetchMenuAction(response.data));
+
+
+        }).catch(e => {
+            console.error(e);
+
+        });
+
+    }
+
 
 
     // Toggle Sidenav
@@ -63,6 +84,12 @@ export default function Sidebar() {
         }
     }
 
+    useEffect(() => {
+        if (utenteLoggato.menu === undefined) {
+            getVociMenu();
+        }
+    });
+
     return (
 
         <>
@@ -80,54 +107,29 @@ export default function Sidebar() {
                 <div className="collapse navbar-collapse  w-auto mt-5" id="sidenav-collapse-main">
                     <ul className="navbar-nav">
 
-                        {/*anagraficaOperatore.codProfilo != undefined && anagraficaOperatore.codEntita != undefined && anagraficaOperatore.menu ?
-                                anagraficaOperatore.menu.map((elemento: any, index: any) => {
-                                    if (elemento.listaTransazioniFiglie == undefined) {
-                                        return <li title={elemento.descrizione} className="nav-item">
-                                            <Link className="nav-link py-1" to={"/" + elemento.urllinkesterno}>
+                        {utenteLoggato.menu !== undefined ?
+                            utenteLoggato.menu.map((elemento: any, index: any) => {
+
+                                if (elemento.figli.length === 0) {
+                                    return <li key={index} title={elemento.descrizione} className="nav-item">
+                                        <span className={elemento.visibile === "0" ? "d-none" : ""}>
+                                            <Link className="nav-link py-1" to={"/" + elemento.path}>
                                                 <div
                                                     className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                                    <i className="fas fa-home text-primary text-sm opacity-10"></i>
+                                                    <i className={elemento.icona + " text-primary text-sm opacity-10"}></i>
                                                 </div>
                                                 <span className="nav-link-text ms-1">{elemento.descrizione}</span>
                                             </Link>
-                                        </li>
+                                        </span>
+                                    </li>
 
 
-                                    } else {
-                                        return <li className="nav-item">
-                                            <span className="nav-link cursor-pointer py-1 collapsed" data-bs-toggle="collapse" data-bs-target={"#" + elemento.codtransazione + "-collapse"} aria-expanded="false">
-                                                <div
-                                                    className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                                    <i className="fas fa-home text-primary text-sm opacity-10"></i>
-                                                </div>
-                                                <span className="nav-link-text ms-1">{elemento.descrizione}</span>
-                                            </span>
-                                            <div className="collapse " id={elemento.codtransazione + "-collapse"}>
-                                                <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                                    {
+                                } else {
+                                    return <VoceMenuFiglio key={index} elemento={elemento} />
 
-                                                        elemento.listaTransazioniFiglie.map((figlio: any) => (
+                                }
 
-                                                            <li title={figlio.descrizione} className="nav-item mx-3">
-                                                                <Link className="nav-link py-1 " to={"/" + elemento.urllinkesterno}>
-                                                                    <div
-                                                                        className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                                                        <i className="fas fa-home text-primary text-sm opacity-10"></i>
-                                                                    </div>
-                                                                    <span className="nav-link-text ms-1">{figlio.descrizione}</span>
-                                                                </Link>
-                                                            </li>
-
-                                                        ))
-
-                                                    }</ul>
-                                            </div>
-                                        </li>
-
-                                    }
-
-                                }) : <></>*/}
+                            }) : <></>}
 
 
                     </ul>
@@ -136,5 +138,51 @@ export default function Sidebar() {
             </aside>
         </>
     );
+
+}
+
+function VoceMenuFiglio(el: any) {
+
+    let elemento = el.elemento;
+    let key = el.key;
+
+    return (<li key={key} className="nav-item">
+        <span className="nav-link cursor-pointer py-1 collapsed" data-bs-toggle="collapse" data-bs-target={"#Z" + elemento.idVoceMenu + "-collapse"} aria-expanded="false">
+            <div
+                className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i className={elemento.icona + " text-primary text-sm opacity-10"}></i>
+            </div>
+            <span className="nav-link-text ms-1">{elemento.descrizione}</span>
+        </span>
+        <div className="collapse ps-2" id={"Z" + elemento.idVoceMenu + "-collapse"}>
+            <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                {
+
+                    elemento.figli.map((figlio: any, index: any) => (
+
+                        figlio.figli.length > 0 ?
+
+                            <VoceMenuFiglio elemento={figlio} />
+                            :
+                            <li key={index} title={figlio.descrizione} className="nav-item">
+                                <span className={figlio.visibile === "0" ? "d-none" : ""}>
+                                    <Link className="nav-link py-1" to={"/" + figlio.path}>
+                                        <div
+                                            className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                            <i className={figlio.icona + " text-primary text-sm opacity-10"}></i>
+                                        </div>
+                                        <span className="nav-link-text ms-1">{figlio.descrizione}</span>
+                                    </Link>
+                                </span>
+                            </li>
+
+
+                    ))
+
+                }
+
+            </ul>
+        </div>
+    </li >);
 
 }

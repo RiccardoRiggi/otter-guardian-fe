@@ -47,6 +47,9 @@ export default function Header() {
         }).catch(e => {
             console.error(e);
             dispatch(fetchIsLoadingAction(false));
+            if (e.response.status === 401) {
+                navigate("/login");
+            }
         });
 
     }
@@ -101,7 +104,7 @@ export default function Header() {
 
                             <li className="nav-item dropdown pe-3 ps-3 d-flex align-items-center">
                                 <a href="javascript:;" className="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i className="fa fa-bell cursor-pointer"></i>
+                                    <i className="fa fa-bell cursor-pointer fa-beat-fade"></i>
                                 </a>
                                 <ul className="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                                     <li className="mb-2">

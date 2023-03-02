@@ -120,10 +120,6 @@ export default function ImpostazioniPage() {
             }).catch(e => {
                 console.error(e);
                 if (e.response.status === 401) {
-                    toast.error(e.response.data.descrizione, {
-                        position: "top-center",
-                        autoClose: 5000,
-                    });
                     navigate("/login");
                 }
             });
@@ -140,10 +136,6 @@ export default function ImpostazioniPage() {
         }).catch(e => {
             console.error(e);
             if (e.response.status === 401) {
-                toast.error(e.response.data.descrizione, {
-                    position: "top-center",
-                    autoClose: 5000,
-                });
                 navigate("/login");
             }
         });
@@ -232,7 +224,7 @@ export default function ImpostazioniPage() {
                             </div>
                             <small>Trascrivi i codici in un posto sicuro, cambiando pagina non sarà più possibile recuperarli. Ad ogni nuova generazione verranno eliminati i codici precedenti</small>
                         </div>
-                        
+
                     </div>
                 </div>}
             </div>
@@ -251,54 +243,55 @@ export default function ImpostazioniPage() {
                             <button onClick={annullaAggiuntaNuovoDispositivo} className="btn btn-primary ms-auto">Lista dispositivi</button>
                         }
                     </div>
-                    <div className="card-body p-3">
-                        <div className="row gx-4">
+                </div>
+                <div className="card-body p-3">
+                    <div className="row gx-4">
 
-                            {idNuovoDispositivoFisico === "" &&
-                                <><div className='col-12 text-center'>
-                                    <div className='table-responsive'>
-                                        <table className="table table-striped table-hover table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Stato</th>
-                                                    <th scope="col">Nome</th>
-                                                    <th scope="col">Data abilitazione</th>
-                                                    <th scope="col">Data disabilitazione</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                        {idNuovoDispositivoFisico === "" &&
+                            <><div className='col-12 text-center'>
+                                <div className='table-responsive'>
+                                    <table className="table table-striped table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Stato</th>
+                                                <th scope="col">Nome</th>
+                                                <th scope="col">Data abilitazione</th>
+                                                <th scope="col">Data disabilitazione</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                                {
-                                                    Array.isArray(dispositiviFisici) && dispositiviFisici.map((dispositivo: any, index: number) =>
-                                                        <tr key={index}>
-                                                            <th scope="row">{dispositivo.dataDisabilitazione === null ? <i className="fa-solid fa-circle-check text-success"></i> : <i className="fa-solid fa-circle-xmark text-danger"></i>}</th>
-                                                            <td>{dispositivo.nomeDispositivo}</td>
-                                                            <td>{getData(dispositivo.dataAbilitazione)} ore {getOra(dispositivo.dataAbilitazione)}</td>
-                                                            <td>{getData(dispositivo.dataDisabilitazione)} {dispositivo.dataDisabilitazione !== null && "ore"} {getOra(dispositivo.dataDisabilitazione)}</td>
-                                                        </tr>
-                                                    )}
+                                            {
+                                                Array.isArray(dispositiviFisici) && dispositiviFisici.map((dispositivo: any, index: number) =>
+                                                    <tr key={index}>
+                                                        <th scope="row">{dispositivo.dataDisabilitazione === null ? <i className="fa-solid fa-circle-check text-success"></i> : <i className="fa-solid fa-circle-xmark text-danger"></i>}</th>
+                                                        <td>{dispositivo.nomeDispositivo}</td>
+                                                        <td>{getData(dispositivo.dataAbilitazione)} ore {getOra(dispositivo.dataAbilitazione)}</td>
+                                                        <td>{getData(dispositivo.dataDisabilitazione)} {dispositivo.dataDisabilitazione !== null && "ore"} {getOra(dispositivo.dataDisabilitazione)}</td>
+                                                    </tr>
+                                                )}
 
 
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                    <div className='col-6 text-end pt-2'>
-                                        <span onClick={() => getDispositiviFisici(paginaDispositivi - 1)} className='btn btn-primary'>Precedente</span>
-                                    </div>
-                                    <div className='col-6 text-start pt-2'>
-                                        <span onClick={() => getDispositiviFisici(paginaDispositivi + 1)} className='btn btn-primary'>Successivo</span>
-                                    </div></>}
-                            {idNuovoDispositivoFisico !== "" && <div className='col-12 text-center'>
-                                <QRCode className='w-100 ' fgColor='#344767' value={idNuovoDispositivoFisico} />
-                                <small>L'aggiunta di un nuovo dispositivo fisico disabiliterà i dispositivi precedentemente configurati</small>
-                                {idNuovoDispositivoFisico}
                             </div>
-
-                            }
+                                <div className='col-6 text-end pt-2'>
+                                    <span onClick={() => getDispositiviFisici(paginaDispositivi - 1)} className='btn btn-primary'>Precedente</span>
+                                </div>
+                                <div className='col-6 text-start pt-2'>
+                                    <span onClick={() => getDispositiviFisici(paginaDispositivi + 1)} className='btn btn-primary'>Successivo</span>
+                                </div></>}
+                        {idNuovoDispositivoFisico !== "" && <div className='col-12 text-center'>
+                            <QRCode className='w-100 ' fgColor='#344767' value={idNuovoDispositivoFisico} />
+                            <small>L'aggiunta di un nuovo dispositivo fisico disabiliterà i dispositivi precedentemente configurati</small>
+                            {idNuovoDispositivoFisico}
                         </div>
+
+                        }
                     </div>
                 </div>
+
             </div>
 
             <div className="card shadow-lg mx-4 mt-3">
@@ -310,45 +303,43 @@ export default function ImpostazioniPage() {
                         </h3>
 
                     </div>
-                    <div className="card-body p-3">
-                        <div className="row gx-4">
+                </div>
+                <div className="card-body p-3">
+                    <div className="row gx-4">
 
-                            <div className='col-12 '>
-                                <div className='table-responsive'>
-                                    <table className="table table-striped table-hover table-bordered">
-                                        <thead >
-                                            <tr>
-                                                <th scope="col">Stato</th>
-                                                <th scope="col" >Data login</th>
-                                                <th scope="col">Data logout</th>
-                                                <th scope="col">Indirizzo Ip</th>
-                                                <th scope="col">User Agent</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                        <div className='col-12 '>
+                            <div className='table-responsive'>
+                                <table className="table table-striped table-hover table-bordered">
+                                    <thead >
+                                        <tr>
+                                            <th scope="col">Stato</th>
+                                            <th scope="col" >Data login</th>
+                                            <th scope="col">Data logout</th>
+                                            <th scope="col">Indirizzo Ip</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                            {
-                                                Array.isArray(accessi) && accessi.map((accesso: any, index: number) =>
-                                                    <tr key={index}>
-                                                        <th className='text-center' scope="row">{accesso.dataFineValidita === null ? <i className="fa-solid fa-circle-check text-success"></i> : <i className="fa-solid fa-circle-xmark text-danger"></i>}</th>
-                                                        <td>{getData(accesso.dataInizioValidita)} ore {getOra(accesso.dataInizioValidita)}</td>
-                                                        <td>{getData(accesso.dataFineValidita)} {accesso.dataFineValidita !== null && "ore"} {getOra(accesso.dataFineValidita)}</td>
-                                                        <td>{accesso.indirizzoIp}</td>
-                                                        <td>{accesso.userAgent}</td>
-                                                    </tr>
-                                                )}
+                                        {
+                                            Array.isArray(accessi) && accessi.map((accesso: any, index: number) =>
+                                                <tr key={index}>
+                                                    <th className='text-center' scope="row">{accesso.dataFineValidita === null ? <i className="fa-solid fa-circle-check text-success"></i> : <i className="fa-solid fa-circle-xmark text-danger"></i>}</th>
+                                                    <td>{getData(accesso.dataInizioValidita)} ore {getOra(accesso.dataInizioValidita)}</td>
+                                                    <td>{getData(accesso.dataFineValidita)} {accesso.dataFineValidita !== null && "ore"} {getOra(accesso.dataFineValidita)}</td>
+                                                    <td>{accesso.indirizzoIp}</td>
+                                                </tr>
+                                            )}
 
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div className='col-6 text-end pt-2'>
-                                <span onClick={() => getStoricoAccessi(paginaAccessi - 1)} className='btn btn-primary'>Precedente</span>
-                            </div>
-                            <div className='col-6 text-start pt-2'>
-                                <span onClick={() => getStoricoAccessi(paginaAccessi + 1)} className='btn btn-primary'>Successivo</span>
-                            </div>
+                        </div>
+                        <div className='col-6 text-end pt-2'>
+                            <span onClick={() => getStoricoAccessi(paginaAccessi - 1)} className='btn btn-primary'>Precedente</span>
+                        </div>
+                        <div className='col-6 text-start pt-2'>
+                            <span onClick={() => getStoricoAccessi(paginaAccessi + 1)} className='btn btn-primary'>Successivo</span>
                         </div>
                     </div>
                 </div>
