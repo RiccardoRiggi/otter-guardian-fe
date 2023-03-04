@@ -18,12 +18,14 @@ export default function SchedaVoceMenuPage() {
 
     const dispatch = useDispatch();
     const params = useParams();
-    let [voceMenu, setVoceMenu] = React.useState<any>(Object);
 
-    let [idVoceMenuPadre, setIdVoceMenuPadre] = React.useState<any>(null);
+    const [idVoceMenuPadre, setIdVoceMenuPadre] = React.useState<any>(null);
+    const [descrizione, setDescrizione] = React.useState<any>("");
+    const [path, setPath] = React.useState<any>("");
+    const [icona, setIcona] = React.useState<any>("");
+    const [ordine, setOrdine] = React.useState<any>(1);
 
     const aggiornaVoceMenuPadre = (event: any) => {
-        voceMenu.idVoceMenuPadre = event.target.value;
         setIdVoceMenuPadre(event.target.value);
     }
 
@@ -38,8 +40,13 @@ export default function SchedaVoceMenuPage() {
         dispatch(fetchIsLoadingAction(true));
         await vociMenuService.getVoceMenu(utenteLoggato.token, params.idVoceMenu).then(response => {
             console.info(response.data);
-            setVoceMenu(response.data);
+
             setIdVoceMenuPadre(response.data.idVoceMenuPadre);
+            setDescrizione(response.data.descrizione);
+            setPath(response.data.path);
+            setIcona(response.data.icona);
+            setOrdine(response.data.ordine);
+
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
             console.error(e);
@@ -47,30 +54,34 @@ export default function SchedaVoceMenuPage() {
         });
     }
 
-    const aggiornaStato = (event: any) => {
-        let valore = event.target.value;
-        let nomeCampo = event.target.name;
-        voceMenu[nomeCampo] = valore;
-        formErrors[nomeCampo] = undefined;
-        setVoceMenu(voceMenu);
-    };
+
 
     const submitForm = async () => {
 
+        let jsonBody = {
+            idVoceMenuPadre: idVoceMenuPadre,
+            descrizione: descrizione,
+            path: path,
+            icona: icona,
+            ordine: ordine
+        }
 
-        let formsErrorTmp = SchedaVoceMenuValidator(voceMenu);
+
+        let formsErrorTmp = SchedaVoceMenuValidator(jsonBody);
         setFormErrors(formsErrorTmp);
 
-        console.info("JSONBODY: ",voceMenu);
+        console.info("JSONBODY: ", jsonBody);
 
         if (Object.keys(formsErrorTmp).length == 0) {
 
             if (params.idVoceMenu === undefined) {
                 dispatch(fetchIsLoadingAction(true));
-                await vociMenuService.inserisciVoceMenu(utenteLoggato.token, voceMenu).then(response => {
+                await vociMenuService.inserisciVoceMenu(utenteLoggato.token, jsonBody).then(response => {
                     dispatch(fetchIsLoadingAction(false));
-                    dispatch(fetchTestoSuccessAction("Utente registrato con successo!"));
-                    navigate("/scheda-voce-menu/" + response.data);
+                    toast.success("Voce di menu salvata con successo!", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    }); navigate("/scheda-voce-menu/" + response.data);
                 }).catch(e => {
                     console.error(e);
                     dispatch(fetchTestoDangerAction("Errore durante il salvataggio!"));
@@ -78,9 +89,12 @@ export default function SchedaVoceMenuPage() {
                 });
             } else {
                 dispatch(fetchIsLoadingAction(true));
-                await vociMenuService.modificaVoceMenu(utenteLoggato.token, voceMenu, params.idVoceMenu).then(response => {
+                await vociMenuService.modificaVoceMenu(utenteLoggato.token, jsonBody, params.idVoceMenu).then(response => {
                     dispatch(fetchIsLoadingAction(false));
-                    dispatch(fetchTestoSuccessAction("Utente aggiornato con successo!"));
+                    toast.success("Voce di menu aggiornata con successo!", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }).catch(e => {
                     console.error(e);
                     dispatch(fetchTestoDangerAction("Errore durante il salvataggio!"));
@@ -152,7 +166,7 @@ export default function SchedaVoceMenuPage() {
                                 <label>Descrizione<strong className='text-danger'>*</strong></label>
 
                             </div>
-                            <input name='descrizione' type={"text"} onChange={aggiornaStato} className={formErrors?.descrizione != undefined ? "form-control is-invalid" : "form-control"} placeholder={"Inserisci una descrizione..."} value={voceMenu?.descrizione} />
+                            <input name='descrizione' type={"text"} onChange={(e: any) => setDescrizione(e.currentTarget.value)} className={formErrors?.descrizione != undefined ? "form-control is-invalid" : "form-control"} placeholder={"Inserisci una descrizione..."} value={descrizione} />
 
                             <small className='text-danger'>{formErrors?.descrizione}</small>
                         </div>
@@ -162,7 +176,7 @@ export default function SchedaVoceMenuPage() {
                                 <label>Path<strong className='text-danger'>*</strong></label>
 
                             </div>
-                            <input name='path' type={"text"} onChange={aggiornaStato} className={formErrors?.path != undefined ? "form-control is-invalid" : "form-control"} placeholder={"Inserisci il path..."} value={voceMenu?.path} />
+                            <input name='path' type={"text"} onChange={(e: any) => setPath(e.currentTarget.value)} className={formErrors?.path != undefined ? "form-control is-invalid" : "form-control"} placeholder={"Inserisci il path..."} value={path} />
 
                             <small className='text-danger'>{formErrors?.path}</small>
                         </div>
@@ -172,7 +186,7 @@ export default function SchedaVoceMenuPage() {
                                 <label>Icona<strong className='text-danger'>*</strong></label>
 
                             </div>
-                            <input name='icona' type={"text"} onChange={aggiornaStato} className={formErrors?.icona != undefined ? "form-control is-invalid" : "form-control"} placeholder={"Inserisci un'icona (fa-solid fa-users)"} value={voceMenu?.icona} />
+                            <input name='icona' type={"text"} onChange={(e: any) => setIcona(e.currentTarget.value)} className={formErrors?.icona != undefined ? "form-control is-invalid" : "form-control"} placeholder={"Inserisci un'icona (fa-solid fa-users)"} value={icona} />
 
                             <small className='text-danger'>{formErrors?.icona}</small>
                         </div>
@@ -182,7 +196,7 @@ export default function SchedaVoceMenuPage() {
                                 <label>Ordine<strong className='text-danger'>*</strong></label>
 
                             </div>
-                            <input name='ordine' type={"number"} onChange={aggiornaStato} className={formErrors?.ordine != undefined ? "form-control is-invalid" : "form-control"} placeholder={"Inserisci un numero per definire l'ordine..."} value={voceMenu?.ordine} />
+                            <input name='ordine' type={"number"} onChange={(e: any) => setOrdine(e.currentTarget.value)} className={formErrors?.ordine != undefined ? "form-control is-invalid" : "form-control"} placeholder={"Inserisci un numero per definire l'ordine..."} value={ordine} />
 
                             <small className='text-danger'>{formErrors?.ordine}</small>
                         </div>

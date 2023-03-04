@@ -17,6 +17,8 @@ import LogsPage from './pages/LogsPage';
 import ListaVociMenuPage from './pages/menu/ListaVociMenuPage';
 import SchedaVoceMenuPage from './pages/menu/SchedaVoceMenuPage';
 import RecuperoPasswordPage from './pages/RecuperoPasswordPage';
+import ListaRisorsePage from './pages/risorse/ListaRisorsePage';
+import SchedaRisorsaPage from './pages/risorse/SchedaRisorsaPage';
 
 
 
@@ -93,6 +95,33 @@ function App() {
             element={
               <PrivateRoute>
                 <SchedaVoceMenuPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/lista-risorse"
+            element={
+              <PrivateRoute>
+                <ListaRisorsePage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/scheda-risorsa"
+            element={
+              <PrivateRoute>
+                <SchedaRisorsaPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/scheda-risorsa/:idRisorsa"
+            element={
+              <PrivateRoute>
+                <SchedaRisorsaPage />
               </PrivateRoute>
             }
           />
