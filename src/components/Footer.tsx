@@ -14,17 +14,15 @@ export default function Footer() {
                         <div className="col-lg-6">
                             <ul className="nav nav-footer justify-content-center justify-content-lg-end">
                                 <li className="nav-item">
-                                    <a href="https://www.creative-tim.com" className="nav-link text-muted" target="_blank">Creative Tim</a>
+                                    <a href="https://github.com/RiccardoRiggi" className="nav-link text-muted" target="_blank"><i className="fa-brands fa-github pe-1"></i>GitHub</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="https://www.creative-tim.com/presentation" className="nav-link text-muted" target="_blank">About Us</a>
+                                    <a href="https://www.riccardoriggi.it/progetti/" className="nav-link text-muted" target="_blank"><i className="fa-solid fa-code pe-1"></i>Vedi gli altri progetti</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="https://www.creative-tim.com/blog" className="nav-link text-muted" target="_blank">Blog</a>
+                                    <a href="https://www.linkedin.com/in/riccardoriggi/" className="nav-link text-muted" target="_blank"><i className="fa-brands fa-linkedin pe-1"></i>LinkedIn</a>
                                 </li>
-                                <li className="nav-item">
-                                    <a href="https://www.creative-tim.com/license" className="nav-link pe-0 text-muted" target="_blank">License</a>
-                                </li>
+                               
                             </ul>
                         </div>
                     </div>

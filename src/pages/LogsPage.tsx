@@ -121,7 +121,7 @@ export default function LogsPage() {
                                                                     <i className="fa-solid fa-bug-slash text-success"></i>
                                                                 }</th>
                                                             <td>{getOra(log.dataEvento)} {getData(log.dataEvento)}</td>
-                                                            <td>{log.testo}</td>
+                                                            <td className='text-start'>{log.testo}</td>
                                                             <td>{log.indirizzoIp}</td>
                                                             <td>
                                                                 {log.metodoHttp}

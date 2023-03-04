@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
+import { VoceMenuType } from '../../interfaces/VoceMenuType';
 import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import vociMenuService from '../../services/VociMenuService';
 
@@ -17,6 +18,9 @@ export default function ListaVociMenuPage() {
 
 
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
+
+    const [voceMenuDaEliminare, setVoceMenuDaEliminare] = React.useState<any>();
+
 
 
     const [menu, setMenu] = React.useState([]);
@@ -51,6 +55,29 @@ export default function ListaVociMenuPage() {
                 }
             });
         }
+    }
+
+    const eliminaVoceMenu = async () => {
+        await vociMenuService.eliminaVoceMenu(utenteLoggato.token, voceMenuDaEliminare.idVoceMenu).then(response => {
+            console.info(response.data);
+            toast.success("La voce di menu è stata eliminata con successo!", {
+                position: "top-center",
+                autoClose: 5000,
+            });
+            setVoceMenuDaEliminare(undefined);
+            getVociMenu(paginaMenu);
+
+
+        }).catch(e => {
+            console.error(e);
+            toast.error(e.response.data.descrizione, {
+                position: "top-center",
+                autoClose: 5000,
+            });
+            if (e.response.status === 401) {
+                navigate("/login");
+            }
+        });
     }
 
 
@@ -96,13 +123,13 @@ export default function ListaVociMenuPage() {
                                     <tbody>
 
                                         {
-                                            Array.isArray(menu) && menu.map((voce: any, index: number) =>
+                                            Array.isArray(menu) && menu.map((voce: VoceMenuType, index: number) =>
                                                 <tr key={index}>
                                                     <th className='text-center' scope="row">{voce.idVoceMenu}</th>
                                                     <td><small>{voce.descrizionePadre}</small><span className='d-block ps-3 text-bold'>{voce.descrizione}</span></td>
                                                     <td><i className={voce.icona + " pe-3 text-primary"}></i>{voce.icona}</td>
-                                                    <td className='text-center'><span className='btn btn-primary'><i className="fa-solid fa-pen-to-square"></i></span></td>
-                                                    <td className='text-center'><span className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
+                                                    <td className='text-center'><Link to={"/scheda-voce-menu/"+voce.idVoceMenu} className='btn btn-primary'><i className="fa-solid fa-pen-to-square"></i></Link></td>
+                                                    <td className='text-center'><span onClick={() => setVoceMenuDaEliminare(voce)} data-bs-toggle="modal" data-bs-target="#eliminaVoceMenu" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
                                                 </tr>
                                             )}
 
@@ -120,6 +147,24 @@ export default function ListaVociMenuPage() {
                     </div>
                 </div>
 
+            </div>
+
+            <div className="modal fade" id="eliminaVoceMenu" data-bs-keyboard="false" aria-labelledby="eliminaVoceMenuLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="eliminaVoceMenuLabel">Attenzione!</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Vuoi eliminare la voce <strong>{voceMenuDaEliminare != undefined ? voceMenuDaEliminare.descrizione : ""}</strong> con identificativo <strong>{voceMenuDaEliminare != undefined ? voceMenuDaEliminare.idVoceMenu : ""}</strong>?<br /> L'operazione è irreversibile!
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                            <button onClick={eliminaVoceMenu} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Elimina</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </Layout >
     );

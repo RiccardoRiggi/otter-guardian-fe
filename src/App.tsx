@@ -15,6 +15,7 @@ import LoginPage from './pages/LoginPage';
 import LogoutPage from './pages/LogoutPage';
 import LogsPage from './pages/LogsPage';
 import ListaVociMenuPage from './pages/menu/ListaVociMenuPage';
+import SchedaVoceMenuPage from './pages/menu/SchedaVoceMenuPage';
 import RecuperoPasswordPage from './pages/RecuperoPasswordPage';
 
 
@@ -74,6 +75,24 @@ function App() {
             element={
               <PrivateRoute>
                 <ListaVociMenuPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/scheda-voce-menu"
+            element={
+              <PrivateRoute>
+                <SchedaVoceMenuPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/scheda-voce-menu/:idVoceMenu"
+            element={
+              <PrivateRoute>
+                <SchedaVoceMenuPage />
               </PrivateRoute>
             }
           />
