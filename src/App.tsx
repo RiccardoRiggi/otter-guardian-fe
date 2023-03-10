@@ -19,6 +19,8 @@ import SchedaVoceMenuPage from './pages/menu/SchedaVoceMenuPage';
 import RecuperoPasswordPage from './pages/RecuperoPasswordPage';
 import ListaRisorsePage from './pages/risorse/ListaRisorsePage';
 import SchedaRisorsaPage from './pages/risorse/SchedaRisorsaPage';
+import ListaRuoliPage from './pages/ruoli/ListaRuoliPage';
+import SchedaRuoloPage from './pages/ruoli/SchedaRuoloPage';
 
 
 
@@ -126,7 +128,32 @@ function App() {
             }
           />
 
+          <Route
+            path="/lista-ruoli"
+            element={
+              <PrivateRoute>
+                <ListaRuoliPage />
+              </PrivateRoute>
+            }
+          />
 
+          <Route
+            path="/scheda-ruolo"
+            element={
+              <PrivateRoute>
+                <SchedaRuoloPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/scheda-ruolo/:idTipoRuolo"
+            element={
+              <PrivateRoute>
+                <SchedaRuoloPage />
+              </PrivateRoute>
+            }
+          />
 
         </Routes>
       </BrowserRouter>
