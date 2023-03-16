@@ -111,6 +111,11 @@ export default function RecuperoPasswordPage() {
 
         }).catch(e => {
             console.error(e);
+            toast.success("Se l'indirizzo email inserito è associato ad un utente riceverai le istruzioni per proseguire con il recupero della password", {
+                position: "top-center",
+                autoClose: 5000,
+            });
+            navigate("/login");
             dispatch(fetchIsLoadingAction(false));
         });
     }

@@ -45,7 +45,7 @@ export default function Layout({ children }: any) {
     }
 
     const isPathPresente: any = (pathDaCercare: any, listaMenu: any) => {
-        if(pathDaCercare==="/" || pathDaCercare==="/impostazioni"){
+        if (pathDaCercare === "/" || pathDaCercare === "/impostazioni") {
             return true;
         }
         for (let c = 0; c < listaMenu.length; c++) {
@@ -75,36 +75,40 @@ export default function Layout({ children }: any) {
 
 
     return (
-        <>
-            <div className="min-height-300 bg-primary position-absolute w-100"></div>
+        <>{
+            utenteLoggato.token !== undefined ?
+                <>
+                    <div className="min-height-300 bg-primary position-absolute w-100"></div>
 
 
 
-            <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-                data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+                    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+                        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
 
-                <Sidebar />
-                <main className="main-content position-relative border-radius-lg pt-3">
-                    <Header></Header>
+                        <Sidebar />
+                        <main className="main-content position-relative border-radius-lg pt-3">
+                            <Header></Header>
 
-                    <div className="container-fluid py-4">
+                            <div className="container-fluid py-4">
 
 
-                        {feedback.isLoading && <div className="text-center">
-                            <i className="text-white fas fa-solid fa-spinner fa-spin fa-3x"></i>
-                        </div>}
+                                {feedback.isLoading && <div className="text-center">
+                                    <i className="text-white fas fa-solid fa-spinner fa-spin fa-3x"></i>
+                                </div>}
 
-                        {!feedback.isLoading && children}
-                        <Footer />
+                                {!feedback.isLoading && children}
+                                <Footer />
+
+                            </div>
+                        </main>
+
+
+
 
                     </div>
-                </main>
 
-
-
-
-            </div>
-
+                </> : <></>
+        }
         </>
     );
 

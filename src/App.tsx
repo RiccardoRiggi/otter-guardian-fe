@@ -21,6 +21,8 @@ import ListaRisorsePage from './pages/risorse/ListaRisorsePage';
 import SchedaRisorsaPage from './pages/risorse/SchedaRisorsaPage';
 import ListaRuoliPage from './pages/ruoli/ListaRuoliPage';
 import SchedaRuoloPage from './pages/ruoli/SchedaRuoloPage';
+import ListaUtentiPage from './pages/utenti/ListaUtentiPage';
+import SchedaUtentePage from './pages/utenti/SchedaUtentePage';
 
 
 
@@ -151,6 +153,33 @@ function App() {
             element={
               <PrivateRoute>
                 <SchedaRuoloPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/lista-utenti"
+            element={
+              <PrivateRoute>
+                <ListaUtentiPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/scheda-utente"
+            element={
+              <PrivateRoute>
+                <SchedaUtentePage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/scheda-utente/:idUtente"
+            element={
+              <PrivateRoute>
+                <SchedaUtentePage />
               </PrivateRoute>
             }
           />
