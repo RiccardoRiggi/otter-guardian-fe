@@ -481,7 +481,7 @@ export default function ImpostazioniPage() {
                         {idNuovoDispositivoFisico !== "" && <div className='col-12 text-center'>
                             <QRCode className='w-100 ' fgColor='#344767' value={idNuovoDispositivoFisico} />
                             <small>L'aggiunta di un nuovo dispositivo fisico disabiliterà i dispositivi precedentemente configurati</small>
-                            {idNuovoDispositivoFisico}
+                            
                         </div>
 
                         }

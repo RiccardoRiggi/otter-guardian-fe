@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
+import { verificaErroreAutorizzazione } from '../../ErrorsUtil';
 import { VoceMenuType } from '../../interfaces/VoceMenuType';
 import { fetchIsLoadingAction, fetchTestoDangerAction, fetchTestoSuccessAction } from '../../modules/feedback/actions';
 import comboService from '../../services/ComboService';
@@ -55,6 +56,21 @@ export default function SchedaUtentePage() {
         }).catch(e => {
             console.error(e);
             dispatch(fetchIsLoadingAction(false));
+
+            if (e.response.status === 401) {
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+                navigate("/login");
+            } else {
+                if (!verificaErroreAutorizzazione(e.response.status)) {
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+            }
         });
     }
 
@@ -105,8 +121,21 @@ export default function SchedaUtentePage() {
                     navigate("/lista-utenti");
                 }).catch(e => {
                     console.error(e);
-                    dispatch(fetchTestoDangerAction("Errore durante il salvataggio!"));
                     dispatch(fetchIsLoadingAction(false));
+                    if (e.response.status === 401) {
+                        toast.error(e.response.data.descrizione, {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                        navigate("/login");
+                    } else {
+                        if (!verificaErroreAutorizzazione(e.response.status)) {
+                            toast.error(e.response.data.descrizione, {
+                                position: "top-center",
+                                autoClose: 5000,
+                            });
+                        }
+                    }
                 });
             } else {
                 dispatch(fetchIsLoadingAction(true));
@@ -118,8 +147,21 @@ export default function SchedaUtentePage() {
                     });
                 }).catch(e => {
                     console.error(e);
-
                     dispatch(fetchIsLoadingAction(false));
+                    if (e.response.status === 401) {
+                        toast.error(e.response.data.descrizione, {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                        navigate("/login");
+                    } else {
+                        if (!verificaErroreAutorizzazione(e.response.status)) {
+                            toast.error(e.response.data.descrizione, {
+                                position: "top-center",
+                                autoClose: 5000,
+                            });
+                        }
+                    }
                 });
             }
 

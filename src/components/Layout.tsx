@@ -27,7 +27,10 @@ export default function Layout({ children }: any) {
 
     const verificaAutenticazione = async () => {
 
-        await utenteLoggatoService.verificaAutenticazione(utenteLoggato.token).catch(e => {
+        await utenteLoggatoService.verificaAutenticazione(utenteLoggato.token).then(response => {
+            console.info("Autenticazione OK");
+        }
+        ).catch(e => {
             dispatch(resetUtenteAction());
             navigate("/login");
         });
@@ -38,7 +41,10 @@ export default function Layout({ children }: any) {
     const verificaAutorizzazione = () => {
         let autorizzato = isPathPresente(location.pathname, utenteLoggato.menu);
         if (!autorizzato) {
-            //VALUTA REDIRECT SU PAGINA CON MESSAGGIO
+            toast.error("Privilegi insufficienti per visualizzare la pagina richiesta!", {
+                position: "top-center",
+                autoClose: 5000,
+            });
             navigate("/")
         }
 
