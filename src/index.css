@@ -1,4 +1,5 @@
 .fast-spin {
-    -webkit-animation: fa-spin 1.3s infinite linear;
-    animation: fa-spin 1.3s infinite linear;
-  }
+  -webkit-animation: fa-spin 1.3s infinite linear;
+  animation: fa-spin 1.3s infinite linear;
+}
+

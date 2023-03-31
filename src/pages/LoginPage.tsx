@@ -135,7 +135,7 @@ export default function LoginPage() {
 
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
-            console.error(e);
+            console.error(e.response.data);
             dispatch(fetchIsLoadingAction(false));
         });
     }
@@ -209,6 +209,7 @@ export default function LoginPage() {
         }).catch(e => {
             console.error(e);
             dispatch(fetchIsLoadingAction(false));
+            console.error(e.response);
             toast.error(e.response.data.descrizione, {
                 position: "top-center",
                 autoClose: 5000,

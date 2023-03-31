@@ -11,6 +11,7 @@ import PrivateRoute from './components/PrivateRoute';
 
 import HomePage from './pages/HomePage';
 import ImpostazioniPage from './pages/ImpostazioniPage';
+import ListaIndirizziIp from './pages/indirizziIp/ListaIndirizziIp';
 import LoginPage from './pages/LoginPage';
 import LogoutPage from './pages/LogoutPage';
 import LogsPage from './pages/LogsPage';
@@ -180,6 +181,15 @@ function App() {
             element={
               <PrivateRoute>
                 <SchedaUtentePage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/lista-indirizzi-ip"
+            element={
+              <PrivateRoute>
+                <ListaIndirizziIp />
               </PrivateRoute>
             }
           />
