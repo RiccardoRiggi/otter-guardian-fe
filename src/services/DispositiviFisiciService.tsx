@@ -31,10 +31,30 @@ const isDispositivoAbilitato = (token: any,idDispositivoFisico: any) => {
     return http.get(root, { params, headers });
 }
 
+const getListaDispositiviFisici = (token: any, pagina: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "getListaDispositiviFisici"],["pagina",pagina]]);
+    const headers = {
+        token: token,
+    }
+
+    return http.get(root, { params, headers });
+}
+
+const rimuoviDispositivoFisico = (token: any, jsonBody: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "rimuoviDispositivoFisico"]]);
+    const headers = {
+        token: token,
+    }
+
+    return http.put(root, jsonBody, { params, headers });
+}
+
 const dispositiviFisiciService = {
     getDispositiviFisici,
     generaIdentificativoDispositivoFisico,
-    isDispositivoAbilitato
+    isDispositivoAbilitato,
+    getListaDispositiviFisici,
+    rimuoviDispositivoFisico
 
 };
 export default dispositiviFisiciService;

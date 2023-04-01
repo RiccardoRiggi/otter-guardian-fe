@@ -154,7 +154,21 @@ export default function HomePage() {
                     <div className="card border-left-danger shadow h-100 py-2">
                         <div className="card-body">
                             <div >
-                                <div id="chartdiv" style={{ width: '100%', height: '200vh' }}></div>
+                                <h3 className="">
+                                    <i className="fa-solid fa-sitemap text-primary fa-1x pe-2 "></i>
+                                    Risorse chiamate
+                                </h3>
+
+                                {
+                                    Array.isArray(statistiche) && statistiche.map((statistica: any, index: number) =>
+                                        <><div className="pt-3 text-xs font-weight-bold text-primary  mb-1">
+                                            {statistica.nomeMetodo}</div>
+                                            <div className="progress" style={{ height: "20px" }}>
+                                                <div className="progress-bar" style={{ width: (statistica.chiamate * 100 / getValoreMassimo() > 15 ? statistica.chiamate * 100 / getValoreMassimo() + "%" : 15 + "%") }} >{statistica.chiamate} chiamate</div>
+                                            </div></>
+                                    )}
+
+
 
                             </div>
                         </div>

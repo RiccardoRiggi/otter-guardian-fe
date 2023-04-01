@@ -8,6 +8,7 @@ import {
 
 import './App.css';
 import PrivateRoute from './components/PrivateRoute';
+import ListaDispositiviFisiciPage from './pages/dispositiviFisici/ListaDispositiviFisiciPage';
 
 import HomePage from './pages/HomePage';
 import ImpostazioniPage from './pages/ImpostazioniPage';
@@ -190,6 +191,15 @@ function App() {
             element={
               <PrivateRoute>
                 <ListaIndirizziIp />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/lista-dispositivi-fisici"
+            element={
+              <PrivateRoute>
+                <ListaDispositiviFisiciPage />
               </PrivateRoute>
             }
           />
