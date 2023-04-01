@@ -8,6 +8,7 @@ import {
 
 import './App.css';
 import PrivateRoute from './components/PrivateRoute';
+import ListaAccessiAttiviPage from './pages/accessiAttivi/ListaAccessiAttiviPage';
 import ListaDispositiviFisiciPage from './pages/dispositiviFisici/ListaDispositiviFisiciPage';
 
 import HomePage from './pages/HomePage';
@@ -200,6 +201,15 @@ function App() {
             element={
               <PrivateRoute>
                 <ListaDispositiviFisiciPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/lista-accessi-attivi"
+            element={
+              <PrivateRoute>
+                <ListaAccessiAttiviPage />
               </PrivateRoute>
             }
           />

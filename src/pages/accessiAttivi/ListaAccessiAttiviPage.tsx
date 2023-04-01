@@ -6,17 +6,18 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { getData } from '../../DateUtil';
+import { getData, getOra } from '../../DateUtil';
 import { verificaErroreAutorizzazione } from '../../ErrorsUtil';
 import { VoceMenuType } from '../../interfaces/VoceMenuType';
 import { fetchIsLoadingAction } from '../../modules/feedback/actions';
+import accessiAttiviService from '../../services/AccessiAttiviService';
 import dispositiviFisiciService from '../../services/DispositiviFisiciService';
 import risorseService from '../../services/RisorseService';
 import ruoliService from '../../services/RuoliService';
 import utentiService from '../../services/UtentiService';
 import vociMenuService from '../../services/VociMenuService';
 
-export default function ListaDispositiviFisiciPage() {
+export default function ListaAccessiAttiviPage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
     const dispatch = useDispatch();
@@ -25,31 +26,31 @@ export default function ListaDispositiviFisiciPage() {
 
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
 
-    const [dispositivoDaEliminare, setDispositivoDaEliminare] = React.useState<any>();
+    const [accessoDaEliminare, setAccessoDaEliminare] = React.useState<any>();
 
 
 
-    const [dispositivi, setDispositivi] = React.useState([]);
-    const [paginaDispositivo, setPaginaDispositivo] = React.useState(1);
+    const [accessi, setAccessi] = React.useState([]);
+    const [paginaAccesso, setPaginaAccesso] = React.useState(1);
 
 
 
 
 
-    const getListaDispositiviFisici = async (pagina: any) => {
+    const getListaAccessiAttivi = async (pagina: any) => {
 
         if (pagina !== 0) {
 
-            await dispositiviFisiciService.getListaDispositiviFisici(utenteLoggato.token, pagina).then(response => {
+            await accessiAttiviService.getListaAccessiAttivi(utenteLoggato.token, pagina).then(response => {
                 console.info(response.data);
 
 
                 if (response.data.length !== 0) {
-                    setDispositivi(response.data);
-                    setPaginaDispositivo(pagina);
-                } else if (paginaDispositivo == 1 && response.data.length === 0) {
-                    setDispositivi(response.data);
-                    toast.warning("Non sono stati trovati utenti", {
+                    setAccessi(response.data);
+                    setPaginaAccesso(pagina);
+                } else if (paginaAccesso == 1 && response.data.length === 0) {
+                    setAccessi(response.data);
+                    toast.warning("Non sono stati trovati accessi attivi", {
                         position: "top-center",
                         autoClose: 5000,
                     });
@@ -78,15 +79,15 @@ export default function ListaDispositiviFisiciPage() {
         }
     }
 
-    const rimuoviDispositivoFisico = async () => {
-        await dispositiviFisiciService.rimuoviDispositivoFisico(utenteLoggato.token, {idDispositivoFisico: dispositivoDaEliminare.idDispositivoFisico}).then(response => {
+    const terminaAccesso = async () => {
+        await accessiAttiviService.terminaAccesso(utenteLoggato.token, { token: accessoDaEliminare.token }).then(response => {
             console.info(response.data);
-            toast.success("Dispositivo rimosso con successo!", {
+            toast.success("Utente disconnesso con successo!", {
                 position: "top-center",
                 autoClose: 5000,
             });
-            setDispositivoDaEliminare(undefined);
-            getListaDispositiviFisici(paginaDispositivo);
+            setAccessoDaEliminare(undefined);
+            getListaAccessiAttivi(paginaAccesso);
 
 
         }).catch(e => {
@@ -107,7 +108,7 @@ export default function ListaDispositiviFisiciPage() {
     useEffect(() => {
         if (!ricercaEseguita) {
             setRicercaEseguita(true);
-            getListaDispositiviFisici(paginaDispositivo);
+            getListaAccessiAttivi(paginaAccesso);
         }
     }, []);
 
@@ -120,7 +121,7 @@ export default function ListaDispositiviFisiciPage() {
                     <div className="d-flex align-items-center justify-content-between">
                         <h3 className="">
                             <i className="fa-solid fa-mobile-screen text-primary fa-1x pe-2 "></i>
-                            Lista dispositivi fisici abilitati
+                            Lista accessi attivi
                         </h3>
 
                     </div>
@@ -133,21 +134,21 @@ export default function ListaDispositiviFisiciPage() {
                                 <table className="table table-striped table-hover table-bordered">
                                     <thead >
                                         <tr>
-                                            <th scope="col">Nome dispositivo</th>
-                                            <th scope="col">Proprietario</th>
-                                            <th scope="col">Data abilitazione</th>
+                                            <th scope="col">Utente</th>
+                                            <th scope="col">Data primo login</th>
+                                            <th scope="col">Data ultimo utilizzo</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         {
-                                            Array.isArray(dispositivi) && dispositivi.map((dispositivo: any, index: number) =>
+                                            Array.isArray(accessi) && accessi.map((accesso: any, index: number) =>
                                                 <tr key={index}>
-                                                    <th className='text-center' scope="row">{dispositivo.nomeDispositivo}</th>
-                                                    <td>{dispositivo.cognome} {dispositivo.nome}</td>
-                                                    <td>{getData(dispositivo.dataAbilitazione)}</td>
-                                                    <td className='text-center'><span onClick={() => setDispositivoDaEliminare(dispositivo)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
+                                                    <th className='text-center' scope="row">{accesso.cognome} {accesso.nome}</th>
+                                                    <td>{getData(accesso.dataInizioValidita)} {getOra(accesso.dataInizioValidita)}</td>
+                                                    <td>{getData(accesso.dataUltimoUtilizzo)} {getOra(accesso.dataUltimoUtilizzo)}</td>
+                                                    <td className='text-center'><span onClick={() => setAccessoDaEliminare(accesso)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
                                                 </tr>
                                             )}
 
@@ -157,10 +158,10 @@ export default function ListaDispositiviFisiciPage() {
                             </div>
                         </div>
                         <div className='col-6 text-end pt-2'>
-                            <span onClick={() => getListaDispositiviFisici(paginaDispositivo - 1)} className='btn btn-primary'>Precedente</span>
+                            <span onClick={() => getListaAccessiAttivi(paginaAccesso - 1)} className='btn btn-primary'>Precedente</span>
                         </div>
                         <div className='col-6 text-start pt-2'>
-                            <span onClick={() => getListaDispositiviFisici(paginaDispositivo + 1)} className='btn btn-primary'>Successivo</span>
+                            <span onClick={() => getListaAccessiAttivi(paginaAccesso + 1)} className='btn btn-primary'>Successivo</span>
                         </div>
                     </div>
                 </div>
@@ -175,11 +176,11 @@ export default function ListaDispositiviFisiciPage() {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            Vuoi disabilitare il dispositivo di <strong>{dispositivoDaEliminare != undefined ? dispositivoDaEliminare.nome + "" + dispositivoDaEliminare.cognome : ""}</strong> chiamato <strong>{dispositivoDaEliminare != undefined ? dispositivoDaEliminare.nomeDispositivo : ""}</strong>?<br /> L'operazione è irreversibile!
+                            Vuoi disconnettere l'utente <strong>{accessoDaEliminare != undefined ? accessoDaEliminare.nome + "" + accessoDaEliminare.cognome : ""}</strong>?<br /> L'operazione è irreversibile!
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                            <button onClick={rimuoviDispositivoFisico} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Disabilita</button>
+                            <button onClick={terminaAccesso} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Disconnetti</button>
                         </div>
                     </div>
                 </div>
