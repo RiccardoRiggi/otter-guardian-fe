@@ -55,7 +55,6 @@ export default function HomePage() {
                 valoreMax = parseInt(statistiche[c].chiamate);
             }
         }
-        console.warn(valoreMax)
         return valoreMax + Math.round(valoreMax / 10);
     }
 
@@ -64,12 +63,7 @@ export default function HomePage() {
 
 
         await statisticheService.getStatisticheMetodi(utenteLoggato.token).then(response => {
-            console.info(response.data);
-
-
             setStatistiche(response.data);
-
-
         }).catch(e => {
             console.error(e);
             if (e.response.status === 401) {
@@ -359,16 +353,18 @@ export default function HomePage() {
                                     Risorse chiamate
                                 </h3>
 
-                                {
-                                    Array.isArray(statistiche) && statistiche.map((statistica: any, index: number) =>
-                                        <><div className="pt-3 text-xs font-weight-bold text-primary  mb-1">
-                                            {statistica.nomeMetodo}</div>
-                                            <div className="progress" style={{ height: "20px" }}>
-                                                <div className="progress-bar" style={{ width: (statistica.chiamate * 100 / getValoreMassimo() > 15 ? statistica.chiamate * 100 / getValoreMassimo() + "%" : 15 + "%") }} >{statistica.chiamate} chiamate</div>
-                                            </div></>
-                                    )}
+                                <div className='row'>
 
+                                    {
+                                        Array.isArray(statistiche) && statistiche.map((statistica: any, index: number) =>
+                                            <div className='col-6'><div className="pt-3 text-xs font-weight-bold text-primary  mb-1">
+                                                {statistica.nomeMetodo}</div>
+                                                <div className="progress" style={{ height: "20px" }}>
+                                                    <div className="progress-bar" style={{ width: (statistica.chiamate * 100 / getValoreMassimo() > 25 ? statistica.chiamate * 100 / getValoreMassimo() + "%" : 25 + "%") }} >{statistica.chiamate} chiamate</div>
+                                                </div></div>
+                                        )}
 
+                                </div>
 
                             </div>
                         </div>

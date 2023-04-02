@@ -3,11 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchIsLoadingAction } from '../modules/feedback/actions';
 import { fetchCognomeAction, fetchDataCreazioneAction, fetchEmailAction, fetchNomeAction, resetUtenteAction } from '../modules/utenteLoggato/actions';
+import notificheService from '../services/NotificheService';
 import utenteLoggatoService from '../services/UtenteLoggatoService';
 import BreadCrumb from './Breadcrumbs';
 
+import { toast } from 'react-toastify';
+import { getData, getOra } from '../DateUtil';
+
+
 export default function Header() {
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
+
+    const [notifiche, setNotifiche] = React.useState<any>([]);
+    const [notificheNonLette, setNotificheNonLette] = React.useState<any>([]);
+
+
 
     let navigate = useNavigate();
     let dispatch = useDispatch();
@@ -74,10 +84,57 @@ export default function Header() {
         });
     }
 
+    const getNotificheLatoUtente = async () => {
+
+        await notificheService.getNotificheLatoUtente(utenteLoggato.token, 1).then(response => {
+            console.info(response.data);
+            setNotifiche(response.data);
+            let arrayTmp = [];
+            for (let c = 0; c < response.data.length; c++) {
+                if (response.data[c].dataLettura === null) {
+                    arrayTmp.push(response.data[c]);
+                }
+            }
+            if (arrayTmp.length > 0) {
+                toast.info("Hai " + arrayTmp.length + " " + (arrayTmp.length === 1 ? "notifica" : "notifiche") + " da leggere", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            }
+            setNotificheNonLette(arrayTmp);
+
+        }).catch(e => {
+            console.error(e);
+            dispatch(fetchIsLoadingAction(false));
+            if (e.response.status === 401) {
+                navigate("/login");
+            }
+        });
+
+    }
+
+    const leggiNotificheLatoUtente = async () => {
+
+        await notificheService.leggiNotificheLatoUtente(utenteLoggato.token).then(response => {
+
+            setNotificheNonLette(0);
+
+        }).catch(e => {
+            console.error(e);
+            dispatch(fetchIsLoadingAction(false));
+            if (e.response.status === 401) {
+                navigate("/login");
+            }
+        });
+
+    }
+
     useEffect(() => {
         if (utenteLoggato.nome === undefined) {
             getUtenteLoggato();
+
         }
+        getNotificheLatoUtente();
 
     }, []);
 
@@ -103,26 +160,39 @@ export default function Header() {
                             </li>
 
                             <li className="nav-item dropdown pe-3 ps-3 d-flex align-items-center">
-                                <a href="javascript:;" className="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i className="fa fa-bell cursor-pointer fa-beat-fade"></i>
+                                <a onClick={leggiNotificheLatoUtente} href="javascript:;" className="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i className={("fa fa-bell cursor-pointer ") + (notificheNonLette.length > 0 ? "fa-beat-fade" : "")}></i>
                                 </a>
                                 <ul className="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                                    <li className="mb-2">
+                                    <li className="">
                                         <a className="dropdown-item border-radius-md" href="javascript:;">
-                                            <div className="d-flex py-1">
-                                                <div className="my-auto">
-                                                    <img src="../assets/img/team-2.jpg" className="avatar avatar-sm  me-3 " />
-                                                </div>
+                                            {
+                                                Array.isArray(notifiche) && notifiche.slice(0, 3).map((notifica: any, index: number) =>
+                                                    <><div key={index} className="d-flex py-1">
+
+                                                        <div className="d-flex flex-column justify-content-center">
+                                                            <h6 className="text-sm font-weight-normal mb-1">
+                                                                <span className="font-weight-bold text-primary">{notifica.titolo}</span>
+                                                            </h6>
+                                                            <small className=" mb-1">
+                                                                <span className="">{notifica.testo}</span>
+                                                            </small>
+                                                            <p className="text-xs text-secondary mb-0">
+                                                                <i className="fa fa-clock me-1"></i>
+                                                                {getData(notifica.dataInvio)} ore {getOra(notifica.dataInvio)}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                        <hr className='mt-1 mb-1 bg-dark' />
+                                                    </>
+                                                )}
+                                            <div className="d-flex justify-content-center ">
+
                                                 <div className="d-flex flex-column justify-content-center">
-                                                    <h6 className="text-sm font-weight-normal mb-1">
-                                                        <span className="font-weight-bold">New message</span> from Laur
-                                                    </h6>
-                                                    <p className="text-xs text-secondary mb-0">
-                                                        <i className="fa fa-clock me-1"></i>
-                                                        13 minutes ago
-                                                    </p>
+                                                    <Link className='text-primary' to="/lista-notifiche-utente">Vedi tutte</Link>
                                                 </div>
                                             </div>
+
                                         </a>
                                     </li>
 

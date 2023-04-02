@@ -19,6 +19,7 @@ import LogoutPage from './pages/LogoutPage';
 import LogsPage from './pages/LogsPage';
 import ListaVociMenuPage from './pages/menu/ListaVociMenuPage';
 import SchedaVoceMenuPage from './pages/menu/SchedaVoceMenuPage';
+import ListaNotificheUtentePage from './pages/notifiche/ListaNotificheUtentePage';
 import RecuperoPasswordPage from './pages/RecuperoPasswordPage';
 import ListaRisorsePage from './pages/risorse/ListaRisorsePage';
 import SchedaRisorsaPage from './pages/risorse/SchedaRisorsaPage';
@@ -210,6 +211,15 @@ function App() {
             element={
               <PrivateRoute>
                 <ListaAccessiAttiviPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/lista-notifiche-utente"
+            element={
+              <PrivateRoute>
+                <ListaNotificheUtentePage />
               </PrivateRoute>
             }
           />
