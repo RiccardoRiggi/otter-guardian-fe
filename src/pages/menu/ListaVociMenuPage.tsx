@@ -128,7 +128,7 @@ export default function ListaVociMenuPage() {
                                                     <th className='text-center' scope="row">{voce.idVoceMenu}</th>
                                                     <td><small>{voce.descrizionePadre}</small><span className='d-block ps-3 text-bold'>{voce.descrizione}</span></td>
                                                     <td><i className={voce.icona + " pe-3 text-primary"}></i>{voce.icona}</td>
-                                                    <td className='text-center'><Link to={"/scheda-voce-menu/"+voce.idVoceMenu} className='btn btn-primary'><i className="fa-solid fa-pen-to-square"></i></Link></td>
+                                                    <td className='text-center'><Link to={"/scheda-voce-menu/" + voce.idVoceMenu} className='btn btn-primary'><i className="fa-solid fa-pen-to-square"></i></Link></td>
                                                     <td className='text-center'><span onClick={() => setVoceMenuDaEliminare(voce)} data-bs-toggle="modal" data-bs-target="#eliminaVoceMenu" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
                                                 </tr>
                                             )}
@@ -138,6 +138,10 @@ export default function ListaVociMenuPage() {
                                 </table>
                             </div>
                         </div>
+                        <div className='col-12 text-end'>
+                            <small>Pagina {paginaMenu}</small>
+                        </div>
+
                         <div className='col-6 text-end pt-2'>
                             <span onClick={() => getVociMenu(paginaMenu - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>

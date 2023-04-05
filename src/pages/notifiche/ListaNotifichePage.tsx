@@ -133,7 +133,7 @@ export default function ListaNotifichePage() {
                                             {
                                                 Array.isArray(listaNotifiche) && listaNotifiche.map((notifica: any, index: number) =>
                                                     <tr key={index}>
-                                                        <th  scope="row">{notifica.titolo}</th>
+                                                        <th scope="row">{notifica.titolo}</th>
                                                         <td >{notifica.testo}</td>
                                                         <td >{getData(notifica.dataCreazione)} ore {getOra(notifica.dataCreazione)}</td>
                                                         <td className='text-center'><Link to={"/scheda-notifica/" + notifica.idNotifica} className='btn btn-primary'><i className="fa-solid fa-pen-to-square"></i></Link></td>
@@ -147,6 +147,10 @@ export default function ListaNotifichePage() {
                                     </table>
                                 </div>
                             </div>
+                            <div className='col-12 text-end'>
+                                <small>Pagina {paginaNotifiche}</small>
+                            </div>
+
                             <div className='col-6 text-end pt-2'>
                                 <span onClick={() => getListaNotifiche(paginaNotifiche - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                             </div>

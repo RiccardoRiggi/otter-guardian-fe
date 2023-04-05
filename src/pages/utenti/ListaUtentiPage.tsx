@@ -45,8 +45,7 @@ export default function ListaUtentiPage() {
                 if (response.data.length !== 0) {
                     setUtenti(response.data);
                     setPaginaUtente(pagina);
-                } else if (paginaUtente == 1 && response.data.length === 0) {
-                    setPaginaUtente(pagina);
+                } else if (pagina == 1 && response.data.length === 0) {
                     toast.warning("Non sono stati trovati utenti", {
                         position: "top-center",
                         autoClose: 5000,
@@ -187,6 +186,9 @@ export default function ListaUtentiPage() {
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div className='col-12 text-end'>
+                            <small>Pagina {paginaUtente}</small>
                         </div>
                         <div className='col-6 text-end pt-2'>
                             <span onClick={() => getUtenti(paginaUtente - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>

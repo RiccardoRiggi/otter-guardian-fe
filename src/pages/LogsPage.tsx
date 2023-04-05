@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { getData, getOra } from '../DateUtil';
 import logService from '../services/LogService';
+import { toast } from 'react-toastify';
 
 
 export default function LogsPage() {
@@ -49,6 +50,11 @@ export default function LogsPage() {
                 if (response.data.length !== 0) {
                     setLogs(response.data);
                     setPaginaLogs(pagina);
+                } else if (pagina == 1 && response.data.length === 0) {
+                    toast.warning("Non sono stati trovati utenti", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
 
 
@@ -137,6 +143,9 @@ export default function LogsPage() {
                                         </table>
                                     </div>
                                 </div>
+                                    <div className='col-12 text-end'>
+                                        <small>Pagina {paginaLogs}</small>
+                                    </div>
                                     <div className='col-6 text-end pt-2'>
                                         <span onClick={() => getLogs(paginaLogs - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                                     </div>
@@ -147,10 +156,10 @@ export default function LogsPage() {
                             </div>
                         </div>
                     </div>
-                
-            </div>
 
-        </div>
+                </div>
+
+            </div>
         </Layout >
     );
 

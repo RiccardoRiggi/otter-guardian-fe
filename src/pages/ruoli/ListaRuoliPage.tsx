@@ -43,9 +43,9 @@ export default function ListaRuoliPage() {
                 if (response.data.length !== 0) {
                     setRuoli(response.data);
                     setPaginaRuolo(pagina);
-                } else if (paginaRuolo == 1 && response.data.length === 0) {
+                } else if (pagina == 1 && response.data.length === 0) {
                     setPaginaRuolo(pagina);
-                    toast.warning("Non sono state trovate risorse", {
+                    toast.warning("Non sono stati trovati ruoli", {
                         position: "top-center",
                         autoClose: 5000,
                     });
@@ -144,6 +144,10 @@ export default function ListaRuoliPage() {
                                 </table>
                             </div>
                         </div>
+                        <div className='col-12 text-end'>
+                            <small>Pagina {paginaRuolo}</small>
+                        </div>
+
                         <div className='col-6 text-end pt-2'>
                             <span onClick={() => getRuoli(paginaRuolo - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>

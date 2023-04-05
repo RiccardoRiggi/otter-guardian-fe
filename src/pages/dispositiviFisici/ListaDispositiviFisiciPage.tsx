@@ -47,7 +47,7 @@ export default function ListaDispositiviFisiciPage() {
                 if (response.data.length !== 0) {
                     setDispositivi(response.data);
                     setPaginaDispositivo(pagina);
-                } else if (paginaDispositivo == 1 && response.data.length === 0) {
+                } else if (pagina == 1 && response.data.length === 0) {
                     setDispositivi(response.data);
                     toast.warning("Non sono stati trovati utenti", {
                         position: "top-center",
@@ -79,7 +79,7 @@ export default function ListaDispositiviFisiciPage() {
     }
 
     const rimuoviDispositivoFisico = async () => {
-        await dispositiviFisiciService.rimuoviDispositivoFisico(utenteLoggato.token, {idDispositivoFisico: dispositivoDaEliminare.idDispositivoFisico}).then(response => {
+        await dispositiviFisiciService.rimuoviDispositivoFisico(utenteLoggato.token, { idDispositivoFisico: dispositivoDaEliminare.idDispositivoFisico }).then(response => {
             console.info(response.data);
             toast.success("Dispositivo rimosso con successo!", {
                 position: "top-center",
@@ -144,7 +144,7 @@ export default function ListaDispositiviFisiciPage() {
                                         {
                                             Array.isArray(dispositivi) && dispositivi.map((dispositivo: any, index: number) =>
                                                 <tr key={index}>
-                                                    <th  scope="row">{dispositivo.nomeDispositivo}</th>
+                                                    <th scope="row">{dispositivo.nomeDispositivo}</th>
                                                     <td>{dispositivo.cognome} {dispositivo.nome}</td>
                                                     <td>{getData(dispositivo.dataAbilitazione)}</td>
                                                     <td className='text-center'><span onClick={() => setDispositivoDaEliminare(dispositivo)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
@@ -156,6 +156,10 @@ export default function ListaDispositiviFisiciPage() {
                                 </table>
                             </div>
                         </div>
+                        <div className='col-12 text-end'>
+                            <small>Pagina {paginaDispositivo}</small>
+                        </div>
+
                         <div className='col-6 text-end pt-2'>
                             <span onClick={() => getListaDispositiviFisici(paginaDispositivo - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>

@@ -42,7 +42,7 @@ export default function ListaRisorsePage() {
                 if (response.data.length !== 0) {
                     setRisorse(response.data);
                     setPaginaRisorse(pagina);
-                } else if (paginaRisorse == 1 && response.data.length === 0) {
+                } else if (pagina == 1 && response.data.length === 0) {
                     setRisorse(response.data);
                     toast.warning("Non sono state trovate risorse", {
                         position: "top-center",
@@ -145,6 +145,10 @@ export default function ListaRisorsePage() {
                                 </table>
                             </div>
                         </div>
+                        <div className='col-12 text-end'>
+                            <small>Pagina {paginaRisorse}</small>
+                        </div>
+
                         <div className='col-6 text-end pt-2'>
                             <span onClick={() => getRisorse(paginaRisorse - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>

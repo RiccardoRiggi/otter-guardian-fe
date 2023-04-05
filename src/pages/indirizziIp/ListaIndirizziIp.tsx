@@ -162,7 +162,7 @@ export default function ListaIndirizziIp() {
                                             {
                                                 Array.isArray(ListaIndirizziIp) && ListaIndirizziIp.map((indirizzoIp: any, index: number) =>
                                                     <tr key={index}>
-                                                        <th  scope="row">{indirizzoIp.indirizzoIp}</th>
+                                                        <th scope="row">{indirizzoIp.indirizzoIp}</th>
                                                         <td className='text-center'>{indirizzoIp.contatoreAlert}</td>
                                                         <td className='text-center'><span className='btn btn-primary' onClick={() => azzeraContatoreAlert(indirizzoIp.indirizzoIp)}><i className="fa-solid fa-undo"></i></span></td>
                                                         <td className='text-center'><div className="form-check form-switch">
@@ -176,6 +176,10 @@ export default function ListaIndirizziIp() {
                                     </table>
                                 </div>
                             </div>
+                            <div className='col-12 text-end'>
+                                <small>Pagina {paginaIndirizziIp}</small>
+                            </div>
+
                             <div className='col-6 text-end pt-2'>
                                 <span onClick={() => getIndirizziIp(paginaIndirizziIp - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                             </div>

@@ -349,6 +349,10 @@ export default function SchedaNotificaPage() {
                                     </table>
                                 </div>
                             </div>
+                            <div className='col-12 text-end'>
+                                <small>Pagina {paginaDestinatari}</small>
+                            </div>
+
                             <div className='col-6 text-end pt-2'>
                                 <span onClick={() => getDestinatariNotifica(paginaDestinatari - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                             </div>
