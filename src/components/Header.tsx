@@ -51,15 +51,27 @@ export default function Header() {
         await utenteLoggatoService.invalidaToken(utenteLoggato.token).then(response => {
             console.info("TOKEN INVALIDATO CON SUCCESSO");
 
-            dispatch(resetUtenteAction());
-            navigate("/login");
-            dispatch(fetchIsLoadingAction(false));
+
         }).catch(e => {
-            console.error(e);
             dispatch(fetchIsLoadingAction(false));
-            if (e.response.status === 401) {
-                navigate("/login");
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            //---------------------------------------------
+        }).finally(() => {
+            dispatch(resetUtenteAction());
+            navigate("/logout");
+            dispatch(fetchIsLoadingAction(false));
         });
 
     }
@@ -79,8 +91,24 @@ export default function Header() {
 
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
-            console.error(e);
             dispatch(fetchIsLoadingAction(false));
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -104,11 +132,23 @@ export default function Header() {
             setNotificheNonLette(arrayTmp);
 
         }).catch(e => {
-            console.error(e);
-            dispatch(fetchIsLoadingAction(false));
-            if (e.response.status === 401) {
-                navigate("/login");
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
 
     }
@@ -120,11 +160,23 @@ export default function Header() {
             setNotificheNonLette(0);
 
         }).catch(e => {
-            console.error(e);
-            dispatch(fetchIsLoadingAction(false));
-            if (e.response.status === 401) {
-                navigate("/login");
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
 
     }

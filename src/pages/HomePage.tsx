@@ -65,14 +65,23 @@ export default function HomePage() {
         await statisticheService.getStatisticheMetodi(utenteLoggato.token).then(response => {
             setStatistiche(response.data);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
 
     }
@@ -82,14 +91,23 @@ export default function HomePage() {
         await statisticheService.getNumeroVociMenu(utenteLoggato.token).then(response => {
             setNumeroVociMenu(response.data.numero);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -97,14 +115,23 @@ export default function HomePage() {
         await statisticheService.getNumeroRuoli(utenteLoggato.token).then(response => {
             setNumeroRuoli(response.data.numero);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -112,14 +139,23 @@ export default function HomePage() {
         await statisticheService.getNumeroUtenti(utenteLoggato.token).then(response => {
             setNumeroUtenti(response.data.numero);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -127,14 +163,23 @@ export default function HomePage() {
         await statisticheService.getNumeroAccessiAttivi(utenteLoggato.token).then(response => {
             setNumeroAccessiAttivi(response.data.numero);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -142,14 +187,23 @@ export default function HomePage() {
         await statisticheService.getNumeroRisorse(utenteLoggato.token).then(response => {
             setNumeroRisorse(response.data.numero);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -157,14 +211,23 @@ export default function HomePage() {
         await statisticheService.getNumeroLogin(utenteLoggato.token).then(response => {
             setNumeroLogin(response.data.numero);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -172,14 +235,23 @@ export default function HomePage() {
         await statisticheService.getNumeroIndirizziIp(utenteLoggato.token).then(response => {
             setNumeroIndirizziIp(response.data.numero);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -187,14 +259,23 @@ export default function HomePage() {
         await statisticheService.getNumeroDispositiviFisiciAttivi(utenteLoggato.token).then(response => {
             setNumeroDispositiviFisiciAttivi(response.data.numero);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 

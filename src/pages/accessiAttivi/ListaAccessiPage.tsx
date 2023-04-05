@@ -7,7 +7,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
 import { getData, getOra } from '../../DateUtil';
-import { verificaErroreAutorizzazione } from '../../ErrorsUtil';
 import { VoceMenuType } from '../../interfaces/VoceMenuType';
 import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import gestioneAccessiService from '../../services/AccessiService';
@@ -58,22 +57,8 @@ export default function ListaAccessiPage() {
 
 
             }).catch(e => {
-                console.error(e);
 
-                if (e.response.status === 401) {
-                    toast.error(e.response.data.descrizione, {
-                        position: "top-center",
-                        autoClose: 5000,
-                    });
-                    navigate("/login");
-                } else {
-                    if (!verificaErroreAutorizzazione(e.response.status)) {
-                        toast.error(e.response.data.descrizione, {
-                            position: "top-center",
-                            autoClose: 5000,
-                        });
-                    }
-                }
+                
 
             });
         }

@@ -6,7 +6,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { verificaErroreAutorizzazione } from '../../ErrorsUtil';
 import { VoceMenuType } from '../../interfaces/VoceMenuType';
 import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import risorseService from '../../services/RisorseService';
@@ -54,22 +53,7 @@ export default function ListaUtentiPage() {
 
 
             }).catch(e => {
-                console.error(e);
-
-                if (e.response.status === 401) {
-                    toast.error(e.response.data.descrizione, {
-                        position: "top-center",
-                        autoClose: 5000,
-                    });
-                    navigate("/login");
-                } else {
-                    if (!verificaErroreAutorizzazione(e.response.status)) {
-                        toast.error(e.response.data.descrizione, {
-                            position: "top-center",
-                            autoClose: 5000,
-                        });
-                    }
-                }
+                
 
             });
         }

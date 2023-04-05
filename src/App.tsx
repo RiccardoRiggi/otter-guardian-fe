@@ -253,7 +253,18 @@ function App() {
             }
           />
 
+          <Route
+            path="*"
+            element={
+              <PrivateRoute>
+                <HomePage />
+              </PrivateRoute>
+            }
+          />
+
         </Routes>
+
+
       </BrowserRouter>
     </>
   );
