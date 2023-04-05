@@ -3,8 +3,8 @@ import http from "../http-common";
 
 let root = "/gestioneAccessi.php";
 
-const getListaAccessiAttivi = (token: any, pagina: any) => {
-    const params = new URLSearchParams([["nomeMetodo", "getListaAccessiAttivi"], ["pagina", pagina]]);
+const getListaAccessi = (token: any, pagina: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "getListaAccessi"], ["pagina", pagina]]);
     const headers = {
         token: token,
     }
@@ -21,8 +21,8 @@ const terminaAccesso = (token: any, jsonBody: any) => {
     return http.put(root, jsonBody, { params, headers });
 }
 
-const accessiAttiviService = {
-    getListaAccessiAttivi,
+const gestioneAccessiService = {
+    getListaAccessi,
     terminaAccesso
 };
-export default accessiAttiviService;
+export default gestioneAccessiService;

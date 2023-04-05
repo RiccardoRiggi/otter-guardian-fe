@@ -386,10 +386,10 @@ export default function ImpostazioniPage() {
                             Codici di backup
                         </h3>
                         {codiciBackup.length === 0 &&
-                            <button onClick={generaCodiciBackup} className="btn btn-primary ms-auto b-3">Genera nuovi codici di backup</button>
+                            <button onClick={generaCodiciBackup} className="btn btn-primary ms-auto b-3">Genera nuovi codici di backup<i className='fa-solid fa-rotate-right ps-2'></i></button>
                         }
                         {codiciBackup.length > 0 &&
-                            <button onClick={nascondiCodiciBackup} className="btn btn-primary ms-auto b-3">Nascondi codici backup</button>
+                            <button onClick={nascondiCodiciBackup} className="btn btn-primary ms-auto b-3">Nascondi codici backup<i className='fa-solid fa-eye-slash ps-2'></i></button>
                         }
 
                     </div>
@@ -433,10 +433,10 @@ export default function ImpostazioniPage() {
                             Dispositivi fisici
                         </h3>
                         {idNuovoDispositivoFisico === "" &&
-                            <button onClick={generaIdentificativoDispositivoFisico} className="btn btn-primary ms-auto">Aggiungi dispositivo</button>
+                            <button onClick={generaIdentificativoDispositivoFisico} className="btn btn-primary ms-auto">Aggiungi dispositivo<i className='fa-solid fa-plus ps-2'></i></button>
                         }
                         {idNuovoDispositivoFisico !== "" &&
-                            <button onClick={annullaAggiuntaNuovoDispositivo} className="btn btn-primary ms-auto">Lista dispositivi</button>
+                            <button onClick={annullaAggiuntaNuovoDispositivo} className="btn btn-primary ms-auto"><i className='fa-solid fa-list pe-2'></i>Lista dispositivi</button>
                         }
                     </div>
                 </div>
@@ -473,10 +473,10 @@ export default function ImpostazioniPage() {
                                 </div>
                             </div>
                                 <div className='col-6 text-end pt-2'>
-                                    <span onClick={() => getDispositiviFisici(paginaDispositivi - 1)} className='btn btn-primary'>Precedente</span>
+                                    <span onClick={() => getDispositiviFisici(paginaDispositivi - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                                 </div>
                                 <div className='col-6 text-start pt-2'>
-                                    <span onClick={() => getDispositiviFisici(paginaDispositivi + 1)} className='btn btn-primary'>Successivo</span>
+                                    <span onClick={() => getDispositiviFisici(paginaDispositivi + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                                 </div></>}
                         {idNuovoDispositivoFisico !== "" && <div className='col-12 text-center'>
                             <QRCode className='w-100 ' fgColor='#344767' value={idNuovoDispositivoFisico} />
@@ -532,10 +532,10 @@ export default function ImpostazioniPage() {
                             </div>
                         </div>
                         <div className='col-6 text-end pt-2'>
-                            <span onClick={() => getStoricoAccessi(paginaAccessi - 1)} className='btn btn-primary'>Precedente</span>
+                            <span onClick={() => getStoricoAccessi(paginaAccessi - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>
                         <div className='col-6 text-start pt-2'>
-                            <span onClick={() => getStoricoAccessi(paginaAccessi + 1)} className='btn btn-primary'>Successivo</span>
+                            <span onClick={() => getStoricoAccessi(paginaAccessi + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                         </div>
                     </div>
                 </div>

@@ -120,7 +120,7 @@ export default function SchedaRisorsaPage() {
                 <div className="card-header pb-0">
                     <div className="d-flex align-items-center justify-content-between">
                         <h3 className="">
-                            <i className="fa-solid fa-bars text-primary fa-1x pe-2 "></i>
+                            <i className="fa-solid fa-sitemap text-primary fa-1x pe-2 "></i>
                             {params.idRisorsa === undefined ? "Aggiungi" : "Modifica"} risorsa
                         </h3>
                         <button onClick={submitForm} className="btn btn-primary"

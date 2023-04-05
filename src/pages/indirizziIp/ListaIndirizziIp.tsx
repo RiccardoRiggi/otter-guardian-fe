@@ -137,7 +137,7 @@ export default function ListaIndirizziIp() {
                     <div className="card-header pb-0">
                         <div className="d-flex align-items-center justify-content-between">
                             <h3 className="">
-                                <i className="fa-solid fa-list-ul text-primary fa-1x pe-2 "></i>
+                                <i className="fa-solid fa-location-crosshairs text-primary fa-1x pe-2 "></i>
                                 Lista indirizzi ip
                             </h3>
 
@@ -162,9 +162,9 @@ export default function ListaIndirizziIp() {
                                             {
                                                 Array.isArray(ListaIndirizziIp) && ListaIndirizziIp.map((indirizzoIp: any, index: number) =>
                                                     <tr key={index}>
-                                                        <th className='text-center' scope="row">{indirizzoIp.indirizzoIp}</th>
+                                                        <th  scope="row">{indirizzoIp.indirizzoIp}</th>
                                                         <td className='text-center'>{indirizzoIp.contatoreAlert}</td>
-                                                        <td><span className='btn btn-primary' onClick={() => azzeraContatoreAlert(indirizzoIp.indirizzoIp)}><i className="fa-solid fa-undo"></i></span></td>
+                                                        <td className='text-center'><span className='btn btn-primary' onClick={() => azzeraContatoreAlert(indirizzoIp.indirizzoIp)}><i className="fa-solid fa-undo"></i></span></td>
                                                         <td className='text-center'><div className="form-check form-switch">
                                                             <input className="form-check-input" type="checkbox" checked={indirizzoIp.dataBlocco !== null} onClick={(e) => { cambiaAbilitazioneIndirizzoIp(indirizzoIp.dataBlocco, indirizzoIp.indirizzoIp) }} />
                                                         </div></td>
@@ -177,10 +177,10 @@ export default function ListaIndirizziIp() {
                                 </div>
                             </div>
                             <div className='col-6 text-end pt-2'>
-                                <span onClick={() => getIndirizziIp(paginaIndirizziIp - 1)} className='btn btn-primary'>Precedente</span>
+                                <span onClick={() => getIndirizziIp(paginaIndirizziIp - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                             </div>
                             <div className='col-6 text-start pt-2'>
-                                <span onClick={() => getIndirizziIp(paginaIndirizziIp + 1)} className='btn btn-primary'>Successivo</span>
+                                <span onClick={() => getIndirizziIp(paginaIndirizziIp + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                             </div>
                         </div>
                     </div>

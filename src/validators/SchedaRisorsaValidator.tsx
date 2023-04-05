@@ -4,7 +4,7 @@ export default function SchedaRisorsaValidator(risorsa: any) {
     let errors: any = {};
 
     if (risorsa == undefined || risorsa.idRisorsa == null || risorsa.idRisorsa == "") {
-        errors.path = "L'identificativo è richiesto";
+        errors.idRisorsa = "L'identificativo è richiesto";
     }
 
     if (risorsa == undefined || risorsa.nomeMetodo == null || risorsa.nomeMetodo == "") {

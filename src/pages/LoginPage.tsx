@@ -6,6 +6,7 @@ import { fetchTokenAction, resetUtenteAction } from '../modules/utenteLoggato/ac
 import QRCode from "react-qr-code";
 import autenticazioneService from '../services/AutenticazioneService';
 import { ToastContainer, toast } from 'react-toastify';
+import configurazione from '../configurazione';
 
 
 
@@ -255,8 +256,8 @@ export default function LoginPage() {
                 <div className="row justify-content-center">
                     <div className="col-lg-5 text-center mx-auto">
                         <Link to="/">
-                            <h1 className=" mb-2 mt-5"><i className="fa-solid fa-otter text-primary"></i></h1>
-                            <p className="text-lead">Otter Guardian</p>
+                            <h1 className=" mb-2 mt-5"><i className={configurazione.iconaApplicativo + " text-primary"}></i></h1>
+                            <p className="text-lead">{configurazione.nomeApplicativo}</p>
                         </Link>
                     </div>
                 </div>
@@ -470,7 +471,7 @@ export default function LoginPage() {
                 </main>
             }
 
-            {!feedback.isLoading && listaMetodiAutenticazioneSupportati.length > 0 && tipoAutenticazione != "" && ( tipoAutenticazione.includes("SIX") || tipoAutenticazione.includes("BACKUP_CODE") ) && attesaSecondoFattore &&
+            {!feedback.isLoading && listaMetodiAutenticazioneSupportati.length > 0 && tipoAutenticazione != "" && (tipoAutenticazione.includes("SIX") || tipoAutenticazione.includes("BACKUP_CODE")) && attesaSecondoFattore &&
                 <main className="main-content  mt-0">
                     <section>
                         <div className="page-header min-vh-80">

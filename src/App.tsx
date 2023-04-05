@@ -8,7 +8,7 @@ import {
 
 import './App.css';
 import PrivateRoute from './components/PrivateRoute';
-import ListaAccessiAttiviPage from './pages/accessiAttivi/ListaAccessiAttiviPage';
+import ListaAccessiPage from './pages/accessiAttivi/ListaAccessiPage';
 import ListaDispositiviFisiciPage from './pages/dispositiviFisici/ListaDispositiviFisiciPage';
 
 import HomePage from './pages/HomePage';
@@ -19,7 +19,9 @@ import LogoutPage from './pages/LogoutPage';
 import LogsPage from './pages/LogsPage';
 import ListaVociMenuPage from './pages/menu/ListaVociMenuPage';
 import SchedaVoceMenuPage from './pages/menu/SchedaVoceMenuPage';
+import ListaNotifichePage from './pages/notifiche/ListaNotifichePage';
 import ListaNotificheUtentePage from './pages/notifiche/ListaNotificheUtentePage';
+import SchedaNotificaPage from './pages/notifiche/SchedaNotificaPage';
 import RecuperoPasswordPage from './pages/RecuperoPasswordPage';
 import ListaRisorsePage from './pages/risorse/ListaRisorsePage';
 import SchedaRisorsaPage from './pages/risorse/SchedaRisorsaPage';
@@ -207,10 +209,10 @@ function App() {
           />
 
           <Route
-            path="/lista-accessi-attivi"
+            path="/lista-accessi"
             element={
               <PrivateRoute>
-                <ListaAccessiAttiviPage />
+                <ListaAccessiPage />
               </PrivateRoute>
             }
           />
@@ -220,6 +222,33 @@ function App() {
             element={
               <PrivateRoute>
                 <ListaNotificheUtentePage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/lista-notifiche"
+            element={
+              <PrivateRoute>
+                <ListaNotifichePage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/scheda-notifica"
+            element={
+              <PrivateRoute>
+                <SchedaNotificaPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/scheda-notifica/:idNotifica"
+            element={
+              <PrivateRoute>
+                <SchedaNotificaPage />
               </PrivateRoute>
             }
           />

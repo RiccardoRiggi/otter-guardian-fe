@@ -10,14 +10,14 @@ import { getData, getOra } from '../../DateUtil';
 import { verificaErroreAutorizzazione } from '../../ErrorsUtil';
 import { VoceMenuType } from '../../interfaces/VoceMenuType';
 import { fetchIsLoadingAction } from '../../modules/feedback/actions';
-import accessiAttiviService from '../../services/AccessiAttiviService';
+import gestioneAccessiService from '../../services/AccessiService';
 import dispositiviFisiciService from '../../services/DispositiviFisiciService';
 import risorseService from '../../services/RisorseService';
 import ruoliService from '../../services/RuoliService';
 import utentiService from '../../services/UtentiService';
 import vociMenuService from '../../services/VociMenuService';
 
-export default function ListaAccessiAttiviPage() {
+export default function ListaAccessiPage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
     const dispatch = useDispatch();
@@ -37,11 +37,11 @@ export default function ListaAccessiAttiviPage() {
 
 
 
-    const getListaAccessiAttivi = async (pagina: any) => {
+    const getListaAccessi = async (pagina: any) => {
 
         if (pagina !== 0) {
 
-            await accessiAttiviService.getListaAccessiAttivi(utenteLoggato.token, pagina).then(response => {
+            await gestioneAccessiService.getListaAccessi(utenteLoggato.token, pagina).then(response => {
                 console.info(response.data);
 
 
@@ -80,14 +80,14 @@ export default function ListaAccessiAttiviPage() {
     }
 
     const terminaAccesso = async () => {
-        await accessiAttiviService.terminaAccesso(utenteLoggato.token, { token: accessoDaEliminare.token }).then(response => {
+        await gestioneAccessiService.terminaAccesso(utenteLoggato.token, { token: accessoDaEliminare.token }).then(response => {
             console.info(response.data);
             toast.success("Utente disconnesso con successo!", {
                 position: "top-center",
                 autoClose: 5000,
             });
             setAccessoDaEliminare(undefined);
-            getListaAccessiAttivi(paginaAccesso);
+            getListaAccessi(paginaAccesso);
 
 
         }).catch(e => {
@@ -108,7 +108,7 @@ export default function ListaAccessiAttiviPage() {
     useEffect(() => {
         if (!ricercaEseguita) {
             setRicercaEseguita(true);
-            getListaAccessiAttivi(paginaAccesso);
+            getListaAccessi(paginaAccesso);
         }
     }, []);
 
@@ -120,7 +120,7 @@ export default function ListaAccessiAttiviPage() {
                 <div className="card-header pb-0">
                     <div className="d-flex align-items-center justify-content-between">
                         <h3 className="">
-                            <i className="fa-solid fa-mobile-screen text-primary fa-1x pe-2 "></i>
+                            <i className="fa-solid fa-circle-nodes text-primary fa-1x pe-2 "></i>
                             Lista accessi attivi
                         </h3>
 
@@ -135,9 +135,10 @@ export default function ListaAccessiAttiviPage() {
                                     <thead >
                                         <tr>
                                             <th scope="col">Utente</th>
-                                            <th scope="col">Data primo login</th>
+                                            <th scope="col">Data login</th>
                                             <th scope="col">Data ultimo utilizzo</th>
-                                            <th scope="col"></th>
+                                            <th scope="col">Data logout</th>
+                                            <th scope="col">Termina</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -145,10 +146,13 @@ export default function ListaAccessiAttiviPage() {
                                         {
                                             Array.isArray(accessi) && accessi.map((accesso: any, index: number) =>
                                                 <tr key={index}>
-                                                    <th className='text-center' scope="row">{accesso.cognome} {accesso.nome}</th>
+                                                    <th scope="row">{accesso.cognome} {accesso.nome}</th>
                                                     <td>{getData(accesso.dataInizioValidita)} {getOra(accesso.dataInizioValidita)}</td>
                                                     <td>{getData(accesso.dataUltimoUtilizzo)} {getOra(accesso.dataUltimoUtilizzo)}</td>
-                                                    <td className='text-center'><span onClick={() => setAccessoDaEliminare(accesso)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
+                                                    <td>{getData(accesso.dataFineValidita)} {getOra(accesso.dataFineValidita)}</td>
+                                                    <td className='text-center'>
+                                                        {accesso.dataFineValidita === null && <span onClick={() => setAccessoDaEliminare(accesso)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span>}
+                                                    </td>
                                                 </tr>
                                             )}
 
@@ -158,10 +162,10 @@ export default function ListaAccessiAttiviPage() {
                             </div>
                         </div>
                         <div className='col-6 text-end pt-2'>
-                            <span onClick={() => getListaAccessiAttivi(paginaAccesso - 1)} className='btn btn-primary'>Precedente</span>
+                            <span onClick={() => getListaAccessi(paginaAccesso - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>
                         <div className='col-6 text-start pt-2'>
-                            <span onClick={() => getListaAccessiAttivi(paginaAccesso + 1)} className='btn btn-primary'>Successivo</span>
+                            <span onClick={() => getListaAccessi(paginaAccesso + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                         </div>
                     </div>
                 </div>
@@ -179,8 +183,8 @@ export default function ListaAccessiAttiviPage() {
                             Vuoi disconnettere l'utente <strong>{accessoDaEliminare != undefined ? accessoDaEliminare.nome + "" + accessoDaEliminare.cognome : ""}</strong>?<br /> L'operazione è irreversibile!
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                            <button onClick={terminaAccesso} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Disconnetti</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla<i className="fa-solid fa-undo ps-2"></i></button>
+                            <button onClick={terminaAccesso} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Disconnetti<i className="fa-solid fa-trash-can ps-2"></i></button>
                         </div>
                     </div>
                 </div>

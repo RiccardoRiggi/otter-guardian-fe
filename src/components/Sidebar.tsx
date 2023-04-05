@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import vociMenuService from '../services/VociMenuService';
 import { toast } from 'react-toastify'
 import { fetchMenuAction } from '../modules/utenteLoggato/actions';
+import configurazione from '../configurazione';
 
 export default function Sidebar() {
 
@@ -90,6 +91,8 @@ export default function Sidebar() {
         }
     });
 
+    const config: any = configurazione;
+
     return (
 
         <>
@@ -100,8 +103,8 @@ export default function Sidebar() {
                     <i className="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-xl-none"
                         aria-hidden="true" id="iconSidenav" onClick={toggleSidenav}></i>
                     <Link onClick={getVociMenu} className="navbar-brand m-0" to="/">
-                        <h1 className=""><i className="fa-solid fa-otter text-primary"></i></h1>
-                        <h6>Otter Guardian</h6>
+                        <h1 className=""><i className={config.iconaApplicativo + " text-primary"}></i></h1>
+                        <h6>{config.nomeApplicativo}</h6>
                     </Link>
                 </div>
                 <div className="collapse navbar-collapse  w-auto mt-5" id="sidenav-collapse-main">

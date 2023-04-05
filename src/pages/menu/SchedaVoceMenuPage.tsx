@@ -19,11 +19,12 @@ export default function SchedaVoceMenuPage() {
     const dispatch = useDispatch();
     const params = useParams();
 
-    const [idVoceMenuPadre, setIdVoceMenuPadre] = React.useState<any>(null);
     const [descrizione, setDescrizione] = React.useState<any>("");
     const [path, setPath] = React.useState<any>("");
     const [icona, setIcona] = React.useState<any>("");
-    const [ordine, setOrdine] = React.useState<any>(1);
+    const [ordine, setOrdine] = React.useState<any>();
+
+    const [idVoceMenuPadre, setIdVoceMenuPadre] = React.useState<any>(null);
 
     const aggiornaVoceMenuPadre = (event: any) => {
         setIdVoceMenuPadre(event.target.value);

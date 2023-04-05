@@ -144,7 +144,7 @@ export default function ListaDispositiviFisiciPage() {
                                         {
                                             Array.isArray(dispositivi) && dispositivi.map((dispositivo: any, index: number) =>
                                                 <tr key={index}>
-                                                    <th className='text-center' scope="row">{dispositivo.nomeDispositivo}</th>
+                                                    <th  scope="row">{dispositivo.nomeDispositivo}</th>
                                                     <td>{dispositivo.cognome} {dispositivo.nome}</td>
                                                     <td>{getData(dispositivo.dataAbilitazione)}</td>
                                                     <td className='text-center'><span onClick={() => setDispositivoDaEliminare(dispositivo)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
@@ -157,10 +157,10 @@ export default function ListaDispositiviFisiciPage() {
                             </div>
                         </div>
                         <div className='col-6 text-end pt-2'>
-                            <span onClick={() => getListaDispositiviFisici(paginaDispositivo - 1)} className='btn btn-primary'>Precedente</span>
+                            <span onClick={() => getListaDispositiviFisici(paginaDispositivo - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>
                         <div className='col-6 text-start pt-2'>
-                            <span onClick={() => getListaDispositiviFisici(paginaDispositivo + 1)} className='btn btn-primary'>Successivo</span>
+                            <span onClick={() => getListaDispositiviFisici(paginaDispositivo + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                         </div>
                     </div>
                 </div>
@@ -178,8 +178,8 @@ export default function ListaDispositiviFisiciPage() {
                             Vuoi disabilitare il dispositivo di <strong>{dispositivoDaEliminare != undefined ? dispositivoDaEliminare.nome + "" + dispositivoDaEliminare.cognome : ""}</strong> chiamato <strong>{dispositivoDaEliminare != undefined ? dispositivoDaEliminare.nomeDispositivo : ""}</strong>?<br /> L'operazione è irreversibile!
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                            <button onClick={rimuoviDispositivoFisico} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Disabilita</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla<i className="fa-solid fa-undo ps-2"></i></button>
+                            <button onClick={rimuoviDispositivoFisico} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Disabilita<i className="fa-solid fa-trash-can ps-2"></i></button>
                         </div>
                     </div>
                 </div>

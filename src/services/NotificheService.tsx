@@ -66,8 +66,8 @@ const inviaNotificaTutti = (token: any, idNotifica: any) => {
     return http.post(root, null, { params, headers });
 }
 
-const inviaNotificaRuolo = (token: any, idTipoRuolo: any) => {
-    const params = new URLSearchParams([["nomeMetodo", "inviaNotificaRuolo"], ["idTipoRuolo", idTipoRuolo]]);
+const inviaNotificaRuolo = (token: any, idTipoRuolo: any, idNotifica: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "inviaNotificaRuolo"], ["idTipoRuolo", idTipoRuolo], ["idNotifica", idNotifica]]);
     const headers = {
         token: token,
     }
@@ -75,8 +75,8 @@ const inviaNotificaRuolo = (token: any, idTipoRuolo: any) => {
     return http.post(root, null, { params, headers });
 }
 
-const inviaNotificaUtente = (token: any, idUtente: any) => {
-    const params = new URLSearchParams([["nomeMetodo", "inviaNotificaUtente"], ["idUtente", idUtente]]);
+const inviaNotificaUtente = (token: any, idUtente: any, idNotifica: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "inviaNotificaUtente"], ["idUtente", idUtente], ["idNotifica", idNotifica]]);
     const headers = {
         token: token,
     }

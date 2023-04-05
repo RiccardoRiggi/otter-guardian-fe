@@ -139,10 +139,10 @@ export default function ListaVociMenuPage() {
                             </div>
                         </div>
                         <div className='col-6 text-end pt-2'>
-                            <span onClick={() => getVociMenu(paginaMenu - 1)} className='btn btn-primary'>Precedente</span>
+                            <span onClick={() => getVociMenu(paginaMenu - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>
                         <div className='col-6 text-start pt-2'>
-                            <span onClick={() => getVociMenu(paginaMenu + 1)} className='btn btn-primary'>Successivo</span>
+                            <span onClick={() => getVociMenu(paginaMenu + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                         </div>
                     </div>
                 </div>
@@ -160,8 +160,8 @@ export default function ListaVociMenuPage() {
                             Vuoi eliminare la voce <strong>{voceMenuDaEliminare != undefined ? voceMenuDaEliminare.descrizione : ""}</strong> con identificativo <strong>{voceMenuDaEliminare != undefined ? voceMenuDaEliminare.idVoceMenu : ""}</strong>?<br /> L'operazione è irreversibile!
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                            <button onClick={eliminaVoceMenu} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Elimina</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla<i className="fa-solid fa-undo ps-2"></i></button>
+                            <button onClick={eliminaVoceMenu} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Elimina<i className="fa-solid fa-trash-can ps-2"></i></button>
                         </div>
                     </div>
                 </div>

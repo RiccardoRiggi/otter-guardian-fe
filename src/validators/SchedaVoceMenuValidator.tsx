@@ -17,7 +17,7 @@ export default function SchedaVoceMenuValidator(voceMenu: VoceMenuType) {
     }
 
     if (voceMenu == undefined || voceMenu.ordine == null || voceMenu.ordine == "") {
-        errors.ordine = "L'ordine è richiesta";
+        errors.ordine = "L'ordine è richiesto";
     }
 
     return errors;

@@ -88,7 +88,7 @@ export default function LogsPage() {
                         <div className="card-body p-3">
                             <div className="row gx-4">
 
-                                <><div className='col-12 text-center'>
+                                <><div className='col-12 '>
                                     <div className='table-responsive'>
                                         <table className="table table-striped table-hover table-bordered">
                                             <thead>
@@ -107,7 +107,7 @@ export default function LogsPage() {
                                                 {
                                                     Array.isArray(logs) && logs.map((log: any, index: number) =>
                                                         <tr key={index}>
-                                                            <th scope="row">
+                                                            <th scope="row" className='text-center'>
                                                                 {log.logLevel === "ERROR" &&
                                                                     <i className="fa-solid fa-xmark text-danger"></i>
                                                                 }

@@ -12,9 +12,19 @@ const getComboVociMenu = (token: any) => {
     return http.get(root, { params, headers });
 }
 
+const getComboRuoli = (token: any) => {
+    const params = new URLSearchParams([["nomeMetodo", "getComboRuoli"]]);
+    const headers = {
+        token: token,
+    }
+
+    return http.get(root, { params, headers });
+}
+
 
 
 const comboService = {
-    getComboVociMenu
+    getComboVociMenu,
+    getComboRuoli
 };
 export default comboService;

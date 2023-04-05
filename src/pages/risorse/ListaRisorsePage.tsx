@@ -42,7 +42,7 @@ export default function ListaRisorsePage() {
                 if (response.data.length !== 0) {
                     setRisorse(response.data);
                     setPaginaRisorse(pagina);
-                }else if(paginaRisorse==1 && response.data.length === 0){
+                } else if (paginaRisorse == 1 && response.data.length === 0) {
                     setRisorse(response.data);
                     toast.warning("Non sono state trovate risorse", {
                         position: "top-center",
@@ -105,7 +105,7 @@ export default function ListaRisorsePage() {
                 <div className="card-header pb-0">
                     <div className="d-flex align-items-center justify-content-between">
                         <h3 className="">
-                            <i className="fa-solid fa-list-ul text-primary fa-1x pe-2 "></i>
+                            <i className="fa-solid fa-sitemap text-primary fa-1x pe-2 "></i>
                             Lista risorse
                         </h3>
                         <Link to="/scheda-risorsa" className='btn btn-primary'><i className="fa-solid fa-plus pe-2"></i>Inserisci risorsa</Link>
@@ -132,7 +132,7 @@ export default function ListaRisorsePage() {
                                         {
                                             Array.isArray(risorse) && risorse.map((voce: any, index: number) =>
                                                 <tr key={index}>
-                                                    <th className='text-center' scope="row">{voce.idRisorsa}</th>
+                                                    <th scope="row">{voce.idRisorsa}</th>
                                                     <td>{voce.nomeMetodo}</td>
                                                     <td>{voce.descrizione}</td>
                                                     <td className='text-center'><Link to={"/scheda-risorsa/" + voce.idRisorsa} className='btn btn-primary'><i className="fa-solid fa-pen-to-square"></i></Link></td>
@@ -146,10 +146,10 @@ export default function ListaRisorsePage() {
                             </div>
                         </div>
                         <div className='col-6 text-end pt-2'>
-                            <span onClick={() => getRisorse(paginaRisorse - 1)} className='btn btn-primary'>Precedente</span>
+                            <span onClick={() => getRisorse(paginaRisorse - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>
                         <div className='col-6 text-start pt-2'>
-                            <span onClick={() => getRisorse(paginaRisorse + 1)} className='btn btn-primary'>Successivo</span>
+                            <span onClick={() => getRisorse(paginaRisorse + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                         </div>
                     </div>
                 </div>
@@ -167,8 +167,8 @@ export default function ListaRisorsePage() {
                             Vuoi eliminare la risorsa <strong>{risorsaDaEliminare != undefined ? risorsaDaEliminare.descrizione : ""}</strong> con identificativo <strong>{risorsaDaEliminare != undefined ? risorsaDaEliminare.idRisorsa : ""}</strong>?<br /> L'operazione è irreversibile!
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                            <button onClick={eliminaRisorsa} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Elimina</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla<i className="fa-solid fa-undo ps-2"></i></button>
+                            <button onClick={eliminaRisorsa} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Elimina<i className="fa-solid fa-trash-can ps-2"></i></button>
                         </div>
                     </div>
                 </div>

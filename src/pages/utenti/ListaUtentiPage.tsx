@@ -46,7 +46,7 @@ export default function ListaUtentiPage() {
                     setUtenti(response.data);
                     setPaginaUtente(pagina);
                 } else if (paginaUtente == 1 && response.data.length === 0) {
-                    setPaginaUtente(response.data);
+                    setPaginaUtente(pagina);
                     toast.warning("Non sono stati trovati utenti", {
                         position: "top-center",
                         autoClose: 5000,
@@ -189,10 +189,10 @@ export default function ListaUtentiPage() {
                             </div>
                         </div>
                         <div className='col-6 text-end pt-2'>
-                            <span onClick={() => getUtenti(paginaUtente - 1)} className='btn btn-primary'>Precedente</span>
+                            <span onClick={() => getUtenti(paginaUtente - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>
                         <div className='col-6 text-start pt-2'>
-                            <span onClick={() => getUtenti(paginaUtente + 1)} className='btn btn-primary'>Successivo</span>
+                            <span onClick={() => getUtenti(paginaUtente + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                         </div>
                     </div>
                 </div>
@@ -207,11 +207,11 @@ export default function ListaUtentiPage() {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            Vuoi eliminare l'utente <strong>{utenteDaEliminare != undefined ? utenteDaEliminare.nome + "" + utenteDaEliminare.cognome + "(" + utenteDaEliminare.email + ")" : ""}</strong> con identificativo <strong>{utenteDaEliminare != undefined ? utenteDaEliminare.idUtente : ""}</strong>?<br /> L'operazione è irreversibile!
+                            Vuoi eliminare l'utente <strong>{utenteDaEliminare != undefined ? utenteDaEliminare.nome + " " + utenteDaEliminare.cognome + " (" + utenteDaEliminare.email + ")" : ""}</strong> con identificativo <strong>{utenteDaEliminare != undefined ? utenteDaEliminare.idUtente : ""}</strong>?<br /> L'operazione è irreversibile!
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                            <button onClick={eliminaUtente} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Elimina</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla<i className="fa-solid fa-undo ps-2"></i></button>
+                            <button onClick={eliminaUtente} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Elimina<i className="fa-solid fa-trash-can ps-2"></i></button>
                         </div>
                     </div>
                 </div>

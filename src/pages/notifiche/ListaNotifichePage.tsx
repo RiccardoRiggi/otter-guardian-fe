@@ -19,7 +19,7 @@ import SchedaRisorsaValidator from '../../validators/SchedaRisorsaValidator';
 import SchedaRuoloValidator from '../../validators/SchedaRuoloValidator';
 import SchedaVoceMenuValidator from '../../validators/SchedaVoceMenuValidator';
 
-export default function ListaNotificheUtentePage() {
+export default function ListaNotifichePage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
 
@@ -39,7 +39,7 @@ export default function ListaNotificheUtentePage() {
     useEffect(() => {
 
         if (!ricercaEseguita) {
-            getNotificheLatoUtente(paginaNotifiche);
+            getListaNotifiche(paginaNotifiche);
             setRicercaEseguita(true);
         }
     });
@@ -47,11 +47,11 @@ export default function ListaNotificheUtentePage() {
 
 
 
-    const getNotificheLatoUtente = async (pagina: any) => {
+    const getListaNotifiche = async (pagina: any) => {
 
         if (pagina !== 0) {
 
-            await notificheService.getNotificheLatoUtente(utenteLoggato.token, pagina).then(response => {
+            await notificheService.getListaNotifiche(utenteLoggato.token, pagina).then(response => {
 
                 if (response.data.length !== 0) {
                     setListaNotifiche(response.data);
@@ -78,11 +78,11 @@ export default function ListaNotificheUtentePage() {
         }
     }
 
-    const eliminaNotificaLatoUtente = async () => {
-        await notificheService.eliminaNotificaLatoUtente(utenteLoggato.token, notificaDaEliminare.idNotifica).then(response => {
+    const eliminaNotifica = async () => {
+        await notificheService.eliminaNotifica(utenteLoggato.token, notificaDaEliminare.idNotifica).then(response => {
             console.info(response.data);
             setNotificaDaEliminare(undefined);
-            getNotificheLatoUtente(paginaNotifiche);
+            getListaNotifiche(paginaNotifiche);
         }).catch(e => {
             console.error(e);
             if (e.response.status === 401) {
@@ -107,8 +107,9 @@ export default function ListaNotificheUtentePage() {
                         <div className="d-flex align-items-center justify-content-between">
                             <h3 className="">
                                 <i className="fa-solid fa-bell text-primary fa-1x pe-2 "></i>
-                                Lista notifiche
+                                Gestione notifiche
                             </h3>
+                            <Link to="/scheda-notifica" className='btn btn-primary'><i className="fa-solid fa-plus pe-2"></i>Inserisci notifica</Link>
 
                         </div>
                     </div>
@@ -122,7 +123,8 @@ export default function ListaNotificheUtentePage() {
                                             <tr>
                                                 <th scope="col">Titolo</th>
                                                 <th scope="col">Testo</th>
-                                                <th scope="col">Data</th>
+                                                <th scope="col">Data creazione</th>
+                                                <th scope="col"></th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -131,10 +133,10 @@ export default function ListaNotificheUtentePage() {
                                             {
                                                 Array.isArray(listaNotifiche) && listaNotifiche.map((notifica: any, index: number) =>
                                                     <tr key={index}>
-                                                        <th scope="row">{notifica.titolo}</th>
-                                                        <td>{notifica.testo}</td>
-                                                        <td>{getData(notifica.dataInvio)} ore {getOra(notifica.dataInvio)}</td>
-
+                                                        <th  scope="row">{notifica.titolo}</th>
+                                                        <td >{notifica.testo}</td>
+                                                        <td >{getData(notifica.dataCreazione)} ore {getOra(notifica.dataCreazione)}</td>
+                                                        <td className='text-center'><Link to={"/scheda-notifica/" + notifica.idNotifica} className='btn btn-primary'><i className="fa-solid fa-pen-to-square"></i></Link></td>
                                                         <td className='text-center'><span onClick={() => setNotificaDaEliminare(notifica)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
 
                                                     </tr>
@@ -146,10 +148,10 @@ export default function ListaNotificheUtentePage() {
                                 </div>
                             </div>
                             <div className='col-6 text-end pt-2'>
-                                <span onClick={() => getNotificheLatoUtente(paginaNotifiche - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
+                                <span onClick={() => getListaNotifiche(paginaNotifiche - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                             </div>
                             <div className='col-6 text-start pt-2'>
-                                <span onClick={() => getNotificheLatoUtente(paginaNotifiche + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
+                                <span onClick={() => getListaNotifiche(paginaNotifiche + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                             </div>
                         </div>
                     </div>
@@ -172,7 +174,7 @@ export default function ListaNotificheUtentePage() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annulla<i className="fa-solid fa-undo ps-2"></i></button>
-                            <button onClick={eliminaNotificaLatoUtente} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Elimina<i className="fa-solid fa-trash-can ps-2"></i></button>
+                            <button onClick={eliminaNotifica} type="button" className="btn btn-primary" data-bs-dismiss="modal" >Elimina<i className="fa-solid fa-trash-can ps-2"></i></button>
                         </div>
                     </div>
                 </div>

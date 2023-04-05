@@ -357,7 +357,7 @@ export default function HomePage() {
 
                                     {
                                         Array.isArray(statistiche) && statistiche.map((statistica: any, index: number) =>
-                                            <div className='col-6'><div className="pt-3 text-xs font-weight-bold text-primary  mb-1">
+                                            <div className='col-12 col-md-6'><div className="pt-3 text-xs font-weight-bold text-primary  mb-1">
                                                 {statistica.nomeMetodo}</div>
                                                 <div className="progress" style={{ height: "20px" }}>
                                                     <div className="progress-bar" style={{ width: (statistica.chiamate * 100 / getValoreMassimo() > 25 ? statistica.chiamate * 100 / getValoreMassimo() + "%" : 25 + "%") }} >{statistica.chiamate} chiamate</div>

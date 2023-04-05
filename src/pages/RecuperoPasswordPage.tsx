@@ -7,6 +7,7 @@ import QRCode from "react-qr-code";
 import autenticazioneService from '../services/AutenticazioneService';
 import { ToastContainer, toast } from 'react-toastify';
 import recuperoPasswordService from '../services/RecuperoPasswordService';
+import configurazione from '../configurazione';
 
 
 
@@ -160,8 +161,8 @@ export default function RecuperoPasswordPage() {
                 <div className="row justify-content-center">
                     <div className="col-lg-5 text-center mx-auto">
                         <Link to="/">
-                            <h1 className=" mb-2 mt-5"><i className="fa-solid fa-otter text-primary"></i></h1>
-                            <p className="text-lead">Otter Guardian</p>
+                        <h1 className=" mb-2 mt-5"><i className={configurazione.iconaApplicativo + " text-primary"}></i></h1>
+                            <p className="text-lead">{configurazione.nomeApplicativo}</p>
                         </Link>
                     </div>
                 </div>

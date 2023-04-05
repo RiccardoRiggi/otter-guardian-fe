@@ -188,7 +188,7 @@ export default function SchedaUtentePage() {
                 <div className="card-header pb-0">
                     <div className="d-flex align-items-center justify-content-between">
                         <h3 className="">
-                            <i className="fa-solid fa-bars text-primary fa-1x pe-2 "></i>
+                            {params.idUtente === undefined ? <i className="fa-solid fa-user-plus text-primary fa-1x pe-2 "></i> : <i className="fa-solid fa-user-pen text-primary fa-1x pe-2 "></i>}
                             {params.idUtente === undefined ? "Aggiungi" : "Modifica"} utente
                         </h3>
                         <button onClick={submitForm} className="btn btn-primary"

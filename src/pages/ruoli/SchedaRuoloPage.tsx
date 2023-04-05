@@ -329,7 +329,7 @@ export default function SchedaRuoloPage() {
                 <div className="card-header pb-0">
                     <div className="d-flex align-items-center justify-content-between">
                         <h3 className="">
-                            <i className="fa-solid fa-bars text-primary fa-1x pe-2 "></i>
+                            <i className="fa-solid fa-tag text-primary fa-1x pe-2 "></i>
                             {params.idTipoRuolo === undefined ? "Aggiungi" : "Modifica"} ruolo
                         </h3>
                         <button onClick={submitForm} className="btn btn-primary"
@@ -373,7 +373,7 @@ export default function SchedaRuoloPage() {
                     <div className="card-header pb-0">
                         <div className="d-flex align-items-center justify-content-between">
                             <h3 className="">
-                                <i className="fa-solid fa-list-ul text-primary fa-1x pe-2 "></i>
+                                <i className="fa-solid fa-users text-primary fa-1x pe-2 "></i>
                                 Lista utenti
                             </h3>
 
@@ -416,10 +416,10 @@ export default function SchedaRuoloPage() {
                                 </div>
                             </div>
                             <div className='col-6 text-end pt-2'>
-                                <span onClick={() => getUtentiPerRuolo(paginaUtenti - 1)} className='btn btn-primary'>Precedente</span>
+                                <span onClick={() => getUtentiPerRuolo(paginaUtenti - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                             </div>
                             <div className='col-6 text-start pt-2'>
-                                <span onClick={() => getUtentiPerRuolo(paginaUtenti + 1)} className='btn btn-primary'>Successivo</span>
+                                <span onClick={() => getUtentiPerRuolo(paginaUtenti + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                             </div>
                         </div>
                     </div>
@@ -432,7 +432,7 @@ export default function SchedaRuoloPage() {
                     <div className="card-header pb-0">
                         <div className="d-flex align-items-center justify-content-between">
                             <h3 className="">
-                                <i className="fa-solid fa-list-ul text-primary fa-1x pe-2 "></i>
+                                <i className="fa-solid fa-sitemap text-primary fa-1x pe-2 "></i>
                                 Lista risorse
                             </h3>
 
@@ -473,10 +473,10 @@ export default function SchedaRuoloPage() {
                                 </div>
                             </div>
                             <div className='col-6 text-end pt-2'>
-                                <span onClick={() => getRisorsePerRuolo(paginaRisorse - 1)} className='btn btn-primary'>Precedente</span>
+                                <span onClick={() => getRisorsePerRuolo(paginaRisorse - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                             </div>
                             <div className='col-6 text-start pt-2'>
-                                <span onClick={() => getRisorsePerRuolo(paginaRisorse + 1)} className='btn btn-primary'>Successivo</span>
+                                <span onClick={() => getRisorsePerRuolo(paginaRisorse + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                             </div>
                         </div>
                     </div>
@@ -531,10 +531,10 @@ export default function SchedaRuoloPage() {
                                 </div>
                             </div>
                             <div className='col-6 text-end pt-2'>
-                                <span onClick={() => getVociMenuPerRuolo(paginaVociMenu - 1)} className='btn btn-primary'>Precedente</span>
+                                <span onClick={() => getVociMenuPerRuolo(paginaVociMenu - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                             </div>
                             <div className='col-6 text-start pt-2'>
-                                <span onClick={() => getVociMenuPerRuolo(paginaVociMenu + 1)} className='btn btn-primary'>Successivo</span>
+                                <span onClick={() => getVociMenuPerRuolo(paginaVociMenu + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                             </div>
                         </div>
                     </div>
