@@ -48,7 +48,7 @@ export default function ListaDispositiviFisiciPage() {
                     setPaginaDispositivo(pagina);
                 } else if (pagina == 1 && response.data.length === 0) {
                     setDispositivi(response.data);
-                    toast.warning("Non sono stati trovati utenti", {
+                    toast.warning("Non sono stati trovati dispositivi fisici", {
                         position: "top-center",
                         autoClose: 5000,
                     });

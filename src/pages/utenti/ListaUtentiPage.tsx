@@ -77,7 +77,7 @@ export default function ListaUtentiPage() {
     const eliminaUtente = async () => {
         await utentiService.eliminaUtente(utenteLoggato.token, utenteDaEliminare.idUtente).then(response => {
             console.info(response.data);
-            toast.success("La utente è stata eliminata con successo!", {
+            toast.success("Utente eliminato con successo!", {
                 position: "top-center",
                 autoClose: 5000,
             });
@@ -110,8 +110,10 @@ export default function ListaUtentiPage() {
     const cambiaAbilitazioneUtente = async (idUtente: any, dataBlocco: any) => {
         if (dataBlocco === null) {
             await utentiService.bloccaUtente(utenteLoggato.token, null, idUtente).then(response => {
-                console.info(response.data);
-                getUtenti(paginaUtente);
+                toast.success("Utente bloccato con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                }); getUtenti(paginaUtente);
             }).catch(e => {
                 //---------------------------------------------
                 try {
@@ -134,6 +136,10 @@ export default function ListaUtentiPage() {
         } else {
             await utentiService.sbloccaUtente(utenteLoggato.token, null, idUtente).then(response => {
                 getUtenti(paginaUtente);
+                toast.success("Utente sbloccato con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 //---------------------------------------------
                 try {

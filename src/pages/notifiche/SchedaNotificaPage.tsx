@@ -211,7 +211,10 @@ export default function SchedaNotificaPage() {
     const inviaNotificaUtente = async (idUtente: any) => {
         await notificheService.inviaNotificaUtente(utenteLoggato.token, idUtente, params.idNotifica).then(response => {
             getDestinatariNotifica(paginaDestinatari)
-
+            toast.success("Notifica inviata con successo", {
+                position: "top-center",
+                autoClose: 5000,
+            });
         }).catch(e => {
             //---------------------------------------------
             try {
@@ -236,7 +239,10 @@ export default function SchedaNotificaPage() {
     const inviaNotificaTutti = async () => {
         await notificheService.inviaNotificaTutti(utenteLoggato.token, params.idNotifica).then(response => {
             getDestinatariNotifica(paginaDestinatari)
-
+            toast.success("Notifica inviata a tutti gli utenti con successo", {
+                position: "top-center",
+                autoClose: 5000,
+            });
         }).catch(e => {
             //---------------------------------------------
             try {
@@ -306,7 +312,10 @@ export default function SchedaNotificaPage() {
         } else {
             await notificheService.inviaNotificaRuolo(utenteLoggato.token, idRuolo, params.idNotifica).then(response => {
                 getDestinatariNotifica(paginaDestinatari)
-
+                toast.success("Notifica inviata con successo a tutti gli utenti che hanno associato il ruolo selezionato", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 //---------------------------------------------
                 try {

@@ -78,11 +78,9 @@ export default function SchedaRuoloPage() {
 
         let formsErrorTmp = SchedaRuoloValidator(jsonBody);
 
-        console.warn(formsErrorTmp);
 
         setFormErrors(formsErrorTmp);
 
-        console.info("JSONBODY: ", jsonBody);
 
         if (Object.keys(formsErrorTmp).length == 0) {
 
@@ -90,7 +88,7 @@ export default function SchedaRuoloPage() {
                 dispatch(fetchIsLoadingAction(true));
                 await ruoliService.inserisciRuolo(utenteLoggato.token, jsonBody).then(response => {
                     dispatch(fetchIsLoadingAction(false));
-                    toast.success("Risorsa inserita con successo!", {
+                    toast.success("Ruolo inserito con successo!", {
                         position: "top-center",
                         autoClose: 5000,
                     });
@@ -119,7 +117,7 @@ export default function SchedaRuoloPage() {
                 dispatch(fetchIsLoadingAction(true));
                 await ruoliService.modificaRuolo(utenteLoggato.token, jsonBody, params.idTipoRuolo).then(response => {
                     dispatch(fetchIsLoadingAction(false));
-                    toast.success("Risorsa aggiornata con successo!", {
+                    toast.success("Ruolo aggiornato con successo!", {
                         position: "top-center",
                         autoClose: 5000,
                     });
@@ -180,7 +178,7 @@ export default function SchedaRuoloPage() {
                     setPaginaUtenti(pagina);
                 } else if (pagina == 1 && response.data.length === 0) {
                     setListaUtentiPerRuolo(response.data);
-                    toast.warning("Non sono state trovate risorse", {
+                    toast.warning("Non sono stati trovati utenti", {
                         position: "top-center",
                         autoClose: 5000,
                     });
@@ -212,8 +210,11 @@ export default function SchedaRuoloPage() {
     const cambiaAbilitazioneUtente = async (dataCreazione: any, idUtente: any) => {
         if (dataCreazione === null) {
             await ruoliService.associaRuoloUtente(utenteLoggato.token, null, params.idTipoRuolo, idUtente).then(response => {
-                console.info(response.data);
                 getUtentiPerRuolo(paginaUtenti);
+                toast.success("Utente aggiunto con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 //---------------------------------------------
                 try {
@@ -237,6 +238,10 @@ export default function SchedaRuoloPage() {
             await ruoliService.dissociaRuoloUtente(utenteLoggato.token, null, params.idTipoRuolo, idUtente).then(response => {
                 console.info(response.data);
                 getUtentiPerRuolo(paginaUtenti);
+                toast.success("Utente rimosso con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 //---------------------------------------------
                 try {
@@ -310,6 +315,10 @@ export default function SchedaRuoloPage() {
             await ruoliService.associaRuoloRisorsa(utenteLoggato.token, null, params.idTipoRuolo, idRisorsa).then(response => {
                 console.info(response.data);
                 getRisorsePerRuolo(paginaRisorse);
+                toast.success("Risorsa aggiunta con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 //---------------------------------------------
                 try {
@@ -332,6 +341,10 @@ export default function SchedaRuoloPage() {
         } else {
             await ruoliService.dissociaRuoloRisorsa(utenteLoggato.token, null, params.idTipoRuolo, idRisorsa).then(response => {
                 getRisorsePerRuolo(paginaRisorse);
+                toast.success("Risorsa rimossa con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 //---------------------------------------------
                 try {
@@ -371,7 +384,7 @@ export default function SchedaRuoloPage() {
                     setPaginaVociMenu(pagina);
                 } else if (pagina == 1 && response.data.length === 0) {
                     setListaVociMenuPerRuolo(response.data);
-                    toast.warning("Non sono state trovate risorse", {
+                    toast.warning("Non sono state trovate voci di menu", {
                         position: "top-center",
                         autoClose: 5000,
                     });
@@ -405,6 +418,10 @@ export default function SchedaRuoloPage() {
             await ruoliService.associaRuoloVoceMenu(utenteLoggato.token, null, params.idTipoRuolo, idVoceMenu).then(response => {
                 console.info(response.data);
                 getVociMenuPerRuolo(paginaVociMenu);
+                toast.success("Voce menu aggiunta con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 //---------------------------------------------
                 try {
@@ -427,6 +444,10 @@ export default function SchedaRuoloPage() {
         } else {
             await ruoliService.dissociaRuoloVoceMenu(utenteLoggato.token, null, params.idTipoRuolo, idVoceMenu).then(response => {
                 getVociMenuPerRuolo(paginaVociMenu);
+                toast.success("Voce menu rimossa con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 //---------------------------------------------
                 try {

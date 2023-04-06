@@ -93,6 +93,10 @@ export default function ListaNotificheUtentePage() {
             console.info(response.data);
             setNotificaDaEliminare(undefined);
             getNotificheLatoUtente(paginaNotifiche);
+            toast.success("Notifica eliminata con successo", {
+                position: "top-center",
+                autoClose: 5000,
+            });
         }).catch(e => {
             //---------------------------------------------
             try {

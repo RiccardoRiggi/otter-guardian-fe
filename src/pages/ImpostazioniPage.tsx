@@ -44,8 +44,6 @@ export default function ImpostazioniPage() {
         if (pagina !== 0) {
 
             await dispositiviFisiciService.getDispositiviFisici(utenteLoggato.token, pagina).then(response => {
-                console.info(response.data);
-
 
                 if (response.data.length !== 0) {
                     setDispositiviFisici(response.data);
@@ -109,7 +107,10 @@ export default function ImpostazioniPage() {
                     annullaAggiuntaNuovoDispositivo();
                 }
 
-
+                toast.success("Dispositivo abilitato con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
 
             }).catch(e => {
                 //---------------------------------------------
@@ -186,10 +187,7 @@ export default function ImpostazioniPage() {
 
     const generaCodiciBackup = async () => {
         await utenteLoggatoService.generaCodiciBackup(utenteLoggato.token).then(response => {
-
-            console.info(response.data);
             setCodiciBackup(response.data);
-
         }).catch(e => {
             //---------------------------------------------
             try {
@@ -217,14 +215,8 @@ export default function ImpostazioniPage() {
     }
 
     const getMetodiAutenticazionePerUtenteLoggato = async () => {
-
-
         await utenteLoggatoService.getMetodiAutenticazionePerUtenteLoggato(utenteLoggato.token).then(response => {
-
             setListaMetodiSecondoFattore(response.data);
-
-
-
         }).catch(e => {
             //---------------------------------------------
             try {
@@ -251,7 +243,10 @@ export default function ImpostazioniPage() {
     const cambiaAbilitazioneSecondoFattore = async (idUtente: any, idTipoMetodoLogin: any) => {
         if (idUtente === null) {
             await utenteLoggatoService.abilitaTipoMetodoLogin(utenteLoggato.token, idTipoMetodoLogin).then(response => {
-                console.info(response.data);
+                toast.success("Salvataggio avvenuto con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
                 getMetodiAutenticazionePerUtenteLoggato();
             }).catch(e => {
                 //---------------------------------------------
@@ -276,6 +271,10 @@ export default function ImpostazioniPage() {
         } else {
             await utenteLoggatoService.disabilitaTipoMetodoLogin(utenteLoggato.token, idTipoMetodoLogin).then(response => {
                 getMetodiAutenticazionePerUtenteLoggato();
+                toast.success("Salvataggio avvenuto con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 console.error(e);
                 if (e.response.status === 401) {
@@ -290,14 +289,8 @@ export default function ImpostazioniPage() {
     }
 
     const getMetodiRecuperoPasswordPerUtenteLoggato = async () => {
-
-
         await utenteLoggatoService.getMetodiRecuperoPasswordPerUtenteLoggato(utenteLoggato.token).then(response => {
-
             setListaMetodiSecondoFattoreRecuperoPassword(response.data);
-
-
-
         }).catch(e => {
             //---------------------------------------------
             try {
@@ -316,7 +309,6 @@ export default function ImpostazioniPage() {
                 navigate("/logout");
             }
             //---------------------------------------------
-
         });
     }
 
@@ -324,7 +316,10 @@ export default function ImpostazioniPage() {
     const cambiaAbilitazioneSecondoFattoreRecuperoPassword = async (idUtente: any, idTipoMetodoRecPsw: any) => {
         if (idUtente === null) {
             await utenteLoggatoService.abilitaTipoRecuperoPassword(utenteLoggato.token, idTipoMetodoRecPsw).then(response => {
-                console.info(response.data);
+                toast.success("Salvataggio avvenuto con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
                 getMetodiRecuperoPasswordPerUtenteLoggato();
             }).catch(e => {
                 //---------------------------------------------
@@ -349,6 +344,10 @@ export default function ImpostazioniPage() {
         } else {
             await utenteLoggatoService.disabilitaTipoRecuperoPassword(utenteLoggato.token, idTipoMetodoRecPsw).then(response => {
                 getMetodiRecuperoPasswordPerUtenteLoggato();
+                toast.success("Salvataggio avvenuto con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 //---------------------------------------------
                 try {

@@ -61,7 +61,7 @@ export default function ListaIndirizziIp() {
                     setPaginaIndirizziIp(pagina);
                 } else if (pagina == 1 && response.data.length === 0) {
                     setListaIndirizziIp(response.data);
-                    toast.warning("Non sono state trovate risorse", {
+                    toast.warning("Non sono stati trovati indirizzi ip", {
                         position: "top-center",
                         autoClose: 5000,
                     });
@@ -93,6 +93,10 @@ export default function ListaIndirizziIp() {
     const azzeraContatoreAlert = async (indirizzoIp: any) => {
         await indirizziIpService.azzeraContatoreAlert(utenteLoggato.token, { indirizzoIp: indirizzoIp }).then(response => {
             console.info(response.data);
+            toast.success("Contatore azzerato con successo", {
+                position: "top-center",
+                autoClose: 5000,
+            });
             getIndirizziIp(paginaIndirizziIp);
         }).catch(e => {
             //---------------------------------------------
@@ -119,6 +123,10 @@ export default function ListaIndirizziIp() {
         if (dataBlocco === null) {
             await indirizziIpService.bloccaIndirizzoIp(utenteLoggato.token, { indirizzoIp: indirizzoIp }).then(response => {
                 console.info(response.data);
+                toast.success("Indirizzo ip bloccato con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
                 getIndirizziIp(paginaIndirizziIp);
             }).catch(e => {
                 //---------------------------------------------
@@ -142,6 +150,10 @@ export default function ListaIndirizziIp() {
         } else {
             await indirizziIpService.sbloccaIndirizzoIp(utenteLoggato.token, { indirizzoIp: indirizzoIp }).then(response => {
                 getIndirizziIp(paginaIndirizziIp);
+                toast.success("Indirizzo ip sbloccato con successo", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }).catch(e => {
                 //---------------------------------------------
                 try {

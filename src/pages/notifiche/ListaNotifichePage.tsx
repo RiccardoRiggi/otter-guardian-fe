@@ -91,6 +91,10 @@ export default function ListaNotifichePage() {
         await notificheService.eliminaNotifica(utenteLoggato.token, notificaDaEliminare.idNotifica).then(response => {
             console.info(response.data);
             setNotificaDaEliminare(undefined);
+            toast.success("Notifica eliminata con successo", {
+                position: "top-center",
+                autoClose: 5000,
+            });
             getListaNotifiche(paginaNotifiche);
         }).catch(e => {
             //---------------------------------------------

@@ -49,7 +49,7 @@ export default function ListaAccessiPage() {
                     setPaginaAccesso(pagina);
                 } else if (paginaAccesso == 1 && response.data.length === 0) {
                     setAccessi(response.data);
-                    toast.warning("Non sono stati trovati accessi attivi", {
+                    toast.warning("Non sono stati trovati accessi", {
                         position: "top-center",
                         autoClose: 5000,
                     });

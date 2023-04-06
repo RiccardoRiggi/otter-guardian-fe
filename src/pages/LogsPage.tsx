@@ -51,7 +51,7 @@ export default function LogsPage() {
                     setLogs(response.data);
                     setPaginaLogs(pagina);
                 } else if (pagina == 1 && response.data.length === 0) {
-                    toast.warning("Non sono stati trovati utenti", {
+                    toast.warning("Non sono stati trovati logs", {
                         position: "top-center",
                         autoClose: 5000,
                     });

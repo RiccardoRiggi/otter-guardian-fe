@@ -77,7 +77,7 @@ export default function ListaRuoliPage() {
     const eliminaRuolo = async () => {
         await ruoliService.eliminaRuolo(utenteLoggato.token, ruoloDaEliminare.idTipoRuolo).then(response => {
             console.info(response.data);
-            toast.success("La risorsa è stata eliminata con successo!", {
+            toast.success("Il ruolo è stato eliminato con successo!", {
                 position: "top-center",
                 autoClose: 5000,
             });
