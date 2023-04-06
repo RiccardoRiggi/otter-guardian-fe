@@ -1,43 +1,27 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import risorseService from '../../services/RisorseService';
-import vociMenuService from '../../services/VociMenuService';
 
 export default function ListaRisorsePage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
-
     const [risorsaDaEliminare, setRisorsaDaEliminare] = React.useState<any>();
-
-
 
     const [risorse, setRisorse] = React.useState([]);
     const [paginaRisorse, setPaginaRisorse] = React.useState(1);
-
-
-
-
 
     const getRisorse = async (pagina: any) => {
 
         if (pagina !== 0) {
 
             await risorseService.getRisorse(utenteLoggato.token, pagina).then(response => {
-                console.info(response.data);
-
 
                 if (response.data.length !== 0) {
                     setRisorse(response.data);
@@ -75,7 +59,6 @@ export default function ListaRisorsePage() {
 
     const eliminaRisorsa = async () => {
         await risorseService.eliminaRisorsa(utenteLoggato.token, risorsaDaEliminare.idRisorsa).then(response => {
-            console.info(response.data);
             toast.success("La risorsa è stata eliminata con successo!", {
                 position: "top-center",
                 autoClose: 5000,
@@ -105,16 +88,12 @@ export default function ListaRisorsePage() {
         });
     }
 
-
-
-
     useEffect(() => {
         if (!ricercaEseguita) {
             setRicercaEseguita(true);
             getRisorse(paginaRisorse);
         }
     }, []);
-
 
     return (
         <Layout>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import vociMenuService from '../services/VociMenuService';
 import { toast } from 'react-toastify'
 import { fetchMenuAction } from '../modules/utenteLoggato/actions';
@@ -10,6 +10,7 @@ export default function Sidebar() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const getVociMenu = async () => {
 
@@ -21,8 +22,23 @@ export default function Sidebar() {
 
 
         }).catch(e => {
-            console.error(e);
-
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
 
     }

@@ -1,18 +1,12 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction, fetchTestoDangerAction, fetchTestoSuccessAction } from '../../modules/feedback/actions';
-import comboService from '../../services/ComboService';
+import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import risorseService from '../../services/RisorseService';
-import vociMenuService from '../../services/VociMenuService';
 import SchedaRisorsaValidator from '../../validators/SchedaRisorsaValidator';
-import SchedaVoceMenuValidator from '../../validators/SchedaVoceMenuValidator';
 
 export default function SchedaRisorsaPage() {
 
@@ -21,8 +15,6 @@ export default function SchedaRisorsaPage() {
     const dispatch = useDispatch();
     const params = useParams();
 
-
-
     const [formErrors, setFormErrors] = React.useState<any>(Object);
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
 
@@ -30,19 +22,14 @@ export default function SchedaRisorsaPage() {
     const [nomeMetodo, setNomeMetodo] = React.useState<any>("");
     const [descrizione, setDescrizione] = React.useState<any>("");
 
-
-    let navigate = useNavigate();
-
+    const navigate = useNavigate();
 
     const getRisorsa = async () => {
         dispatch(fetchIsLoadingAction(true));
         await risorseService.getRisorsa(utenteLoggato.token, params.idRisorsa).then(response => {
-            console.info(response.data);
-
             setIdRisorsa(response.data.idRisorsa);
             setNomeMetodo(response.data.nomeMetodo);
             setDescrizione(response.data.descrizione);
-
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
             dispatch(fetchIsLoadingAction(false));
@@ -66,8 +53,6 @@ export default function SchedaRisorsaPage() {
         });
     }
 
-
-
     const submitForm = async () => {
 
         let jsonBody = {
@@ -76,11 +61,8 @@ export default function SchedaRisorsaPage() {
             descrizione: descrizione
         }
 
-
         let formsErrorTmp = SchedaRisorsaValidator(jsonBody);
         setFormErrors(formsErrorTmp);
-
-        console.info("JSONBODY: ", jsonBody);
 
         if (Object.keys(formsErrorTmp).length == 0) {
 
@@ -146,10 +128,7 @@ export default function SchedaRisorsaPage() {
         }
     }
 
-
-
     useEffect(() => {
-
         if (!ricercaEseguita) {
             if (params.idRisorsa !== undefined) {
                 getRisorsa();
@@ -158,10 +137,8 @@ export default function SchedaRisorsaPage() {
         }
     });
 
-
     return (
         <Layout>
-
             <div className="card shadow-lg mx-4 mt-3">
                 <div className="card-header pb-0">
                     <div className="d-flex align-items-center justify-content-between">

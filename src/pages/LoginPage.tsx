@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { fetchTestoDangerAction, fetchIsLoadingAction } from '../modules/feedback/actions';
+import { fetchIsLoadingAction } from '../modules/feedback/actions';
 import { fetchTokenAction, resetUtenteAction } from '../modules/utenteLoggato/actions';
 import QRCode from "react-qr-code";
 import autenticazioneService from '../services/AutenticazioneService';

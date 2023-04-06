@@ -1,44 +1,26 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction } from '../../modules/feedback/actions';
-import risorseService from '../../services/RisorseService';
 import ruoliService from '../../services/RuoliService';
-import vociMenuService from '../../services/VociMenuService';
 
 export default function ListaRuoliPage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
-
     const [ruoloDaEliminare, setRuoloDaEliminare] = React.useState<any>();
-
-
-
     const [ruoli, setRuoli] = React.useState([]);
     const [paginaRuolo, setPaginaRuolo] = React.useState(1);
-
-
-
-
 
     const getRuoli = async (pagina: any) => {
 
         if (pagina !== 0) {
 
             await ruoliService.getRuoli(utenteLoggato.token, pagina).then(response => {
-                console.info(response.data);
-
 
                 if (response.data.length !== 0) {
                     setRuoli(response.data);
@@ -50,7 +32,6 @@ export default function ListaRuoliPage() {
                         autoClose: 5000,
                     });
                 }
-
 
             }).catch(e => {
                 //---------------------------------------------
@@ -76,15 +57,12 @@ export default function ListaRuoliPage() {
 
     const eliminaRuolo = async () => {
         await ruoliService.eliminaRuolo(utenteLoggato.token, ruoloDaEliminare.idTipoRuolo).then(response => {
-            console.info(response.data);
             toast.success("Il ruolo è stato eliminato con successo!", {
                 position: "top-center",
                 autoClose: 5000,
             });
             setRuoloDaEliminare(undefined);
             getRuoli(paginaRuolo);
-
-
         }).catch(e => {
             //---------------------------------------------
             try {
@@ -106,16 +84,12 @@ export default function ListaRuoliPage() {
         });
     }
 
-
-
-
     useEffect(() => {
         if (!ricercaEseguita) {
             setRicercaEseguita(true);
             getRuoli(paginaRuolo);
         }
     }, []);
-
 
     return (
         <Layout>

@@ -1,5 +1,3 @@
-import { VoceMenuType } from "../interfaces/VoceMenuType";
-
 export default function SchedaRisorsaValidator(risorsa: any) {
     let errors: any = {};
 
@@ -14,8 +12,6 @@ export default function SchedaRisorsaValidator(risorsa: any) {
     if (risorsa == undefined || risorsa.descrizione == null || risorsa.descrizione == "") {
         errors.descrizione = "La descrizione è richiesta";
     }
-
-    
 
     return errors;
 } 

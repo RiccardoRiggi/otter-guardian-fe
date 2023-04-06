@@ -1,51 +1,28 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
 import { getData, getOra } from '../../DateUtil';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction, fetchTestoDangerAction, fetchTestoSuccessAction } from '../../modules/feedback/actions';
-import comboService from '../../services/ComboService';
-import indirizziIpService from '../../services/IndirizziIpService';
 import notificheService from '../../services/NotificheService';
-import risorseService from '../../services/RisorseService';
-import ruoliService from '../../services/RuoliService';
-import vociMenuService from '../../services/VociMenuService';
-import SchedaRisorsaValidator from '../../validators/SchedaRisorsaValidator';
-import SchedaRuoloValidator from '../../validators/SchedaRuoloValidator';
-import SchedaVoceMenuValidator from '../../validators/SchedaVoceMenuValidator';
 
 export default function ListaNotifichePage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
-
-    const dispatch = useDispatch();
-    const params = useParams();
-
-
-    let navigate = useNavigate();
-
+    const navigate = useNavigate();
 
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
     const [listaNotifiche, setListaNotifiche] = React.useState([]);
     const [paginaNotifiche, setPaginaNotifiche] = React.useState(1);
     const [notificaDaEliminare, setNotificaDaEliminare] = React.useState<any>();
 
-
     useEffect(() => {
-
         if (!ricercaEseguita) {
             getListaNotifiche(paginaNotifiche);
             setRicercaEseguita(true);
         }
     });
-
-
-
 
     const getListaNotifiche = async (pagina: any) => {
 
@@ -89,7 +66,6 @@ export default function ListaNotifichePage() {
 
     const eliminaNotifica = async () => {
         await notificheService.eliminaNotifica(utenteLoggato.token, notificaDaEliminare.idNotifica).then(response => {
-            console.info(response.data);
             setNotificaDaEliminare(undefined);
             toast.success("Notifica eliminata con successo", {
                 position: "top-center",
@@ -121,73 +97,64 @@ export default function ListaNotifichePage() {
 
     return (
         <Layout>
+            <div className="card shadow-lg mx-4 mt-3">
+                <div className="card-header pb-0">
+                    <div className="d-flex align-items-center justify-content-between">
+                        <h3 className="">
+                            <i className="fa-solid fa-bell text-primary fa-1x pe-2 "></i>
+                            Gestione notifiche
+                        </h3>
+                        <Link to="/scheda-notifica" className='btn btn-primary'><i className="fa-solid fa-plus pe-2"></i>Inserisci notifica</Link>
 
-
-            {
-                <div className="card shadow-lg mx-4 mt-3">
-                    <div className="card-header pb-0">
-                        <div className="d-flex align-items-center justify-content-between">
-                            <h3 className="">
-                                <i className="fa-solid fa-bell text-primary fa-1x pe-2 "></i>
-                                Gestione notifiche
-                            </h3>
-                            <Link to="/scheda-notifica" className='btn btn-primary'><i className="fa-solid fa-plus pe-2"></i>Inserisci notifica</Link>
-
-                        </div>
                     </div>
-                    <div className="card-body p-3">
-                        <div className="row gx-4">
-
-                            <div className='col-12 '>
-                                <div className='table-responsive'>
-                                    <table className="table table-striped table-hover table-bordered">
-                                        <thead >
-                                            <tr>
-                                                <th scope="col">Titolo</th>
-                                                <th scope="col">Testo</th>
-                                                <th scope="col">Data creazione</th>
-                                                <th scope="col"></th>
-                                                <th scope="col"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            {
-                                                Array.isArray(listaNotifiche) && listaNotifiche.map((notifica: any, index: number) =>
-                                                    <tr key={index}>
-                                                        <th scope="row">{notifica.titolo}</th>
-                                                        <td >{notifica.testo}</td>
-                                                        <td >{getData(notifica.dataCreazione)} ore {getOra(notifica.dataCreazione)}</td>
-                                                        <td className='text-center'><Link to={"/scheda-notifica/" + notifica.idNotifica} className='btn btn-primary'><i className="fa-solid fa-pen-to-square"></i></Link></td>
-                                                        <td className='text-center'><span onClick={() => setNotificaDaEliminare(notifica)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
-
-                                                    </tr>
-                                                )}
-
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div className='col-12 text-end'>
-                                <small>Pagina {paginaNotifiche}</small>
-                            </div>
-
-                            <div className='col-6 text-end pt-2'>
-                                <span onClick={() => getListaNotifiche(paginaNotifiche - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
-                            </div>
-                            <div className='col-6 text-start pt-2'>
-                                <span onClick={() => getListaNotifiche(paginaNotifiche + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+                <div className="card-body p-3">
+                    <div className="row gx-4">
+
+                        <div className='col-12 '>
+                            <div className='table-responsive'>
+                                <table className="table table-striped table-hover table-bordered">
+                                    <thead >
+                                        <tr>
+                                            <th scope="col">Titolo</th>
+                                            <th scope="col">Testo</th>
+                                            <th scope="col">Data creazione</th>
+                                            <th scope="col"></th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {
+                                            Array.isArray(listaNotifiche) && listaNotifiche.map((notifica: any, index: number) =>
+                                                <tr key={index}>
+                                                    <th scope="row">{notifica.titolo}</th>
+                                                    <td >{notifica.testo}</td>
+                                                    <td >{getData(notifica.dataCreazione)} ore {getOra(notifica.dataCreazione)}</td>
+                                                    <td className='text-center'><Link to={"/scheda-notifica/" + notifica.idNotifica} className='btn btn-primary'><i className="fa-solid fa-pen-to-square"></i></Link></td>
+                                                    <td className='text-center'><span onClick={() => setNotificaDaEliminare(notifica)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
+
+                                                </tr>
+                                            )}
 
 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div className='col-12 text-end'>
+                            <small>Pagina {paginaNotifiche}</small>
+                        </div>
 
-            }
-
+                        <div className='col-6 text-end pt-2'>
+                            <span onClick={() => getListaNotifiche(paginaNotifiche - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
+                        </div>
+                        <div className='col-6 text-start pt-2'>
+                            <span onClick={() => getListaNotifiche(paginaNotifiche + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="modal fade" id="eliminaRisorsa" data-bs-keyboard="false" aria-labelledby="eliminaRisorsaLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

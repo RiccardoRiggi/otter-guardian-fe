@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { fetchMantieniMessaggiAction, fetchTestoDangerAction, fetchTestoSuccessAction, fetchTestoWarnAction } from '../modules/feedback/actions';
-import { fetchTokenAction, resetUtenteAction } from '../modules/utenteLoggato/actions';
-import utenteService from '../services/AutenticazioneService';
 import utenteLoggatoService from '../services/UtenteLoggatoService';
 import Footer from './Footer';
 import Header from './Header';

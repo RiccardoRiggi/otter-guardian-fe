@@ -1,11 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { fetchTestoDangerAction, fetchIsLoadingAction } from '../modules/feedback/actions';
-import { fetchTokenAction, resetUtenteAction } from '../modules/utenteLoggato/actions';
-import QRCode from "react-qr-code";
-import autenticazioneService from '../services/AutenticazioneService';
-import { ToastContainer, toast } from 'react-toastify';
+import { fetchIsLoadingAction } from '../modules/feedback/actions';
+import { toast } from 'react-toastify';
 import recuperoPasswordService from '../services/RecuperoPasswordService';
 import configurazione from '../configurazione';
 

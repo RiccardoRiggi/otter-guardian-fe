@@ -1,48 +1,32 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction, fetchTestoDangerAction, fetchTestoSuccessAction } from '../../modules/feedback/actions';
-import comboService from '../../services/ComboService';
-import risorseService from '../../services/RisorseService';
+import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import ruoliService from '../../services/RuoliService';
-import vociMenuService from '../../services/VociMenuService';
-import SchedaRisorsaValidator from '../../validators/SchedaRisorsaValidator';
 import SchedaRuoloValidator from '../../validators/SchedaRuoloValidator';
-import SchedaVoceMenuValidator from '../../validators/SchedaVoceMenuValidator';
 
 export default function SchedaRuoloPage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
-
     const dispatch = useDispatch();
     const params = useParams();
 
-
-
     const [formErrors, setFormErrors] = React.useState<any>(Object);
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
-
     const [idTipoRuolo, setIdTipoRuolo] = React.useState<any>("");
     const [descrizione, setDescrizione] = React.useState<any>("");
 
-
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
 
     const getRuolo = async () => {
         dispatch(fetchIsLoadingAction(true));
         await ruoliService.getRuolo(utenteLoggato.token, params.idTipoRuolo).then(response => {
-            console.info(response.data);
-
             setIdTipoRuolo(response.data.idTipoRuolo);
             setDescrizione(response.data.descrizione);
-
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
             dispatch(fetchIsLoadingAction(false));
@@ -66,8 +50,6 @@ export default function SchedaRuoloPage() {
         });
     }
 
-
-
     const submitForm = async () => {
 
         let jsonBody = {
@@ -75,12 +57,9 @@ export default function SchedaRuoloPage() {
             descrizione: descrizione
         }
 
-
         let formsErrorTmp = SchedaRuoloValidator(jsonBody);
 
-
         setFormErrors(formsErrorTmp);
-
 
         if (Object.keys(formsErrorTmp).length == 0) {
 
@@ -146,8 +125,6 @@ export default function SchedaRuoloPage() {
         }
     }
 
-
-
     useEffect(() => {
 
         if (!ricercaEseguita) {
@@ -170,8 +147,6 @@ export default function SchedaRuoloPage() {
         if (pagina !== 0) {
 
             await ruoliService.getUtentiPerRuolo(utenteLoggato.token, params.idTipoRuolo, pagina).then(response => {
-                console.info(response.data);
-
 
                 if (response.data.length !== 0) {
                     setListaUtentiPerRuolo(response.data);
@@ -236,7 +211,6 @@ export default function SchedaRuoloPage() {
             });
         } else {
             await ruoliService.dissociaRuoloUtente(utenteLoggato.token, null, params.idTipoRuolo, idUtente).then(response => {
-                console.info(response.data);
                 getUtentiPerRuolo(paginaUtenti);
                 toast.success("Utente rimosso con successo", {
                     position: "top-center",
@@ -267,14 +241,11 @@ export default function SchedaRuoloPage() {
     const [listaRisorsePerRuolo, setListaRisorsePerRuolo] = React.useState([]);
     const [paginaRisorse, setPaginaRisorse] = React.useState(1);
 
-
     const getRisorsePerRuolo = async (pagina: any) => {
 
         if (pagina !== 0) {
 
             await ruoliService.getRisorsePerRuolo(utenteLoggato.token, params.idTipoRuolo, pagina).then(response => {
-                console.info(response.data);
-
 
                 if (response.data.length !== 0) {
                     setListaRisorsePerRuolo(response.data);
@@ -313,7 +284,6 @@ export default function SchedaRuoloPage() {
     const cambiaAbilitazioneRisorse = async (dataCreazione: any, idRisorsa: any) => {
         if (dataCreazione === null) {
             await ruoliService.associaRuoloRisorsa(utenteLoggato.token, null, params.idTipoRuolo, idRisorsa).then(response => {
-                console.info(response.data);
                 getRisorsePerRuolo(paginaRisorse);
                 toast.success("Risorsa aggiunta con successo", {
                     position: "top-center",
@@ -376,8 +346,6 @@ export default function SchedaRuoloPage() {
         if (pagina !== 0) {
 
             await ruoliService.getVociMenuPerRuolo(utenteLoggato.token, params.idTipoRuolo, pagina).then(response => {
-                console.info(response.data);
-
 
                 if (response.data.length !== 0) {
                     setListaVociMenuPerRuolo(response.data);
@@ -389,7 +357,6 @@ export default function SchedaRuoloPage() {
                         autoClose: 5000,
                     });
                 }
-
 
             }).catch(e => {
                 //---------------------------------------------
@@ -416,7 +383,6 @@ export default function SchedaRuoloPage() {
     const cambiaAbilitazioneVociMenu = async (dataCreazione: any, idVoceMenu: any) => {
         if (dataCreazione === null) {
             await ruoliService.associaRuoloVoceMenu(utenteLoggato.token, null, params.idTipoRuolo, idVoceMenu).then(response => {
-                console.info(response.data);
                 getVociMenuPerRuolo(paginaVociMenu);
                 toast.success("Voce menu aggiunta con successo", {
                     position: "top-center",

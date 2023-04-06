@@ -1,8 +1,5 @@
-import { VoceMenuType } from "../interfaces/VoceMenuType";
-
-export default function SchedaVoceMenuValidator(voceMenu: VoceMenuType) {
+export default function SchedaVoceMenuValidator(voceMenu: any) {
     let errors: any = {};
-
 
     if (voceMenu == undefined || voceMenu.descrizione == null || voceMenu.descrizione == "") {
         errors.descrizione = "La descrizione è richiesta";

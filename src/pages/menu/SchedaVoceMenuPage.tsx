@@ -1,13 +1,10 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction, fetchTestoDangerAction, fetchTestoSuccessAction } from '../../modules/feedback/actions';
+import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import comboService from '../../services/ComboService';
 import vociMenuService from '../../services/VociMenuService';
 import SchedaVoceMenuValidator from '../../validators/SchedaVoceMenuValidator';
@@ -23,13 +20,11 @@ export default function SchedaVoceMenuPage() {
     const [path, setPath] = React.useState<any>("");
     const [icona, setIcona] = React.useState<any>("");
     const [ordine, setOrdine] = React.useState<any>();
-
     const [idVoceMenuPadre, setIdVoceMenuPadre] = React.useState<any>(null);
 
     const aggiornaVoceMenuPadre = (event: any) => {
         setIdVoceMenuPadre(event.target.value);
     }
-
 
     const [formErrors, setFormErrors] = React.useState<any>(Object);
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
@@ -40,14 +35,11 @@ export default function SchedaVoceMenuPage() {
     const getVoceMenu = async () => {
         dispatch(fetchIsLoadingAction(true));
         await vociMenuService.getVoceMenu(utenteLoggato.token, params.idVoceMenu).then(response => {
-            console.info(response.data);
-
             setIdVoceMenuPadre(response.data.idVoceMenuPadre);
             setDescrizione(response.data.descrizione);
             setPath(response.data.path);
             setIcona(response.data.icona);
             setOrdine(response.data.ordine);
-
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
             dispatch(fetchIsLoadingAction(false));
@@ -70,8 +62,6 @@ export default function SchedaVoceMenuPage() {
             //---------------------------------------------
         });
     }
-
-
 
     const submitForm = async () => {
 

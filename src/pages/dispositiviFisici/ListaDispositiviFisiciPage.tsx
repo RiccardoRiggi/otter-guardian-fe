@@ -1,47 +1,27 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
 import { getData } from '../../DateUtil';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import dispositiviFisiciService from '../../services/DispositiviFisiciService';
-import risorseService from '../../services/RisorseService';
-import ruoliService from '../../services/RuoliService';
-import utentiService from '../../services/UtentiService';
-import vociMenuService from '../../services/VociMenuService';
 
 export default function ListaDispositiviFisiciPage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
-
     const [dispositivoDaEliminare, setDispositivoDaEliminare] = React.useState<any>();
-
-
-
     const [dispositivi, setDispositivi] = React.useState([]);
     const [paginaDispositivo, setPaginaDispositivo] = React.useState(1);
-
-
-
-
 
     const getListaDispositiviFisici = async (pagina: any) => {
 
         if (pagina !== 0) {
 
             await dispositiviFisiciService.getListaDispositiviFisici(utenteLoggato.token, pagina).then(response => {
-                console.info(response.data);
-
 
                 if (response.data.length !== 0) {
                     setDispositivi(response.data);
@@ -53,7 +33,6 @@ export default function ListaDispositiviFisiciPage() {
                         autoClose: 5000,
                     });
                 }
-
 
             }).catch(e => {
                 //---------------------------------------------
@@ -79,14 +58,12 @@ export default function ListaDispositiviFisiciPage() {
 
     const rimuoviDispositivoFisico = async () => {
         await dispositiviFisiciService.rimuoviDispositivoFisico(utenteLoggato.token, { idDispositivoFisico: dispositivoDaEliminare.idDispositivoFisico }).then(response => {
-            console.info(response.data);
             toast.success("Dispositivo rimosso con successo!", {
                 position: "top-center",
                 autoClose: 5000,
             });
             setDispositivoDaEliminare(undefined);
             getListaDispositiviFisici(paginaDispositivo);
-
 
         }).catch(e => {
             //---------------------------------------------
@@ -108,9 +85,6 @@ export default function ListaDispositiviFisiciPage() {
             //---------------------------------------------
         });
     }
-
-
-
 
     useEffect(() => {
         if (!ricercaEseguita) {

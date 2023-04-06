@@ -1,51 +1,33 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
 import { getData, getOra } from '../../DateUtil';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction, fetchTestoDangerAction, fetchTestoSuccessAction } from '../../modules/feedback/actions';
+import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import comboService from '../../services/ComboService';
 import notificheService from '../../services/NotificheService';
-import risorseService from '../../services/RisorseService';
-import ruoliService from '../../services/RuoliService';
-import vociMenuService from '../../services/VociMenuService';
 import SchedaNotificaValidator from '../../validators/SchedaNotificaValidator';
-import SchedaRisorsaValidator from '../../validators/SchedaRisorsaValidator';
-import SchedaRuoloValidator from '../../validators/SchedaRuoloValidator';
-import SchedaVoceMenuValidator from '../../validators/SchedaVoceMenuValidator';
 
 export default function SchedaNotificaPage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
-
     const dispatch = useDispatch();
     const params = useParams();
 
-
-
     const [formErrors, setFormErrors] = React.useState<any>(Object);
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
-
     const [titolo, setTitolo] = React.useState<any>("");
     const [testo, setTesto] = React.useState<any>("");
 
-
-    let navigate = useNavigate();
-
+    const navigate = useNavigate();
 
     const getNotifica = async () => {
         dispatch(fetchIsLoadingAction(true));
         await notificheService.getNotifica(utenteLoggato.token, params.idNotifica).then(response => {
-            console.info(response.data);
-
             setTitolo(response.data.titolo);
             setTesto(response.data.testo);
-
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
             dispatch(fetchIsLoadingAction(false));
@@ -68,8 +50,6 @@ export default function SchedaNotificaPage() {
             //---------------------------------------------
         });
     }
-
-
 
     const submitForm = async () => {
 
@@ -170,8 +150,6 @@ export default function SchedaNotificaPage() {
         if (pagina !== 0) {
 
             await notificheService.getDestinatariNotifica(utenteLoggato.token, pagina, params.idNotifica).then(response => {
-                console.info(response.data);
-
 
                 if (response.data.length !== 0) {
                     setListaDestinatari(response.data);
@@ -264,15 +242,11 @@ export default function SchedaNotificaPage() {
         });
     }
 
-
-
-
     const [idRuolo, setIdRuolo] = React.useState<any>(null);
 
     const aggiornaRuolo = (event: any) => {
         setIdRuolo(event.target.value);
     }
-
     const [listaRuoli, setListaRuoli] = React.useState([]);
 
 

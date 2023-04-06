@@ -1,42 +1,26 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import vociMenuService from '../../services/VociMenuService';
 
 export default function ListaVociMenuPage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
-
     const [voceMenuDaEliminare, setVoceMenuDaEliminare] = React.useState<any>();
-
-
-
     const [menu, setMenu] = React.useState([]);
     const [paginaMenu, setPaginaMenu] = React.useState(1);
-
-
-
-
 
     const getVociMenu = async (pagina: any) => {
 
         if (pagina !== 0) {
 
             await vociMenuService.getVociMenu(utenteLoggato.token, pagina).then(response => {
-                console.info(response.data);
-
 
                 if (response.data.length !== 0) {
                     setMenu(response.data);
@@ -48,7 +32,6 @@ export default function ListaVociMenuPage() {
                         autoClose: 5000,
                     });
                 }
-
 
             }).catch(e => {
                 //---------------------------------------------
@@ -104,9 +87,6 @@ export default function ListaVociMenuPage() {
         });
     }
 
-
-
-
     useEffect(() => {
         if (!ricercaEseguita) {
             setRicercaEseguita(true);
@@ -147,7 +127,7 @@ export default function ListaVociMenuPage() {
                                     <tbody>
 
                                         {
-                                            Array.isArray(menu) && menu.map((voce: VoceMenuType, index: number) =>
+                                            Array.isArray(menu) && menu.map((voce: any, index: number) =>
                                                 <tr key={index}>
                                                     <th className='text-center' scope="row">{voce.idVoceMenu}</th>
                                                     <td><small>{voce.descrizionePadre}</small><span className='d-block ps-3 text-bold'>{voce.descrizione}</span></td>

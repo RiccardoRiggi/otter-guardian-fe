@@ -1,48 +1,27 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
 import { getData, getOra } from '../../DateUtil';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import gestioneAccessiService from '../../services/AccessiService';
-import dispositiviFisiciService from '../../services/DispositiviFisiciService';
-import risorseService from '../../services/RisorseService';
-import ruoliService from '../../services/RuoliService';
-import utentiService from '../../services/UtentiService';
-import vociMenuService from '../../services/VociMenuService';
 
 export default function ListaAccessiPage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
-
     const [accessoDaEliminare, setAccessoDaEliminare] = React.useState<any>();
-
-
-
     const [accessi, setAccessi] = React.useState([]);
     const [paginaAccesso, setPaginaAccesso] = React.useState(1);
-
-
-
-
 
     const getListaAccessi = async (pagina: any) => {
 
         if (pagina !== 0) {
 
             await gestioneAccessiService.getListaAccessi(utenteLoggato.token, pagina).then(response => {
-                console.info(response.data);
-
 
                 if (response.data.length !== 0) {
                     setAccessi(response.data);
@@ -54,7 +33,6 @@ export default function ListaAccessiPage() {
                         autoClose: 5000,
                     });
                 }
-
 
             }).catch(e => {
                 //---------------------------------------------
@@ -80,15 +58,12 @@ export default function ListaAccessiPage() {
 
     const terminaAccesso = async () => {
         await gestioneAccessiService.terminaAccesso(utenteLoggato.token, { token: accessoDaEliminare.token }).then(response => {
-            console.info(response.data);
             toast.success("Utente disconnesso con successo!", {
                 position: "top-center",
                 autoClose: 5000,
             });
             setAccessoDaEliminare(undefined);
             getListaAccessi(paginaAccesso);
-
-
         }).catch(e => {
             //---------------------------------------------
             try {
@@ -110,9 +85,6 @@ export default function ListaAccessiPage() {
         });
     }
 
-
-
-
     useEffect(() => {
         if (!ricercaEseguita) {
             setRicercaEseguita(true);
@@ -123,7 +95,6 @@ export default function ListaAccessiPage() {
 
     return (
         <Layout>
-
             <div className="card shadow-lg mx-4 mt-3">
                 <div className="card-header pb-0">
                     <div className="d-flex align-items-center justify-content-between">

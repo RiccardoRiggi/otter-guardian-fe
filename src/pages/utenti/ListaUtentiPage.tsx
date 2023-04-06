@@ -1,46 +1,26 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction } from '../../modules/feedback/actions';
-import risorseService from '../../services/RisorseService';
-import ruoliService from '../../services/RuoliService';
 import utentiService from '../../services/UtentiService';
-import vociMenuService from '../../services/VociMenuService';
 
 export default function ListaUtentiPage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
-
     const [utenteDaEliminare, setUtenteDaEliminare] = React.useState<any>();
-
-
-
     const [utenti, setUtenti] = React.useState([]);
     const [paginaUtente, setPaginaUtente] = React.useState(1);
-
-
-
-
 
     const getUtenti = async (pagina: any) => {
 
         if (pagina !== 0) {
 
             await utentiService.getListaUtenti(utenteLoggato.token, pagina).then(response => {
-                console.info(response.data);
-
-
                 if (response.data.length !== 0) {
                     setUtenti(response.data);
                     setPaginaUtente(pagina);
@@ -50,7 +30,6 @@ export default function ListaUtentiPage() {
                         autoClose: 5000,
                     });
                 }
-
 
             }).catch(e => {
                 //---------------------------------------------
@@ -76,15 +55,12 @@ export default function ListaUtentiPage() {
 
     const eliminaUtente = async () => {
         await utentiService.eliminaUtente(utenteLoggato.token, utenteDaEliminare.idUtente).then(response => {
-            console.info(response.data);
             toast.success("Utente eliminato con successo!", {
                 position: "top-center",
                 autoClose: 5000,
             });
             setUtenteDaEliminare(undefined);
             getUtenti(paginaUtente);
-
-
         }).catch(e => {
             //---------------------------------------------
             try {
@@ -105,7 +81,6 @@ export default function ListaUtentiPage() {
             //---------------------------------------------
         });
     }
-
 
     const cambiaAbilitazioneUtente = async (idUtente: any, dataBlocco: any) => {
         if (dataBlocco === null) {
@@ -168,7 +143,6 @@ export default function ListaUtentiPage() {
             getUtenti(paginaUtente);
         }
     }, []);
-
 
     return (
         <Layout>

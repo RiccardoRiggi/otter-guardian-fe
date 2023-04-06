@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Layout from '../components/Layout';
 import { fetchIsLoadingAction } from '../modules/feedback/actions';
 import { resetUtenteAction } from '../modules/utenteLoggato/actions';
 

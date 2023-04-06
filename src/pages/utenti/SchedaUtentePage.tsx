@@ -1,34 +1,22 @@
-import { get } from 'https';
 import React, { useEffect } from 'react';
-import QRCode from 'react-qr-code';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { VoceMenuType } from '../../interfaces/VoceMenuType';
-import { fetchIsLoadingAction, fetchTestoDangerAction, fetchTestoSuccessAction } from '../../modules/feedback/actions';
-import comboService from '../../services/ComboService';
-import risorseService from '../../services/RisorseService';
+import { fetchIsLoadingAction } from '../../modules/feedback/actions';
 import utentiService from '../../services/UtentiService';
-import vociMenuService from '../../services/VociMenuService';
-import SchedaRisorsaValidator from '../../validators/SchedaRisorsaValidator';
 import SchedaUtenteValidator from '../../validators/SchedaUtenteValidator';
-import SchedaVoceMenuValidator from '../../validators/SchedaVoceMenuValidator';
 
 export default function SchedaUtentePage() {
 
     const utenteLoggato = useSelector((state: any) => state.utenteLoggato);
-
     const dispatch = useDispatch();
     const params = useParams();
-
-
 
     const [formErrors, setFormErrors] = React.useState<any>(Object);
     const [ricercaEseguita, setRicercaEseguita] = React.useState(false);
 
-    const [idUtente, setIdUtente] = React.useState<any>("");
     const [nome, setNome] = React.useState<any>("");
     const [cognome, setCognome] = React.useState<any>("");
     const [email, setEmail] = React.useState<any>("");
@@ -44,13 +32,9 @@ export default function SchedaUtentePage() {
     const getUtente = async () => {
         dispatch(fetchIsLoadingAction(true));
         await utentiService.getUtente(utenteLoggato.token, params.idUtente).then(response => {
-            console.info(response.data);
-
-            setIdUtente(response.data.idUtente);
             setNome(response.data.nome);
             setCognome(response.data.cognome);
             setEmail(response.data.email)
-
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
             dispatch(fetchIsLoadingAction(false));
@@ -105,7 +89,6 @@ export default function SchedaUtentePage() {
             setFormErrors(formsErrorTmp);
 
         }
-        console.info("JSONBODY: ", jsonBody);
 
 
 
@@ -174,8 +157,6 @@ export default function SchedaUtentePage() {
 
         }
     }
-
-
 
     useEffect(() => {
 
