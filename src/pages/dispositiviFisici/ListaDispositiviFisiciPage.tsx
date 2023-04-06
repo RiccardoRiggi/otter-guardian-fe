@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
-import { getData } from '../../DateUtil';
+import { getData, getOra } from '../../DateUtil';
 import dispositiviFisiciService from '../../services/DispositiviFisiciService';
 
 export default function ListaDispositiviFisiciPage() {
@@ -102,7 +102,7 @@ export default function ListaDispositiviFisiciPage() {
                     <div className="d-flex align-items-center justify-content-between">
                         <h3 className="">
                             <i className="fa-solid fa-mobile-screen text-primary fa-1x pe-2 "></i>
-                            Lista dispositivi fisici abilitati
+                            Lista dispositivi fisici
                         </h3>
 
                     </div>
@@ -118,6 +118,7 @@ export default function ListaDispositiviFisiciPage() {
                                             <th scope="col">Nome dispositivo</th>
                                             <th scope="col">Proprietario</th>
                                             <th scope="col">Data abilitazione</th>
+                                            <th scope="col">Data disabilitazione</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -128,8 +129,9 @@ export default function ListaDispositiviFisiciPage() {
                                                 <tr key={index}>
                                                     <th scope="row">{dispositivo.nomeDispositivo}</th>
                                                     <td>{dispositivo.cognome} {dispositivo.nome}</td>
-                                                    <td>{getData(dispositivo.dataAbilitazione)}</td>
-                                                    <td className='text-center'><span onClick={() => setDispositivoDaEliminare(dispositivo)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span></td>
+                                                    <td>{dispositivo.dataAbilitazione !== null && <>{getData(dispositivo.dataAbilitazione)} ore {getOra(dispositivo.dataAbilitazione)}</>}</td>
+                                                    <td>{dispositivo.dataDisabilitazione !== null && <>{getData(dispositivo.dataDisabilitazione)} ore {getOra(dispositivo.dataDisabilitazione)}</>}</td>
+                                                    <td className='text-center'>{dispositivo.dataDisabilitazione === null && <span onClick={() => setDispositivoDaEliminare(dispositivo)} data-bs-toggle="modal" data-bs-target="#eliminaRisorsa" className='btn btn-danger'><i className="fa-solid fa-trash-can"></i></span>}</td>
                                                 </tr>
                                             )}
 

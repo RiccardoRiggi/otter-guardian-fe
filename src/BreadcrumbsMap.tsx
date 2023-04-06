@@ -101,7 +101,7 @@ let listaIndirizziIp: BreadcrumbType =
 
 let listaDispositiviFisici: BreadcrumbType =
 {
-  nome: "Lista dispositivi fisici abilitati",
+  nome: "Lista dispositivi fisici",
   path: "/lista-dispositivi-fisici"
 }
 
@@ -170,6 +170,7 @@ export default function BreadcrumbsMap(pathName: any) {
   }
 
   if (pathName.includes("scheda-utente")) {
+    array.push(listaUtenti);
     array.push(schedaUtente);
   }
 
@@ -182,6 +183,7 @@ export default function BreadcrumbsMap(pathName: any) {
   }
 
   if (pathName.includes("scheda-ruolo")) {
+    array.push(listaRuoli);
     array.push(schedaRuolo);
   }
 
@@ -190,6 +192,7 @@ export default function BreadcrumbsMap(pathName: any) {
   }
 
   if (pathName.includes("scheda-risorsa")) {
+    array.push(listaRisorse);
     array.push(schedaRisorsa);
   }
 
@@ -202,10 +205,12 @@ export default function BreadcrumbsMap(pathName: any) {
   }
 
   if (pathName.includes("scheda-voce-menu")) {
+    array.push(listaVociDiMenu);
     array.push(schedaVoceMenu);
   }
 
   if (pathName.includes("scheda-notifica")) {
+    array.push(listaNotifiche);
     array.push(schedaNotifica);
   }
 

@@ -34,7 +34,7 @@ export default function PageTitleMap(pathName: any) {
   } else if ("/lista-indirizzi-ip" === pathName) {
     return "Lista indirizzi IP"
   } else if ("/lista-dispositivi-fisici" === pathName) {
-    return "Lista dispositivi fisici abilitati"
+    return "Lista dispositivi fisici"
   } else if (pathName.includes("scheda-voce-menu")) {
     return "Scheda voce menu"
   } else if (pathName.includes("scheda-notifica")) {
