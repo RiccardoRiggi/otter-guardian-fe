@@ -50,18 +50,33 @@ export default function ImpostazioniPage() {
                 if (response.data.length !== 0) {
                     setDispositiviFisici(response.data);
                     setPaginaDispositivi(pagina);
+                } else if (pagina == 1 && response.data.length === 0) {
+                    toast.warning("Non sono stati trovati dispositivi fisici", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
 
 
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+
             });
         }
     }
@@ -97,7 +112,24 @@ export default function ImpostazioniPage() {
 
 
             }).catch(e => {
-                console.error(e);
+                //---------------------------------------------
+                try {
+                    console.error(e);
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+
             });
         }, 1000);
         setIdInterval(interval);
@@ -119,14 +151,33 @@ export default function ImpostazioniPage() {
                 if (response.data.length !== 0) {
                     setAccessi(response.data);
                     setPaginaAccessi(pagina);
+                } else if (pagina == 1 && response.data.length === 0) {
+                    toast.warning("Non sono stati trovati accessi", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
 
 
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
-                    navigate("/login");
+                //---------------------------------------------
+                try {
+                    console.error(e);
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+
             });
         }
 
@@ -140,10 +191,24 @@ export default function ImpostazioniPage() {
             setCodiciBackup(response.data);
 
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
-                navigate("/login");
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
+
         });
     }
 
@@ -161,10 +226,24 @@ export default function ImpostazioniPage() {
 
 
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
-                navigate("/login");
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
+
         });
     }
 
@@ -175,14 +254,24 @@ export default function ImpostazioniPage() {
                 console.info(response.data);
                 getMetodiAutenticazionePerUtenteLoggato();
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+
             });
         } else {
             await utenteLoggatoService.disabilitaTipoMetodoLogin(utenteLoggato.token, idTipoMetodoLogin).then(response => {
@@ -210,10 +299,24 @@ export default function ImpostazioniPage() {
 
 
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
-                navigate("/login");
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
+
         });
     }
 
@@ -224,27 +327,47 @@ export default function ImpostazioniPage() {
                 console.info(response.data);
                 getMetodiRecuperoPasswordPerUtenteLoggato();
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+
             });
         } else {
             await utenteLoggatoService.disabilitaTipoRecuperoPassword(utenteLoggato.token, idTipoMetodoRecPsw).then(response => {
                 getMetodiRecuperoPasswordPerUtenteLoggato();
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+
             });
         }
     }
@@ -472,6 +595,10 @@ export default function ImpostazioniPage() {
                                     </table>
                                 </div>
                             </div>
+                                <div className='col-12 text-end'>
+                                    <small>Pagina {paginaDispositivi}</small>
+                                </div>
+
                                 <div className='col-6 text-end pt-2'>
                                     <span onClick={() => getDispositiviFisici(paginaDispositivi - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                                 </div>
@@ -481,7 +608,7 @@ export default function ImpostazioniPage() {
                         {idNuovoDispositivoFisico !== "" && <div className='col-12 text-center'>
                             <QRCode className='w-100 ' fgColor='#344767' value={idNuovoDispositivoFisico} />
                             <small>L'aggiunta di un nuovo dispositivo fisico disabiliterà i dispositivi precedentemente configurati</small>
-                            
+
                         </div>
 
                         }
@@ -531,6 +658,10 @@ export default function ImpostazioniPage() {
                                 </table>
                             </div>
                         </div>
+                        <div className='col-12 text-end'>
+                            <small>Pagina {paginaAccessi}</small>
+                        </div>
+
                         <div className='col-6 text-end pt-2'>
                             <span onClick={() => getStoricoAccessi(paginaAccessi - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
                         </div>

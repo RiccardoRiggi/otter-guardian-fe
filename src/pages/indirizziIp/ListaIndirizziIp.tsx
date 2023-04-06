@@ -69,14 +69,23 @@ export default function ListaIndirizziIp() {
 
 
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }
@@ -86,14 +95,23 @@ export default function ListaIndirizziIp() {
             console.info(response.data);
             getIndirizziIp(paginaIndirizziIp);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -103,27 +121,45 @@ export default function ListaIndirizziIp() {
                 console.info(response.data);
                 getIndirizziIp(paginaIndirizziIp);
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         } else {
             await indirizziIpService.sbloccaIndirizzoIp(utenteLoggato.token, { indirizzoIp: indirizzoIp }).then(response => {
                 getIndirizziIp(paginaIndirizziIp);
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }

@@ -48,8 +48,24 @@ export default function SchedaNotificaPage() {
 
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
-            console.error(e);
             dispatch(fetchIsLoadingAction(false));
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -79,9 +95,24 @@ export default function SchedaNotificaPage() {
                     });
                     navigate("/lista-notifiche/");
                 }).catch(e => {
-                    console.error(e);
-                    dispatch(fetchTestoDangerAction("Errore durante il salvataggio!"));
                     dispatch(fetchIsLoadingAction(false));
+                    //---------------------------------------------
+                    try {
+                        console.error(e);
+                        toast.error(e.response.data.descrizione, {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    } catch (e: any) {
+                        toast.error("Errore imprevisto", {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    }
+                    if (e.response.status === 401) {
+                        navigate("/logout");
+                    }
+                    //---------------------------------------------
                 });
             } else {
                 dispatch(fetchIsLoadingAction(true));
@@ -92,9 +123,24 @@ export default function SchedaNotificaPage() {
                         autoClose: 5000,
                     });
                 }).catch(e => {
-                    console.error(e);
-
                     dispatch(fetchIsLoadingAction(false));
+                    //---------------------------------------------
+                    try {
+                        console.error(e);
+                        toast.error(e.response.data.descrizione, {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    } catch (e: any) {
+                        toast.error("Errore imprevisto", {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    }
+                    if (e.response.status === 401) {
+                        navigate("/logout");
+                    }
+                    //---------------------------------------------
                 });
             }
 
@@ -140,14 +186,23 @@ export default function SchedaNotificaPage() {
 
 
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }
@@ -158,8 +213,23 @@ export default function SchedaNotificaPage() {
             getDestinatariNotifica(paginaDestinatari)
 
         }).catch(e => {
-            console.error(e);
-
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -168,8 +238,23 @@ export default function SchedaNotificaPage() {
             getDestinatariNotifica(paginaDestinatari)
 
         }).catch(e => {
-            console.error(e);
-
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -191,8 +276,24 @@ export default function SchedaNotificaPage() {
             setListaRuoli(response.data);
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
-            console.error(e);
             dispatch(fetchIsLoadingAction(false));
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -207,8 +308,23 @@ export default function SchedaNotificaPage() {
                 getDestinatariNotifica(paginaDestinatari)
 
             }).catch(e => {
-                console.error(e);
-
+                //---------------------------------------------
+                try {
+                    console.error(e);
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
 

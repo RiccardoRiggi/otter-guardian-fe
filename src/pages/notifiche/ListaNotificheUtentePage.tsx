@@ -66,14 +66,24 @@ export default function ListaNotificheUtentePage() {
 
 
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+
             });
         }
     }
@@ -84,14 +94,24 @@ export default function ListaNotificheUtentePage() {
             setNotificaDaEliminare(undefined);
             getNotificheLatoUtente(paginaNotifiche);
         }).catch(e => {
-            console.error(e);
-            if (e.response.status === 401) {
+            //---------------------------------------------
+            try {
+                console.error(e);
                 toast.error(e.response.data.descrizione, {
                     position: "top-center",
                     autoClose: 5000,
                 });
-                navigate("/login");
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
+
         });
     }
 
@@ -144,6 +164,9 @@ export default function ListaNotificheUtentePage() {
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                            <div className='col-12 text-end'>
+                                <small>Pagina {paginaNotifiche}</small>
                             </div>
                             <div className='col-6 text-end pt-2'>
                                 <span onClick={() => getNotificheLatoUtente(paginaNotifiche - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>

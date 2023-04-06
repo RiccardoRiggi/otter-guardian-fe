@@ -57,9 +57,23 @@ export default function ListaAccessiPage() {
 
 
             }).catch(e => {
-
-                
-
+                //---------------------------------------------
+                try {
+                    console.error(e);
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }
@@ -76,14 +90,23 @@ export default function ListaAccessiPage() {
 
 
         }).catch(e => {
-            console.error(e);
-            toast.error(e.response.data.descrizione, {
-                position: "top-center",
-                autoClose: 5000,
-            });
-            if (e.response.status === 401) {
-                navigate("/login");
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -106,7 +129,7 @@ export default function ListaAccessiPage() {
                     <div className="d-flex align-items-center justify-content-between">
                         <h3 className="">
                             <i className="fa-solid fa-circle-nodes text-primary fa-1x pe-2 "></i>
-                            Lista accessi attivi
+                            Lista accessi
                         </h3>
 
                     </div>

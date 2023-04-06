@@ -54,8 +54,24 @@ export default function SchedaUtentePage() {
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
             dispatch(fetchIsLoadingAction(false));
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
 
-           
         });
     }
 
@@ -107,7 +123,23 @@ export default function SchedaUtentePage() {
                 }).catch(e => {
                     console.error(e);
                     dispatch(fetchIsLoadingAction(false));
-                   
+                    //---------------------------------------------
+                    try {
+                        console.error(e);
+                        toast.error(e.response.data.descrizione, {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    } catch (e: any) {
+                        toast.error("Errore imprevisto", {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    }
+                    if (e.response.status === 401) {
+                        navigate("/logout");
+                    }
+                    //---------------------------------------------
                 });
             } else {
                 dispatch(fetchIsLoadingAction(true));
@@ -120,7 +152,23 @@ export default function SchedaUtentePage() {
                 }).catch(e => {
                     console.error(e);
                     dispatch(fetchIsLoadingAction(false));
-                   
+                    //---------------------------------------------
+                    try {
+                        console.error(e);
+                        toast.error(e.response.data.descrizione, {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    } catch (e: any) {
+                        toast.error("Errore imprevisto", {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    }
+                    if (e.response.status === 401) {
+                        navigate("/logout");
+                    }
+                    //---------------------------------------------
                 });
             }
 

@@ -45,8 +45,24 @@ export default function SchedaRuoloPage() {
 
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
-            console.error(e);
             dispatch(fetchIsLoadingAction(false));
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
@@ -80,9 +96,24 @@ export default function SchedaRuoloPage() {
                     });
                     navigate("/scheda-ruolo/" + idTipoRuolo);
                 }).catch(e => {
-                    console.error(e);
-                    dispatch(fetchTestoDangerAction("Errore durante il salvataggio!"));
                     dispatch(fetchIsLoadingAction(false));
+                    //---------------------------------------------
+                    try {
+                        console.error(e);
+                        toast.error(e.response.data.descrizione, {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    } catch (e: any) {
+                        toast.error("Errore imprevisto", {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    }
+                    if (e.response.status === 401) {
+                        navigate("/logout");
+                    }
+                    //---------------------------------------------
                 });
             } else {
                 dispatch(fetchIsLoadingAction(true));
@@ -93,9 +124,24 @@ export default function SchedaRuoloPage() {
                         autoClose: 5000,
                     });
                 }).catch(e => {
-                    console.error(e);
-
                     dispatch(fetchIsLoadingAction(false));
+                    //---------------------------------------------
+                    try {
+                        console.error(e);
+                        toast.error(e.response.data.descrizione, {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    } catch (e: any) {
+                        toast.error("Errore imprevisto", {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    }
+                    if (e.response.status === 401) {
+                        navigate("/logout");
+                    }
+                    //---------------------------------------------
                 });
             }
 
@@ -142,14 +188,23 @@ export default function SchedaRuoloPage() {
 
 
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }
@@ -160,28 +215,46 @@ export default function SchedaRuoloPage() {
                 console.info(response.data);
                 getUtentiPerRuolo(paginaUtenti);
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         } else {
             await ruoliService.dissociaRuoloUtente(utenteLoggato.token, null, params.idTipoRuolo, idUtente).then(response => {
                 console.info(response.data);
                 getUtentiPerRuolo(paginaUtenti);
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }
@@ -211,14 +284,23 @@ export default function SchedaRuoloPage() {
 
 
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }
@@ -229,27 +311,45 @@ export default function SchedaRuoloPage() {
                 console.info(response.data);
                 getRisorsePerRuolo(paginaRisorse);
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         } else {
             await ruoliService.dissociaRuoloRisorsa(utenteLoggato.token, null, params.idTipoRuolo, idRisorsa).then(response => {
                 getRisorsePerRuolo(paginaRisorse);
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }
@@ -279,14 +379,23 @@ export default function SchedaRuoloPage() {
 
 
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }
@@ -297,27 +406,45 @@ export default function SchedaRuoloPage() {
                 console.info(response.data);
                 getVociMenuPerRuolo(paginaVociMenu);
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         } else {
             await ruoliService.dissociaRuoloVoceMenu(utenteLoggato.token, null, params.idTipoRuolo, idVoceMenu).then(response => {
                 getVociMenuPerRuolo(paginaVociMenu);
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }

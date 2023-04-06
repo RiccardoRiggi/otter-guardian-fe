@@ -84,9 +84,24 @@ export default function SchedaVoceMenuPage() {
                         autoClose: 5000,
                     }); navigate("/scheda-voce-menu/" + response.data);
                 }).catch(e => {
-                    console.error(e);
-                    dispatch(fetchTestoDangerAction("Errore durante il salvataggio!"));
                     dispatch(fetchIsLoadingAction(false));
+                    //---------------------------------------------
+                    try {
+                        console.error(e);
+                        toast.error(e.response.data.descrizione, {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    } catch (e: any) {
+                        toast.error("Errore imprevisto", {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    }
+                    if (e.response.status === 401) {
+                        navigate("/logout");
+                    }
+                    //---------------------------------------------
                 });
             } else {
                 dispatch(fetchIsLoadingAction(true));
@@ -97,9 +112,24 @@ export default function SchedaVoceMenuPage() {
                         autoClose: 5000,
                     });
                 }).catch(e => {
-                    console.error(e);
-                    dispatch(fetchTestoDangerAction("Errore durante il salvataggio!"));
                     dispatch(fetchIsLoadingAction(false));
+                    //---------------------------------------------
+                    try {
+                        console.error(e);
+                        toast.error(e.response.data.descrizione, {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    } catch (e: any) {
+                        toast.error("Errore imprevisto", {
+                            position: "top-center",
+                            autoClose: 5000,
+                        });
+                    }
+                    if (e.response.status === 401) {
+                        navigate("/logout");
+                    }
+                    //---------------------------------------------
                 });
             }
 
@@ -112,8 +142,24 @@ export default function SchedaVoceMenuPage() {
             setListaVociMenu(response.data);
             dispatch(fetchIsLoadingAction(false));
         }).catch(e => {
-            console.error(e);
             dispatch(fetchIsLoadingAction(false));
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 

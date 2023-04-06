@@ -41,18 +41,33 @@ export default function ListaVociMenuPage() {
                 if (response.data.length !== 0) {
                     setMenu(response.data);
                     setPaginaMenu(pagina);
+                } else if (pagina == 1 && response.data.length === 0) {
+                    setMenu(response.data);
+                    toast.warning("Non sono state trovate voci di menu", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
 
 
             }).catch(e => {
-                console.error(e);
-                if (e.response.status === 401) {
+                //---------------------------------------------
+                try {
+                    console.error(e);
                     toast.error(e.response.data.descrizione, {
                         position: "top-center",
                         autoClose: 5000,
                     });
-                    navigate("/login");
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }
@@ -69,14 +84,23 @@ export default function ListaVociMenuPage() {
 
 
         }).catch(e => {
-            console.error(e);
-            toast.error(e.response.data.descrizione, {
-                position: "top-center",
-                autoClose: 5000,
-            });
-            if (e.response.status === 401) {
-                navigate("/login");
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 

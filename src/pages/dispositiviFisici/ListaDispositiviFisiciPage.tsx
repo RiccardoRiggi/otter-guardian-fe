@@ -56,8 +56,23 @@ export default function ListaDispositiviFisiciPage() {
 
 
             }).catch(e => {
-                
-
+                //---------------------------------------------
+                try {
+                    console.error(e);
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
             });
         }
     }
@@ -74,14 +89,23 @@ export default function ListaDispositiviFisiciPage() {
 
 
         }).catch(e => {
-            console.error(e);
-            toast.error(e.response.data.descrizione, {
-                position: "top-center",
-                autoClose: 5000,
-            });
-            if (e.response.status === 401) {
-                navigate("/login");
+            //---------------------------------------------
+            try {
+                console.error(e);
+                toast.error(e.response.data.descrizione, {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+            } catch (e: any) {
+                toast.error("Errore imprevisto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
             }
+            if (e.response.status === 401) {
+                navigate("/logout");
+            }
+            //---------------------------------------------
         });
     }
 
