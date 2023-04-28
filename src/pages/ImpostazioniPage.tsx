@@ -105,12 +105,13 @@ export default function ImpostazioniPage() {
                     clearInterval(interval);
                     getDispositiviFisici(1);
                     annullaAggiuntaNuovoDispositivo();
+                    toast.success("Dispositivo abilitato con successo", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
                 }
 
-                toast.success("Dispositivo abilitato con successo", {
-                    position: "top-center",
-                    autoClose: 5000,
-                });
+               
 
             }).catch(e => {
                 //---------------------------------------------

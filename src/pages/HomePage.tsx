@@ -28,7 +28,7 @@ export default function HomePage() {
 
 
     useEffect(() => {
-        if (!ricercaEseguita) {
+        if (!ricercaEseguita && utenteLoggato.token !== undefined) {
             setRicercaEseguita(true);
             getStatisticheMetodi();
             getNumeroVociMenu();

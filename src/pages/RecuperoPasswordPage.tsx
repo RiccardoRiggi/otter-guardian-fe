@@ -17,7 +17,7 @@ export default function RecuperoPasswordPage() {
     const [tipoRecuperoPassword, setTipoRecuperoPassword] = React.useState("");
 
 
-    const [email, setEmail] = React.useState("info@riccardoriggi.it");
+    const [email, setEmail] = React.useState("");
     const [emailError, setEmailError] = React.useState("");
 
     const [nuovaPassowrd, setNuovaPassword] = React.useState("");

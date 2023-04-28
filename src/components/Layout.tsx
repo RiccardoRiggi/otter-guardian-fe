@@ -80,11 +80,13 @@ export default function Layout({ children }: any) {
 
 
     useEffect(() => {
-        if (!eseguitoControlloAutenticazione) {
+        if (!eseguitoControlloAutenticazione && utenteLoggato.token !== undefined) {
             verificaAutenticazione();
             verificaAutorizzazione();
             setEseguitoControlloAutenticazione(true);
 
+        }else if(utenteLoggato.token===undefined){
+            navigate("/login");
         }
     });
 

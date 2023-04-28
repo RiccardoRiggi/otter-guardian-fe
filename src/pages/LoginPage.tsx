@@ -20,7 +20,7 @@ export default function LoginPage() {
     const [tipoAutenticazione, setTipoAutenticazione] = React.useState("");
 
 
-    const [email, setEmail] = React.useState("info@riccardoriggi.it");
+    const [email, setEmail] = React.useState("");
     const [emailError, setEmailError] = React.useState("");
 
     const [password, setPassword] = React.useState("");
