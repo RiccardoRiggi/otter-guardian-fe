@@ -2,9 +2,10 @@
 
 Otter Guardian è una Web Application Boilerplate realizzata in React e PHP che offre diverse funzionalità come la gestione di autenticazioni, autorizzazioni, profilazioni e notifiche. Nel repository del [backend](https://github.com/RiccardoRiggi/php-rest-authenticator) puoi trovare la documentazione per invocare i servizi e la struttura del database. Nel repository [Otter Guardian Authenticator](https://github.com/RiccardoRiggi/otter-guardian-authenticator) puoi trovare la seconda applicazione React necessaria per eseguire l'autenticazione a due fattori. 
 
-Di seguito è presente la documentazione della sola componente di frontend.    
 
 ![Home](https://raw.githubusercontent.com/RiccardoRiggi/otter-guardian-fe/main/screenshots/homepage.png)
+
+Di seguito è presente la documentazione della sola componente di frontend.    
 
 ---
 
@@ -22,6 +23,22 @@ Per accedere all'applicativo esistono diversi metodi di autenticazione che impie
 ![Login tramite la scansione di un QrCode](https://raw.githubusercontent.com/RiccardoRiggi/otter-guardian-fe/main/screenshots/loginPageSei.png)
 
 L'utente tramite la Web Application Authenticator precedentemente configurata scansionerà il codice generato a schermo e autorizzerà l'accesso. Verrà in automatico eseguito il redirect alla homepage con l'utente loggato.
+
+---
+
+![Inserimento indirizzo email]()
+
+In alternativa è possibile inserire il proprio indirizzo email e scegliere una delle seguenti modalità:
+
+![Lista modalità di autenticazione]()
+
+### Password più codice di backup
+
+![Password più codice di backup]()
+
+---
+
+Ogni autenticazione andata a buon fine invaliderà tutte le sessioni precedentemente create.
 
 ---
 
