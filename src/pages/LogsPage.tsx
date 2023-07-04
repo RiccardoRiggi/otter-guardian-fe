@@ -15,8 +15,15 @@ export default function LogsPage() {
     const params = useParams();
 
     const [isTail, setTail] = React.useState(false);
+
     const [paginaLogs, setPaginaLogs] = React.useState(1);
     const [logs, setLogs] = React.useState([]);
+
+    const [paginaLogsTelegram, setPaginaLogsTelegram] = React.useState(1);
+    const [logsTelegram, setLogsTelegram] = React.useState([]);
+
+    const [paginaNotificheTelegram, setPaginaNotificheTelegram] = React.useState(1);
+    const [notificheTelegram, setNotificheTelegram] = React.useState([]);
 
     let interval: any;
     const [idInterval, setIdInterval] = React.useState("");
@@ -29,6 +36,9 @@ export default function LogsPage() {
 
         interval = setInterval(async () => {
             getLogs(1);
+            getNotificheTelegram(1);
+            getLogsTelegram(1);
+
         }, 3000);
         setIdInterval(interval);
 
@@ -80,9 +90,93 @@ export default function LogsPage() {
         }
     }
 
+    const getLogsTelegram = async (pagina: any) => {
+
+        if (pagina !== 0) {
+
+            await logService.getLogsTelegram(utenteLoggato.token, pagina).then(response => {
+                console.info(response.data);
+
+
+                if (response.data.length !== 0) {
+                    setLogsTelegram(response.data);
+                    setPaginaLogsTelegram(pagina);
+                } else if (pagina == 1 && response.data.length === 0) {
+                    toast.warning("Non sono stati trovati logs Telegram", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+
+
+            }).catch(e => {
+                //---------------------------------------------
+                try {
+                    console.error(e);
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+            });
+        }
+    }
+
+    const getNotificheTelegram = async (pagina: any) => {
+
+        if (pagina !== 0) {
+
+            await logService.getNotificheTelegram(utenteLoggato.token, pagina).then(response => {
+                console.info(response.data);
+
+
+                if (response.data.length !== 0) {
+                    setNotificheTelegram(response.data);
+                    setPaginaNotificheTelegram(pagina);
+                } else if (pagina == 1 && response.data.length === 0) {
+                    toast.warning("Non sono state trovate notifiche Telegram", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+
+
+            }).catch(e => {
+                //---------------------------------------------
+                try {
+                    console.error(e);
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+            });
+        }
+    }
+
 
     useEffect(() => {
         getLogs(1);
+        getLogsTelegram(1);
+        getNotificheTelegram(1);
     }, [params.livelloLog]);
 
 
@@ -166,6 +260,120 @@ export default function LogsPage() {
                                     </div>
                                     <div className='col-6 text-start pt-2'>
                                         <span onClick={() => getLogs(paginaLogs + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
+                                    </div></>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card shadow-lg mx-4 mt-3">
+                        <div className="card-header pb-0">
+                            <div className="d-flex align-items-center">
+                                <h3 className="mb-1">
+                                    <i className="fa-solid fa-terminal text-primary fa-1x pe-2 "></i>
+                                    Log Telegram
+                                </h3>
+
+                            </div>
+                        </div>
+                        <div className="card-body p-3">
+                            <div className="row gx-4">
+
+                                <><div className='col-12 '>
+                                    <div className='table-responsive'>
+                                        <table className="table table-striped table-hover table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Data evento</th>
+                                                    <th scope="col">Descrizione</th>
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                {
+                                                    Array.isArray(logsTelegram) && logsTelegram.map((log: any, index: number) =>
+                                                        <tr key={index}>
+
+                                                            <td>{getOra(log.dataEvento)} {getData(log.dataEvento)}</td>
+
+                                                            <td>
+                                                                {log.jsonBody}
+                                                            </td>
+                                                        </tr>
+                                                    )}
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                    <div className='col-12 text-end'>
+                                        <small>Pagina {paginaLogsTelegram}</small>
+                                    </div>
+                                    <div className='col-6 text-end pt-2'>
+                                        <span onClick={() => getLogsTelegram(paginaLogsTelegram - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
+                                    </div>
+                                    <div className='col-6 text-start pt-2'>
+                                        <span onClick={() => getLogsTelegram(paginaLogsTelegram + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
+                                    </div></>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card shadow-lg mx-4 mt-3">
+                        <div className="card-header pb-0">
+                            <div className="d-flex align-items-center">
+                                <h3 className="mb-1">
+                                    <i className="fa-solid fa-bell text-primary fa-1x pe-2 "></i>
+                                    Notifiche Telegram
+                                </h3>
+
+                            </div>
+                        </div>
+                        <div className="card-body p-3">
+                            <div className="row gx-4">
+
+                                <><div className='col-12 '>
+                                    <div className='table-responsive'>
+                                        <table className="table table-striped table-hover table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Data evento</th>
+                                                    <th scope="col">Descrizione</th>
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                {
+                                                    Array.isArray(notificheTelegram) && notificheTelegram.map((log: any, index: number) =>
+                                                        <tr key={index}>
+
+                                                            <td>{getOra(log.dataInvio)} {getData(log.dataInvio)}</td>
+
+                                                            <td>
+                                                                {log.testo}
+                                                            </td>
+                                                        </tr>
+                                                    )}
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                    <div className='col-12 text-end'>
+                                        <small>Pagina {paginaNotificheTelegram}</small>
+                                    </div>
+                                    <div className='col-6 text-end pt-2'>
+                                        <span onClick={() => getNotificheTelegram(paginaNotificheTelegram - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
+                                    </div>
+                                    <div className='col-6 text-start pt-2'>
+                                        <span onClick={() => getNotificheTelegram(paginaNotificheTelegram + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
                                     </div></>
 
                             </div>

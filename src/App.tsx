@@ -29,6 +29,7 @@ import ListaRuoliPage from './pages/ruoli/ListaRuoliPage';
 import SchedaRuoloPage from './pages/ruoli/SchedaRuoloPage';
 import ListaUtentiPage from './pages/utenti/ListaUtentiPage';
 import SchedaUtentePage from './pages/utenti/SchedaUtentePage';
+import ListaAccountTelegramPage from './pages/accountTelegram/ListaAccountTelegramPage';
 
 
 
@@ -204,6 +205,15 @@ function App() {
             element={
               <PrivateRoute>
                 <ListaDispositiviFisiciPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/lista-account-telegram"
+            element={
+              <PrivateRoute>
+                <ListaAccountTelegramPage />
               </PrivateRoute>
             }
           />

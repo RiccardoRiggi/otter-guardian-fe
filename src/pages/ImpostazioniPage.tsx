@@ -21,9 +21,17 @@ export default function ImpostazioniPage() {
     const [paginaDispositivi, setPaginaDispositivi] = React.useState(1);
     const [dispositiviFisici, setDispositiviFisici] = React.useState([]);
 
+    const [paginaDispositiviTelegram, setPaginaDispositiviTelegram] = React.useState(1);
+    const [dispositiviFisiciTelegram, setDispositiviFisiciTelegram] = React.useState([]);
+
+
     const [idNuovoDispositivoFisico, setIdNuovoDispositivoFisico] = React.useState("");
+    const [idNuovoDispositivoFisicoTelegram, setIdNuovoDispositivoFisicoTelegram] = React.useState("");
+
 
     const [idInterval, setIdInterval] = React.useState("");
+    const [idIntervalTelegram, setIdIntervalTelegram] = React.useState("");
+
 
     const [accessi, setAccessi] = React.useState([]);
     const [paginaAccessi, setPaginaAccessi] = React.useState(1);
@@ -35,8 +43,52 @@ export default function ImpostazioniPage() {
     const [listaMetodiSecondoFattore, setListaMetodiSecondoFattore] = React.useState([]);
     const [listaMetodiSecondoFattoreRecuperoPassword, setListaMetodiSecondoFattoreRecuperoPassword] = React.useState([]);
 
+    const [nomeBotTelegram, setNomeBotTelegram] = React.useState("");
+    const [codiceAssociazione, setCodiceAssociazione] = React.useState("");
+
+
 
     let interval: any;
+
+    const getDispositiviFisiciTelegram = async (pagina: any) => {
+
+        if (pagina !== 0) {
+
+            await dispositiviFisiciService.getDispositiviFisiciTelegram(utenteLoggato.token, pagina).then(response => {
+
+                if (response.data.length !== 0) {
+                    setDispositiviFisiciTelegram(response.data);
+                    setPaginaDispositiviTelegram(pagina);
+                } else if (pagina == 1 && response.data.length === 0) {
+                    toast.warning("Non sono stati trovati account telegram", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+
+
+            }).catch(e => {
+                //---------------------------------------------
+                try {
+                    console.error(e);
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+
+            });
+        }
+    }
 
 
     const getDispositiviFisici = async (pagina: any) => {
@@ -95,6 +147,24 @@ export default function ImpostazioniPage() {
         });
     }
 
+    const generaIdentificativoDispositivoFisicoTelegram = async () => {
+
+        dispatch(fetchIsLoadingAction(true));
+
+
+        await dispositiviFisiciService.generaIdentificativoTelegram(utenteLoggato.token).then(response => {
+            console.info(response.data);
+            setIdNuovoDispositivoFisicoTelegram(response.data.idDispositivoFisico);
+            setNomeBotTelegram(response.data.nomeBotTelegram);
+            setCodiceAssociazione(response.data.codiceAssociazione);
+            verificaAttivazioneNuovoDispositivoTelegram(response.data.idDispositivoFisico);
+            dispatch(fetchIsLoadingAction(false));
+        }).catch(e => {
+            console.error(e);
+            dispatch(fetchIsLoadingAction(false));
+        });
+    }
+
     const verificaAttivazioneNuovoDispositivo = (idNuovoDispositivoFisico: any) => {
         interval = setInterval(async () => {
 
@@ -111,7 +181,7 @@ export default function ImpostazioniPage() {
                     });
                 }
 
-               
+
 
             }).catch(e => {
                 //---------------------------------------------
@@ -137,10 +207,58 @@ export default function ImpostazioniPage() {
         setIdInterval(interval);
     }
 
+    const verificaAttivazioneNuovoDispositivoTelegram = (idNuovoDispositivoFisicoTelegram: any) => {
+        interval = setInterval(async () => {
+
+            await dispositiviFisiciService.isDispositivoTelegramAbilitato(utenteLoggato.token, idNuovoDispositivoFisicoTelegram).then(response => {
+                console.info(response.data);
+
+                if (response.data) {
+                    clearInterval(interval);
+                    getDispositiviFisiciTelegram(1);
+                    annullaAggiuntaNuovoDispositivoTelegram();
+                    toast.success("Account telegram collegato con successo", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+
+
+
+            }).catch(e => {
+                //---------------------------------------------
+                try {
+                    console.error(e);
+                    toast.error(e.response.data.descrizione, {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                } catch (e: any) {
+                    toast.error("Errore imprevisto", {
+                        position: "top-center",
+                        autoClose: 5000,
+                    });
+                }
+                if (e.response.status === 401) {
+                    navigate("/logout");
+                }
+                //---------------------------------------------
+
+            });
+        }, 1000);
+        setIdIntervalTelegram(interval);
+    }
+
     const annullaAggiuntaNuovoDispositivo = () => {
         clearInterval(idInterval);
         setIdNuovoDispositivoFisico("");
         getDispositiviFisici(1);
+    }
+
+    const annullaAggiuntaNuovoDispositivoTelegram = () => {
+        clearInterval(idIntervalTelegram);
+        setIdNuovoDispositivoFisicoTelegram("");
+        getDispositiviFisiciTelegram(1);
     }
 
 
@@ -377,6 +495,7 @@ export default function ImpostazioniPage() {
         if (!ricercaEseguita) {
             setRicercaEseguita(true);
             getDispositiviFisici(paginaDispositivi);
+            getDispositiviFisiciTelegram(paginaDispositiviTelegram);
             getStoricoAccessi(paginaAccessi);
             getMetodiAutenticazionePerUtenteLoggato();
             getMetodiRecuperoPasswordPerUtenteLoggato();
@@ -616,6 +735,76 @@ export default function ImpostazioniPage() {
                 </div>
 
             </div>
+
+            <div className="card shadow-lg mx-4 mt-3">
+                <div className="card-header pb-0">
+                    <div className="d-flex align-items-center">
+                        <h3 className="mb-1">
+                            <i className="fa-brands fa-telegram text-primary fa-1x pe-2 "></i>
+                            Account telegram
+                        </h3>
+                        {idNuovoDispositivoFisicoTelegram === "" &&
+                            <button onClick={generaIdentificativoDispositivoFisicoTelegram} className="btn btn-primary ms-auto">Aggiungi account telegram<i className='fa-solid fa-plus ps-2'></i></button>
+                        }
+                        {idNuovoDispositivoFisicoTelegram !== "" &&
+                            <button onClick={annullaAggiuntaNuovoDispositivoTelegram} className="btn btn-primary ms-auto"><i className='fa-solid fa-list pe-2'></i>Lista account telegram</button>
+                        }
+                    </div>
+                </div>
+                <div className="card-body p-3">
+                    <div className="row gx-4">
+
+                        {idNuovoDispositivoFisicoTelegram === "" &&
+                            <><div className='col-12 text-center'>
+                                <div className='table-responsive'>
+                                    <table className="table table-striped table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Stato</th>
+                                                <th scope="col">Nome</th>
+                                                <th scope="col">Data abilitazione</th>
+                                                <th scope="col">Data disabilitazione</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {
+                                                Array.isArray(dispositiviFisiciTelegram) && dispositiviFisiciTelegram.map((dispositivo: any, index: number) =>
+                                                    <tr key={index}>
+                                                        <th scope="row">{dispositivo.dataDisabilitazione === null ? <i className="fa-solid fa-circle-check text-success"></i> : <i className="fa-solid fa-circle-xmark text-danger"></i>}</th>
+                                                        <td>{dispositivo.usernameTelegram}</td>
+                                                        <td>{getData(dispositivo.dataAbilitazione)} ore {getOra(dispositivo.dataAbilitazione)}</td>
+                                                        <td>{getData(dispositivo.dataDisabilitazione)} {dispositivo.dataDisabilitazione !== null && "ore"} {getOra(dispositivo.dataDisabilitazione)}</td>
+                                                    </tr>
+                                                )}
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                                <div className='col-12 text-end'>
+                                    <small>Pagina {paginaDispositivi}</small>
+                                </div>
+
+                                <div className='col-6 text-end pt-2'>
+                                    <span onClick={() => getDispositiviFisiciTelegram(paginaDispositiviTelegram - 1)} className='btn btn-primary'><i className='fa-solid fa-angles-left pe-2'></i>Precedente</span>
+                                </div>
+                                <div className='col-6 text-start pt-2'>
+                                    <span onClick={() => getDispositiviFisiciTelegram(paginaDispositiviTelegram + 1)} className='btn btn-primary'>Successivo<i className='fa-solid fa-angles-right ps-2'></i></span>
+                                </div></>}
+                        {idNuovoDispositivoFisicoTelegram !== "" && <div className='col-12 text-center'>
+                            <p>Apri Telegram, cerca <b>{nomeBotTelegram}</b>, digita il codice di verifica <b>{codiceAssociazione}</b></p>            
+                            <small>L'aggiunta di un nuovo account Telegram disabiliterà gli account precedentemente configurati</small>
+
+                        </div>
+
+                        }
+                    </div>
+                </div>
+
+            </div>
+
 
             <div className="card shadow-lg mx-4 mt-3">
                 <div className="card-header pb-0">
